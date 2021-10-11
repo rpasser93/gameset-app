@@ -82,7 +82,7 @@ router.delete("/api/teams/:team", (req, res, next) => {
   res.end();
 });
 
-//PUT edit a team's name, requires team Id param and 'login' and 'password' in req body
+//PUT edit a team's login info, requires team Id param and 'login' and 'password' in req body
 router.put("/api/teams/:team/login", (req, res, next) => {
   const {team} = req.params;
 
@@ -98,129 +98,158 @@ router.put("/api/teams/:team/login", (req, res, next) => {
   res.end();
 });
 
+//GET all players from a team, requires team ID param
+router.get("/api/teams/:team/players", (req, res, next) => {
+  const {team} = req.params;
 
-
-
-
-
-
-
-
-
-//GET all teams for a specific user, requires user ID param
-router.get("/api/:user/teams", (req, res, next) => {
-  const {user} = req.params;
-
-  User.find({_id: user}).exec((err, user) => {
+  Team.find({_id: team}).exec((err, teamRes) => {
     if (err) return next(err);
-    res.send(user[0].teams);
+    res.send(teamRes[0].players);
   });
 });
 
-//POST add a new team, requires user ID param and 'teamName' in req body
-router.post("/api/:user/teams", (req, res, next) => {
-  const {user} = req.params;
+//POST add a new player to a team, requires team ID param and 'firstName', 'lastName' and 'sex' in req body
+router.post("/api/teams/:team/players", (req, res, next) => {
+  const {team} = req.params;
 
-  User.find({_id: user}).exec((err, user) => {
+  Team.find({_id: team}).exec((err, teamRes) => {
     if (err) return next(err);
-    user[0].teams.push(req.body);
-    user[0].save((err) => {
+    teamRes[0].players.push({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      sex: req.body.sex,
+      availability: true,
+      preferredPos: [],
+      lineup: ["-","-","-","-","-","-","-"],
+      battingOrder: null
+    });
+    teamRes[0].save((err) => {
       if (err) return next(err);
-      console.log('Team successfully added.');
+      console.log('Player successfully added to team.');
     });
   });
   res.end();
 });
 
-//GET a specific team, requires user ID param and team ID param
-router.get("/api/:user/teams/:team", (req, res, next) => {
-  const {user} = req.params;
-  const {team} = req.params;
-
-  User.find({_id: user}, {teams: {$elemMatch: {_id: team}}}).exec((err, obj) => {
-    if (err) return next(err);
-    res.send(obj[0].teams[0]);
-  });
-});
-
-//PUT edit the name of a team, requires user ID param, team ID param and 'teamName' in req body
-router.put("/api/:user/teams/:team", (req, res, next) => {
-  const {user} = req.params;
-  const {team} = req.params;
-
-  User.find({_id: user}, {teams: {$elemMatch: {_id: team}}}).exec((err, obj) => {
-    if (err) return next(err);
-    obj[0].teams[0].teamName = req.body.teamName;
-    obj[0].save((err) => {
-      if (err) return next(err);
-      console.log('Team name successfully changed.');
-    });
-  });
-  res.end();
-});
-
-//DELETE a specific team, requires user ID param and team ID param
-router.delete("/api/:user/teams/:team", (req, res, next) => {
-  const {user} = req.params;
-  const {team} = req.params;
-
-  User.find({_id: user}).exec((err, user) => {
-    if (err) return next(err);
-
-    user[0].teams.remove({_id: team});
-
-    user[0].save((err) => {
-      if (err) return next(err);
-      console.log('Team successfully deleted.');
-    });
-  });
-  res.end();
-});
-
-//GET all players for a specific team, requires user ID param and team ID param
-router.get("/api/:user/teams/:team/players", (req, res, next) => {
-  const {user} = req.params;
-  const {team} = req.params;
-
-  User.find({_id: user}, {teams: {$elemMatch: {_id: team}}}).exec((err, obj) => {
-    if (err) return next(err);
-    res.send(obj[0].teams[0].players);
-  });
-});
-
-//POST add a new player for a specific team, requires user ID param, team ID param, and 'firstName', 'lastName' and 'sex' in req body
-router.post("/api/:user/teams/:team/players", (req, res, next) => {
-  const {user} = req.params;
-  const {team} = req.params;
-
-  User.find({_id: user}, {teams: {$elemMatch: {_id: team}}}).exec((err, obj) => {
-    if (err) return next(err);
-    obj[0].teams[0].players.push(req.body);
-    obj[0].save((err) => {
-      if (err) return next(err);
-      console.log('Player successfully added.');
-    });
-  });
-  res.end();
-});
-
-//GET a specific player from a team, requires user ID param, team ID param, and player ID param
-router.get("/api/:user/teams/:team/players/:player", (req, res, next) => {
-  const {user} = req.params;
+//GET a specific player from a team, requires team ID param and player ID param
+router.get("/api/teams/:team/players/:player", (req, res, next) => {
   const {team} = req.params;
   const {player} = req.params;
 
-  User.find(
-    
-    {}
-
-  ).exec((err, obj) => {
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}).exec((err, teamRes) => {
     if (err) return next(err);
-    res.send(obj[0].teams[0].players.filter(playr => playr._id == player));
+    res.send(teamRes[0].players[0]);
   });
 });
 
-//PUT change a player's name/sex, requires user ID param, team ID param, player ID param, and 'firstName', 'lastName' and 'sex' in req body
+//DELETE a specific player from a team, requires team ID param and player ID param
+router.delete("/api/teams/:team/players/:player", (req, res, next) => {
+  const {team} = req.params;
+  const {player} = req.params;
+
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}).exec((err, teamRes) => {
+    if (err) return next(err);
+
+      teamRes[0].players[0].remove((err) => {
+        if (err) return next(err);
+        console.log('Player successfully deleted.');
+    })
+  })
+  res.end();
+});
+
+//PUT change a player's first name, requires team ID param, player ID param, and 'firstName' in req body
+router.put("/api/teams/:team/players/:player/firstName", (req, res, next) => {
+  const {team} = req.params;
+  const {player} = req.params;
+
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}
+  ).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].players[0].firstName = req.body.firstName;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Player first name successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change a player's last name, requires team ID param, player ID param, and 'lastName' in req body
+router.put("/api/teams/:team/players/:player/lastName", (req, res, next) => {
+  const {team} = req.params;
+  const {player} = req.params;
+
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}
+  ).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].players[0].lastName = req.body.lastName;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Player last name successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change a player's sex, requires team ID param, player ID param, and 'sex' in req body
+router.put("/api/teams/:team/players/:player/sex", (req, res, next) => {
+  const {team} = req.params;
+  const {player} = req.params;
+
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}
+  ).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].players[0].sex = req.body.sex;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Player sex successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change a player's availability, requires team ID param, player ID param, and 'availability' object key with boolean value in req body
+router.put("/api/teams/:team/players/:player/availability", (req, res, next) => {
+  const {team} = req.params;
+  const {player} = req.params;
+
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}
+  ).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].players[0].availability = req.body.availability;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Player availability successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change a player's preferred positions, requires team ID param, player ID param, and 'preferredPos' object key with array value in req body
+router.put("/api/teams/:team/players/:player/preferredPos", (req, res, next) => {
+  const {team} = req.params;
+  const {player} = req.params;
+
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}
+  ).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].players[0].preferredPos = req.body.preferredPos;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Player position preferences successfully changed.');
+    });
+  });
+  res.end();
+});
+
+
+
+
+
+
+
+
 
 
 module.exports = router;
