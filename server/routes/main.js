@@ -286,6 +286,119 @@ router.put("/api/teams/:team/players/:player/battingOrder", (req, res, next) => 
   res.end();
 });
 
+//GET all settings of a team, requires team ID param
+router.get("/api/teams/:team/settings", (req, res, next) => {
+  const {team} = req.params;
 
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    res.send(teamRes[0].settings[0]);
+  });
+});
+
+//PUT change inning number settings of a team, requires team ID param and 'numInnings' in req body
+router.put("/api/teams/:team/settings/numInnings", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].numInnings = req.body.numInnings;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Inning number settings successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change position settings of a team, requires team ID param and 'positions' object key with array value in req body
+router.put("/api/teams/:team/settings/positions", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].positions = req.body.positions;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Position settings successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change player minimum settings of a team, requires team ID param and 'minPlayers' in req body
+router.put("/api/teams/:team/settings/minPlayers", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].minPlayers = req.body.minPlayers;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Player minimum settings successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change sex minimum settings of a team, requires team ID param and 'sex' and 'min' in req body
+router.put("/api/teams/:team/settings/sexMin", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].sexMin = req.body;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Sex minimum settings successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change infield settings of a team, requires team ID param and 'sex' and 'min' in req body
+router.put("/api/teams/:team/settings/infieldReq", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].infieldReq = req.body;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Infield settings successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change outfield settings of a team, requires team ID param and 'sex' and 'min' in req body
+router.put("/api/teams/:team/settings/outfieldReq", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].outfieldReq = req.body;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Outfield settings successfully changed.');
+    });
+  });
+  res.end();
+});
+
+//PUT change batting settings of a team, requires team ID param and 'sex' and 'min' in req body
+router.put("/api/teams/:team/settings/battingReq", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].battingReq = req.body;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Batting settings successfully changed.');
+    });
+  });
+  res.end();
+});
 
 module.exports = router;
