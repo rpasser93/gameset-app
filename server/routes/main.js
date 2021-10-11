@@ -101,10 +101,30 @@ router.put("/api/teams/:team/login", (req, res, next) => {
 //GET all players from a team, requires team ID param
 router.get("/api/teams/:team/players", (req, res, next) => {
   const {team} = req.params;
+  const sortQuery = req.query.sort || null;
 
-  Team.find({_id: team}).exec((err, teamRes) => {
+  Team.find({_id: team})
+  .exec((err, teamRes) => {
     if (err) return next(err);
-    res.send(teamRes[0].players);
+    const compareSex = (a,b) => {
+      if ( a.sex < b.sex ) {return -1};
+      if ( a.sex > b.sex ) {return 1};
+      return 0;
+    }
+    const compareAvailability = (a,b) => {
+      if ( a.availability < b.availability ) {return 1};
+      if ( a.availability > b.availability ) {return -1};
+      return 0;
+    }
+    if (!sortQuery || sortQuery.toLowerCase() == 'name') {
+      return res.send(teamRes[0].players.sort());
+    }
+    if (sortQuery.toLowerCase() == 'sex') {
+      return res.send(teamRes[0].players.sort(compareSex));
+    }
+    if (sortQuery.toLowerCase() == 'availability') {
+      return res.send(teamRes[0].players.sort(compareAvailability));
+    }
   });
 });
 
