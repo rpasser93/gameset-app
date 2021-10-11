@@ -99,6 +99,7 @@ router.put("/api/teams/:team/login", (req, res, next) => {
 });
 
 //GET all players from a team, requires team ID param
+          //optional sorting queries: ?sort=name, ?sort=sex, ?sort=availability
 router.get("/api/teams/:team/players", (req, res, next) => {
   const {team} = req.params;
   const sortQuery = req.query.sort || null;
@@ -167,13 +168,8 @@ router.delete("/api/teams/:team/players/:player", (req, res, next) => {
   const {team} = req.params;
   const {player} = req.params;
 
-  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}).exec((err, teamRes) => {
+  Team.update({_id: team}, {$pull: {players: {_id: player}}}).exec((err, teamRes) => {
     if (err) return next(err);
-
-      teamRes[0].players[0].remove((err) => {
-        if (err) return next(err);
-        console.log('Player successfully deleted.');
-    })
   })
   res.end();
 });
