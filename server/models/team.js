@@ -23,35 +23,22 @@ const SettingsSchema = new Schema({
   }
 });
 
-const LineupSchema = new Schema({
-  inning1: String,
-  inning2: String,
-  inning3: String,
-  inning4: String,
-  inning5: String,
-  inning6: String,
-  inning7: String
-});
-
 const PlayerSchema = new Schema({
   firstName: String,
   lastName: String,
   sex: String,
   availability: Boolean,
   preferredPos: Array,
-  lineup: [LineupSchema]
+  lineup: Array,
+  battingOrder: Number
 });
 
 const TeamSchema = new Schema({
-  name: String,
+  teamName: String,
   players: [PlayerSchema],
-  settings: [SettingsSchema]
+  settings: [SettingsSchema],
+  login: String,
+  password: String
 });
 
-const UserSchema = new Schema({
-  name: String,
-  password: String,
-  teams: [TeamSchema]
-});
-
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Team", TeamSchema);
