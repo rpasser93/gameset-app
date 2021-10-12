@@ -1,6 +1,11 @@
 import { useHistory } from "react-router";
+import { Modal, Button } from "react-bootstrap";
+import { useState } from 'react';
+
 
 const Login = () => {
+  const [show, setShow] = useState(false);
+
   const history = useHistory();
 
   const loginFormSubmit = () => {
@@ -8,6 +13,32 @@ const Login = () => {
     history.push("/roster/:id") //update with Team ID associated with logged in user
     //eslint-disable-next-line
     location.reload(true);
+  }
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const renderModalButton = () => {
+    return (
+      <div>
+        <button type="button" className="btn new-account-button" onClick={handleShow}>Create New Account</button>
+
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modal heading</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+    )
   }
 
   return (
@@ -32,6 +63,9 @@ const Login = () => {
 
               <button type="submit" className="btn login-button"><strong>Sign In</strong></button>
             </form>
+
+            {renderModalButton()}
+            
           </div>
         </div>
 

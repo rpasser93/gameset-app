@@ -14,12 +14,7 @@ code {
 }
 
 html {
-  background-color: rgb(85, 25, 25);
-}
-
-@media screen and (max-width: 480px) {
-  body {
-  }
+  background-color: rgb(250, 240, 210);
 }
 
 .app-container {
@@ -29,6 +24,7 @@ html {
 /* NAVIGATION BAR */
 .navbar-bg {
   background-color: rgb(85, 25, 25);
+  margin-top: 5px;
   border: solid thin black;
 }
 
@@ -36,13 +32,10 @@ html {
   color: white !important;
 }
 
-.navbar-link:active {
-  color: rgb(0, 255, 0) !important;
-}
-
 /* LOGIN PAGE */
 .login-container {
   background-color: rgb(85, 25, 25);
+  height: 380px;
 }
 
 .diamond-logo {
@@ -60,7 +53,7 @@ html {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 50px;
+  top: 40px;
   color: white;
 }
 
@@ -88,8 +81,22 @@ html {
   border: solid thin black;
 }
 
+.new-account-button {
+  color: white;
+}
+
 /* ROSTER PAGE */
 .roster-container {
   background-color: rgb(250, 240, 210);
   height: 100px;
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 480px) {
+  body {
+  }
+
+  .login-container {
+    height: 750px;
+  }
 }
