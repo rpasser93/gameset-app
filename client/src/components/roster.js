@@ -1,6 +1,12 @@
 const Roster = () => {
   return (
-    <p>roster</p>
+    <div className="container-fluid roster-container">
+      <div className="row">
+        <div className="col text-center">
+          <h2 className="roster-page-title"><u>ROSTER</u></h2>
+        </div>
+      </div>
+    </div>
   )
 };
 

@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import rootReducer from './reducers/reducer-root';
 
-import Navbar from './components/navbar.js';
+import Navigation from './components/navigation.js';
 import Login from './components/login.js';
 import Roster from './components/roster.js';
 import Lineup from './components/lineup.js';
@@ -19,19 +19,19 @@ const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 const App = () => {
   return (
-    <div className="container">
+    <div className="container-fluid app-container">
 
       <div>
-        <Navbar />
+        <Navigation />
       </div>
 
       <div>
         <Switch>
           <Route exact path="/login" component={Login} />
-          <Route exact path="/roster" component={Roster} />
-          <Route exact path="/lineup" component={Lineup} />
-          <Route exact path="/lineup-field" component={LineupField} />
-          <Route exact path="/settings" component={Settings} />
+          <Route exact path="/roster/:id" component={Roster} />
+          <Route exact path="/lineup/:id" component={Lineup} />
+          <Route exact path="/lineup-field/:id" component={LineupField} />
+          <Route exact path="/settings/:id" component={Settings} />
         </Switch>
       </div>
     </div>
