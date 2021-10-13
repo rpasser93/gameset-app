@@ -9,4 +9,4 @@ const teamsReducer = (state = [], action) => {
   }
 };
 
-export default teamsReducer
+export default teamsReducer;

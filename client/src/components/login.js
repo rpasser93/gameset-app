@@ -1,26 +1,39 @@
 import { useHistory } from "react-router";
 import { Modal, Button } from "react-bootstrap";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTeam } from "../actions/actions"
-
+import { addTeam, fetchTeamByLogin } from "../actions/actions"
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
   const [newAccountLogin, setNewAccountLogin] = useState("");
   const [newAccountPassword, setNewAccountPassword] = useState("");
+
+  const team = useSelector(state => state.team);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const testTeams = useSelector(state => state.teams);
+  useEffect(() => {
+    dispatch(fetchTeamByLogin("","",()=>{}))
+  }, [dispatch])
 
-  const loginFormSubmit = () => {
-    console.log('Logged in!');
-    history.push("/roster/:id") //update with Team ID associated with logged in user
-    //eslint-disable-next-line
-    location.reload(true);
+  const handleSignInClick = () => {
+
+    if (login === "" || password === "") {
+      return alert('Please fill in all fields.')
+    } else {
+
+    dispatch(fetchTeamByLogin(login, password, () => {
+      console.log(team);
+    }))
+
+    setLogin("");
+    setPassword("");
   }
+}
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -37,9 +50,14 @@ const Login = () => {
     setNewAccountLogin("");
     setNewAccountPassword("");
     setShow(false);
+  }
 
-    
-    console.log(testTeams);
+  const handleLogin = (e) => {
+    setLogin(e.target.value);
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
   }
 
   const handleNewAccountLogin = (e) => {
@@ -98,13 +116,12 @@ const Login = () => {
 
         <div className="row login-input-row">
           <div className="col login-input-col">
-            <form onSubmit={loginFormSubmit}>
-              <input type="text" className="form-control login-username-input" placeholder="Username"/>
+            
+              <input type="text" className="form-control login-username-input" placeholder="Username" onChange={(e) => handleLogin(e)}/>
           
-              <input type="password" className="form-control login-password-input" placeholder="Password"/>
+              <input type="password" className="form-control login-password-input" placeholder="Password" onChange={(e) => handlePassword(e)}/>
 
-              <button type="submit" className="btn login-button"><strong>Sign In</strong></button>
-            </form>
+              <button type="button" className="btn login-button" onClick={handleSignInClick}><strong>Sign In</strong></button>
 
             {renderModalButton()}
             

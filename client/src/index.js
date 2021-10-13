@@ -39,12 +39,10 @@ const App = () => {
 }
 
 ReactDOM.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <Provider store={createStoreWithMiddleware(rootReducer)}>
-        <App />
-      </Provider>
-    </React.StrictMode>
-  </BrowserRouter>,
+  <Provider store={createStoreWithMiddleware(rootReducer)}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );

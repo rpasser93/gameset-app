@@ -72,6 +72,15 @@ router.get("/api/teams/:team", (req, res, next) => {
   });
 });
 
+//GET a specific team, requires 'login' and 'password' in req body
+router.post("/api/team", (req, res, next) => {
+  Team.find({login: req.body.login, password: req.body.password}).exec((err, teamRes) => {
+    if (err) return next(err);
+    console.log(teamRes[0]);
+    res.send(teamRes[0]);
+  });
+});
+
 //PUT edit a team's name, requires team Id param and 'teamName' in req body
 router.put("/api/teams/:team", (req, res, next) => {
   const {team} = req.params;
