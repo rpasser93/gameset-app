@@ -1,12 +1,19 @@
 import { useHistory } from "react-router";
 import { Modal, Button } from "react-bootstrap";
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTeam } from "../actions/actions"
 
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const [newAccountLogin, setNewAccountLogin] = useState("");
+  const [newAccountPassword, setNewAccountPassword] = useState("");
 
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const testTeams = useSelector(state => state.teams);
 
   const loginFormSubmit = () => {
     console.log('Logged in!');
@@ -18,6 +25,31 @@ const Login = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const handleCreateAccount = () => {
+    if (newAccountLogin === "" || newAccountPassword === "") 
+    {
+      return (alert('Please fill in all fields.'))
+    }
+
+    dispatch(addTeam(newAccountLogin, newAccountPassword, () => {
+      alert('Account successfully created! Please sign in.')
+    }));
+    setNewAccountLogin("");
+    setNewAccountPassword("");
+    setShow(false);
+
+    
+    console.log(testTeams);
+  }
+
+  const handleNewAccountLogin = (e) => {
+    setNewAccountLogin(e.target.value);
+  }
+
+  const handleNewAccountPassword = (e) => {
+    setNewAccountPassword(e.target.value);
+  }
+
   const renderModalButton = () => {
     return (
       <div>
@@ -25,21 +57,31 @@ const Login = () => {
 
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>Create Your Account</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+            <Modal.Body>
+
+            <div>
+              <form>
+                <input type="text" className="form-control login-username-input" placeholder="Username" onChange={(e) => handleNewAccountLogin(e)}/>
+            
+                <input type="password" className="form-control login-password-input" placeholder="Password" onChange={(e) => handleNewAccountPassword(e)}/>
+              </form>
+            </div>
+
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
-                Close
+                Cancel
               </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Save Changes
+              <Button variant="primary" onClick={handleCreateAccount}>
+                Create Account
               </Button>
             </Modal.Footer>
           </Modal>
         </div>
     )
-  }
+  };
 
   return (
     <div className="container-fluid login-container">

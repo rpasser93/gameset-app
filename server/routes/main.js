@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { response } = require("express");
 const faker = require("faker");
 const Team = require("../models/team");
 
@@ -11,7 +12,7 @@ router.get("/api/teams", (req, res, next) => {
 });
 
 //POST add a new team, requires 'login' and 'password' in req body
-router.post("/api/teams", (req, res, next) => {
+router.post("/api/teams", (req, res) => {
   const newTeam = new Team();
 
   newTeam.login = req.body.login;
@@ -39,10 +40,25 @@ router.post("/api/teams", (req, res, next) => {
       }
   })
 
-  newTeam.save((err) => {
-    if (err) return next(err);
-    console.log('Team successfully added.');
-  });
+
+  async function compareTeams() {
+
+    let promise = new Promise((resolve, reject) => {
+      Team.find({login: req.body.login}).exec((err, response) => resolve(response))
+    });
+  
+    let result = await promise;
+  
+    if(result.length === 0) {
+      newTeam.save((err) => {
+        if (err) return next(err);
+        console.log('Team successfully added.');
+        });
+      }
+    }
+  
+  compareTeams()
+
   res.end();
 });
 
