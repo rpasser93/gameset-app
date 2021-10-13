@@ -68,7 +68,7 @@ router.get("/api/teams/:team", (req, res, next) => {
 
   Team.find({_id: team}).exec((err, teamRes) => {
     if (err) return next(err);
-    res.send(teamRes)
+    res.send(teamRes[0])
   });
 });
 
@@ -250,7 +250,7 @@ router.put("/api/teams/:team/players/:player/sex", (req, res, next) => {
   res.end();
 });
 
-//PUT change a player's availability, requires team ID param, player ID param, and 'availability' object key with boolean value in req body
+//PUT change a player's availability, requires team ID param and player ID param
 router.put("/api/teams/:team/players/:player/availability", (req, res, next) => {
   const {team} = req.params;
   const {player} = req.params;
@@ -258,7 +258,7 @@ router.put("/api/teams/:team/players/:player/availability", (req, res, next) => 
   Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}
   ).exec((err, teamRes) => {
     if (err) return next(err);
-    teamRes[0].players[0].availability = req.body.availability;
+    teamRes[0].players[0].availability = !teamRes[0].players[0].availability;
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player availability successfully changed.');

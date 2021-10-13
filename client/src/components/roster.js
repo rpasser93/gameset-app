@@ -1,10 +1,126 @@
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTeamById, updatePlayerAvailability } from "../actions/actions"
+import { FingerPrint } from "react-ionicons"
+
 const Roster = () => {
+  const [showEdit, setShowEdit] = useState(false); 
+  
+  const dispatch = useDispatch();
+
+  const paramId = window.location.pathname.substr(8);
+
+  let team = useSelector(state => state.team);
+
+  useEffect(() => {
+    dispatch(fetchTeamById(paramId, ()=>{
+      renderRoster();
+    }))
+  }, [dispatch])
+
+  const toggleShowEdit = () => {
+    setShowEdit(!showEdit);
+  }
+
+  const handlePlayerStatusToggle = (player) => {
+    dispatch(updatePlayerAvailability(team[0]._id, player._id, ()=> {
+      console.log(player.availability);
+    }))
+  }
+
+  const renderStatus = (player) => {
+    if (player.availability === false) {
+      return (
+      <strong><p className="player-out-alert">OUT</p></strong>
+      )
+    }
+  }
+
+  const renderPlayerButtons = (player) => {
+    if (!showEdit) {
+      return (
+        <div>
+          <p>drop</p>
+        </div>  
+      )
+    } else {
+      return (
+        <div>
+          <FingerPrint className="fingerprint-button" width="25px" height="25px" onClick={() => handlePlayerStatusToggle(player)}/>
+        </div>
+      )
+    }
+  }
+
+  const renderRoster = () => {
+
+    return (
+    team[0].players.map((player) => {
+      if (player) {
+      return (
+        <div>
+          <div className={`row player-row row-${player.sex}`}>
+            <div className="col">
+              <strong>{renderStatus(player)}</strong>
+            </div>
+            <div className="col">
+              <p><strong>{`${player.firstName} ${player.lastName.substr(0,1)}.`}</strong></p>
+            </div>
+            <div className="col">
+              <strong><p>{player.sex}</p></strong>
+            </div>
+            <div className="col">
+              {renderPlayerButtons(player)}
+            </div>
+          </div>
+        </div>
+        )}
+      })
+    )};
+
+  const renderTeamDesc = () => {
+    return(
+      <div>
+        <div className="col">
+          <div className="row">
+            <h4>{team[0].teamName}</h4>
+          </div>
+          <div className="row">
+            <div className="col-6">
+                <p>{`Total: ${team[0].players.length-1} players (3F, 3M)`}</p>
+            </div>
+            <div className="col-6">
+              <p>Sort by: <u>Name</u> <u>Sex</u> <u>Availability</u></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+}
+      
   return (
     <div className="container-fluid roster-container">
       <div className="row">
-        <div className="col text-center">
-          <h2 className="roster-page-title"><u>ROSTER</u></h2>
-          
+        <div className="col">
+          <h2 className="roster-page-title text-center"><strong><u>ROSTER</u></strong></h2>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-10 roster-col">
+          {renderTeamDesc()}
+          {renderRoster()}
+        </div>
+        <div className="col-2 roster-side-col">
+          <div className="row">
+            <div className="col text-center avail-track-col">
+              <p>available:</p>
+              <h1 className="avail-track-num"><strong>15</strong></h1>
+              <p>6F, 9M</p>
+            </div>
+            <button type="button" className="btn btn-sm add-new-player-btn">Add New Player</button>
+            <button type="button" className="btn btn-sm edit-avail-btn" onClick={() => toggleShowEdit()}>Edit Availability</button>
+          </div>
         </div>
       </div>
     </div>

@@ -26,10 +26,12 @@ const Login = () => {
       return alert('Please fill in all fields.')
     } else {
 
-    dispatch(fetchTeamByLogin(login, password, () => {
-      console.log(team);
-    }))
+    dispatch(fetchTeamByLogin(login, password));
 
+    console.log(team);
+
+          history.push(`/roster/${team[0]._id}`)
+  
     setLogin("");
     setPassword("");
   }
