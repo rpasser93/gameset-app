@@ -7,8 +7,11 @@ const Lineup = () => {
   const dispatch = useDispatch();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
-  let players = useSelector(state => state.players[0]);
   let team = useSelector(state => state.team[0]);
+  let players = useSelector(state => state.players[0].filter(player => {
+    return (player.availability)
+  }));
+  
 
   useEffect(() => {
     dispatch(fetchPlayers(paramId,""));
