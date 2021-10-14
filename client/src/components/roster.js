@@ -181,6 +181,7 @@ const Roster = () => {
   const renderRoster = () => {
    return (
     players && players.length > 0 && players.map((player) => {
+
       return (
         <div key={player._id}>
           <div className={`row player-row row-${player.sex}`}>
@@ -202,8 +203,15 @@ const Roster = () => {
       )}
 
   const renderTeamDesc = () => {
-    if (team) {
+    let filterFemalesFromTeam = 0;
 
+    if (players && players.length > 0) {
+      filterFemalesFromTeam = players.filter(player => {
+        return player.sex === 'female';
+      })
+    }
+
+    if (team) {
       return(
         <div className="team-desc-section">
           <div className="col">
@@ -212,7 +220,7 @@ const Roster = () => {
             </div>
             <div className="row">
               <div className="col-6">
-                  <p>{`Total: ${team.players.length} players (3F, 3M)`}</p>
+                  <p>{`Total: ${team.players.length} players (${filterFemalesFromTeam.length}F, ${team.players.length - filterFemalesFromTeam.length}M)`}</p>
               </div>
               <div className="col-6">
                 <p>Sort by: <u onClick={() => nameSortHandler()}>Name</u> <u onClick={() => sexSortHandler()}>Sex</u> <u onClick={() => availSortHandler()}>Availability</u></p>
@@ -222,6 +230,30 @@ const Roster = () => {
         </div>
       )
     }
+}
+
+const renderAvailableStats = () => {
+  let filterForAvailable = 0;
+  let filterFemalesFromAvailable = 0;
+  
+  if (players && players.length >0) {
+
+    filterForAvailable = players.filter(player => {
+      return (player.availability)
+    })
+
+    filterFemalesFromAvailable = filterForAvailable.filter(player => {
+      return player.sex === 'female';
+    });
+  }
+
+  return (
+    <div className="col text-center avail-track-col">
+      <p>available:</p>
+      <h1 className="avail-track-num"><strong>{filterForAvailable.length}</strong></h1>
+      <p>{filterFemalesFromAvailable.length}F, {filterForAvailable.length - filterFemalesFromAvailable.length}M</p>
+    </div>
+  )
 }
 
 const renderToggleButtonText = () => {
@@ -247,11 +279,7 @@ const renderToggleButtonText = () => {
         </div>
         <div className="col-2 roster-side-col">
           <div className="row">
-            <div className="col text-center avail-track-col">
-              <p>available:</p>
-              <h1 className="avail-track-num"><strong>15</strong></h1>
-              <p>6F, 9M</p>
-            </div>
+            {renderAvailableStats()}
 
             <button type="button" className="btn btn-sm add-new-player-btn" onClick={() => handleNewPlayerShow()}>Add New Player</button>
             {newPlayerModal()}
