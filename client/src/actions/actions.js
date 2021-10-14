@@ -3,6 +3,7 @@ const baseUrl = 'http://localhost:8000/api/teams';
 
 export const ADD_TEAM = "ADD_TEAM";
 export const FETCH_TEAM_BY_LOGIN = "FETCH_TEAM_BY_LOGIN";
+export const FETCH_TEAM_BY_ID = "FETCH_TEAM_BY_ID";
 export const FETCH_PLAYERS = "FETCH_PLAYERS";
 export const UPDATE_PLAYER_AVAILABILITY = "UPDATE_PLAYER_AVAILABILITY";
 
@@ -22,14 +23,25 @@ export const addTeam = (login, password) => {
 
 export const fetchTeamByLogin = (login, password) => {
   const data = {
-    login: login,
-    password: password
+    login: 'kpauli',
+    password: 'simisimi'
   }
 
   const request = axios.post(`http://localhost:8000/api/team`, data);
 
   return {
     type: FETCH_TEAM_BY_LOGIN,
+    payload: request
+  };
+
+}
+
+export const fetchTeamById = (id) => {
+
+  const request = axios.get(`http://localhost:8000/api/teams/${id}`);
+
+  return {
+    type: FETCH_TEAM_BY_ID,
     payload: request
   };
 

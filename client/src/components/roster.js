@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, updatePlayerAvailability } from "../actions/actions"
+import { fetchPlayers, updatePlayerAvailability, fetchTeamById } from "../actions/actions"
 import { FingerPrint } from "react-ionicons"
 
 const Roster = () => {
@@ -15,7 +15,8 @@ const Roster = () => {
   let team = useSelector(state => state.team[0]);
 
   useEffect(() => {
-    dispatch(fetchPlayers(paramId,""))
+    dispatch(fetchPlayers(paramId,""));
+    dispatch(fetchTeamById(paramId));
   }, [dispatch, paramId]);
 
   const toggleShowEdit = () => {
