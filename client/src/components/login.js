@@ -11,14 +11,14 @@ const Login = () => {
   const [newAccountLogin, setNewAccountLogin] = useState("");
   const [newAccountPassword, setNewAccountPassword] = useState("");
 
-  const team = useSelector(state => state.team);
+  const team = useSelector(state => state.team[0]);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(fetchTeamByLogin("","",()=>{}))
-  }, [dispatch])
+    dispatch(fetchTeamByLogin("",""))
+  }, [dispatch]);
 
   const handleSignInClick = () => {
 
@@ -28,9 +28,7 @@ const Login = () => {
 
     dispatch(fetchTeamByLogin(login, password));
 
-    console.log(team);
-
-          history.push(`/roster/${team[0]._id}`)
+    team && history.push(`/roster/${team._id}`);
   
     setLogin("");
     setPassword("");
@@ -46,9 +44,8 @@ const Login = () => {
       return (alert('Please fill in all fields.'))
     }
 
-    dispatch(addTeam(newAccountLogin, newAccountPassword, () => {
-      alert('Account successfully created! Please sign in.')
-    }));
+    dispatch(addTeam(newAccountLogin, newAccountPassword));
+    alert('Account successfully created! Please sign in.')
     setNewAccountLogin("");
     setNewAccountPassword("");
     setShow(false);
@@ -73,9 +70,9 @@ const Login = () => {
   const renderModalButton = () => {
     return (
       <div>
-        <button type="button" className="btn new-account-button" onClick={handleShow}>Create New Account</button>
+        <button type="button" className="btn new-account-button" onClick={() => handleShow()}>Create New Account</button>
 
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={() => handleClose()}>
             <Modal.Header closeButton>
               <Modal.Title>Create Your Account</Modal.Title>
             </Modal.Header>
@@ -91,10 +88,10 @@ const Login = () => {
 
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button variant="secondary" onClick={() => handleClose()}>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleCreateAccount}>
+              <Button variant="primary" onClick={() => handleCreateAccount()}>
                 Create Account
               </Button>
             </Modal.Footer>
@@ -123,7 +120,7 @@ const Login = () => {
           
               <input type="password" className="form-control login-password-input" placeholder="Password" onChange={(e) => handlePassword(e)}/>
 
-              <button type="button" className="btn login-button" onClick={handleSignInClick}><strong>Sign In</strong></button>
+              <button type="button" className="btn login-button" onClick={() => handleSignInClick()}><strong>Sign In</strong></button>
 
             {renderModalButton()}
             

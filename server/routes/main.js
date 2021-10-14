@@ -76,7 +76,6 @@ router.get("/api/teams/:team", (req, res, next) => {
 router.post("/api/team", (req, res, next) => {
   Team.find({login: req.body.login, password: req.body.password}).exec((err, teamRes) => {
     if (err) return next(err);
-    console.log(teamRes[0]);
     res.send(teamRes[0]);
   });
 });
@@ -142,6 +141,7 @@ router.get("/api/teams/:team/players", (req, res, next) => {
       if ( a.availability > b.availability ) {return -1};
       return 0;
     }
+
     if (!sortQuery || sortQuery.toLowerCase() == 'name') {
       return res.send(teamRes[0].players.sort());
     }
@@ -263,8 +263,8 @@ router.put("/api/teams/:team/players/:player/availability", (req, res, next) => 
       if (err) return next(err);
       console.log('Player availability successfully changed.');
     });
+    res.send(teamRes[0].players[0]);
   });
-  res.end();
 });
 
 //PUT change a player's preferred positions, requires team ID param, player ID param, and 'preferredPos' object key with array value in req body

@@ -1,35 +1,34 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTeamById, updatePlayerAvailability } from "../actions/actions"
+import { fetchPlayers, updatePlayerAvailability } from "../actions/actions"
 import { FingerPrint } from "react-ionicons"
 
 const Roster = () => {
-  const [showEdit, setShowEdit] = useState(false); 
+  const [showEdit, setShowEdit] = useState(false);  
   
   const dispatch = useDispatch();
 
-  const paramId = window.location.pathname.substr(8);
+  const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
-  let team = useSelector(state => state.team);
+  let players = useSelector(state => state.players[0]);
+  let playerState = useSelector(state => state.player[0])
+  let team = useSelector(state => state.team[0]);
 
   useEffect(() => {
-    dispatch(fetchTeamById(paramId, ()=>{
-      renderRoster();
-    }))
-  }, [dispatch])
+    dispatch(fetchPlayers(paramId,""))
+  }, [dispatch, paramId]);
 
   const toggleShowEdit = () => {
     setShowEdit(!showEdit);
   }
 
   const handlePlayerStatusToggle = (player) => {
-    dispatch(updatePlayerAvailability(team[0]._id, player._id, ()=> {
-      console.log(player.availability);
-    }))
+    dispatch(updatePlayerAvailability(paramId, player._id));
+    console.log('playerstate', playerState);
   }
 
   const renderStatus = (player) => {
-    if (player.availability === false) {
+    if (!player.availability) {
       return (
       <strong><p className="player-out-alert">OUT</p></strong>
       )
@@ -52,13 +51,24 @@ const Roster = () => {
     }
   }
 
+  const nameSortHandler = () => {
+    dispatch(fetchPlayers(paramId, 'name'));
+  }
+
+  const sexSortHandler = () => {
+    dispatch(fetchPlayers(paramId, 'sex'));
+  }
+
+  const availSortHandler = () => {
+    dispatch(fetchPlayers(paramId, 'availability'));
+  }
+
   const renderRoster = () => {
 
-    return (
-    team[0].players.map((player) => {
-      if (player) {
+   return (
+    players && players.length > 0 && players.map((player) => {
       return (
-        <div>
+        <div key={player._id}>
           <div className={`row player-row row-${player.sex}`}>
             <div className="col">
               <strong>{renderStatus(player)}</strong>
@@ -74,28 +84,29 @@ const Roster = () => {
             </div>
           </div>
         </div>
-        )}
-      })
-    )};
+        )}))}
 
   const renderTeamDesc = () => {
-    return(
-      <div>
-        <div className="col">
-          <div className="row">
-            <h4>{team[0].teamName}</h4>
-          </div>
-          <div className="row">
-            <div className="col-6">
-                <p>{`Total: ${team[0].players.length-1} players (3F, 3M)`}</p>
+    if (team) {
+
+      return(
+        <div>
+          <div className="col">
+            <div className="row">
+              <h4>{team.teamName}</h4>
             </div>
-            <div className="col-6">
-              <p>Sort by: <u>Name</u> <u>Sex</u> <u>Availability</u></p>
+            <div className="row">
+              <div className="col-6">
+                  <p>{`Total: ${team.players.length} players (3F, 3M)`}</p>
+              </div>
+              <div className="col-6">
+                <p>Sort by: <u onClick={() => nameSortHandler()}>Name</u> <u onClick={() => sexSortHandler()}>Sex</u> <u onClick={() => availSortHandler()}>Availability</u></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
 }
       
   return (
