@@ -1,7 +1,170 @@
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPlayers, fetchTeamById } from "../actions/actions"
+import teamsReducer from '../reducers/reducer-teams';
 
 const Lineup = () => {
+  
+  const dispatch = useDispatch();
+  const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
+
+  let players = useSelector(state => state.players[0]);
+  let team = useSelector(state => state.team[0]);
+
+  useEffect(() => {
+    dispatch(fetchPlayers(paramId,""));
+    dispatch(fetchTeamById(paramId));
+  }, [dispatch, paramId]);
+
+  const renderPlayerLineupRows = () => {
+    let positionArray = []
+
+    if (team && team.length > 0 && team.settings && team.settings[0] && team.setttings[0].positions && team.settings[0].positions.length > 0) {
+      positionArray = team.settings[0].positions
+    } else {
+      positionArray = ['P','C','1B','2B','3B','SS','LF','CF','RCF','RF'];
+    }
+
+    const renderPositions = () => {
+      return (
+        positionArray.map(pos => {
+          return (
+            <li>{pos}</li>
+          );
+        })
+      );
+    }
+
+    if (players && players.length > 0) {
+    return (
+      players.map(player => {
+        return (
+          <tr>
+            <td className="player-row-header text-start">
+              <div className="player-row-header-wrapper">
+                <strong>{`${player.firstName} ${player.lastName.substr(0,1)}.`}</strong>
+              </div>
+            </td>
+
+            <td>
+              <div className="btn-group dropend">
+                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                {player.lineup[0]}
+                </button>
+                <ul className="dropdown-menu">
+                  {renderPositions()}
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div className="btn-group dropend">
+                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                {player.lineup[1]}
+                </button>
+                <ul className="dropdown-menu">
+                  {renderPositions()}
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div className="btn-group dropend">
+                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                {player.lineup[2]}
+                </button>
+                <ul className="dropdown-menu">
+                  {renderPositions()}
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div className="btn-group dropend">
+                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                {player.lineup[3]}
+                </button>
+                <ul className="dropdown-menu">
+                  {renderPositions()}
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div className="btn-group dropend">
+                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                {player.lineup[4]}
+                </button>
+                <ul className="dropdown-menu">
+                  {renderPositions()}
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div className="btn-group dropend">
+                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                {player.lineup[5]}
+                </button>
+                <ul className="dropdown-menu">
+                  {renderPositions()}
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div className="btn-group dropend">
+                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                {player.lineup[6]}
+                </button>
+                <ul className="dropdown-menu">
+                  {renderPositions()}
+                </ul>
+              </div>
+            </td>
+
+
+          </tr>
+        )
+      })
+    )
+    } else {
+      return null;
+    }
+  };
+
+  const renderBattingOrder = () => {
+
+  }
+
   return (
-    <p>lineup</p>
+    <div className="container-fluid lineup-container">
+      <div className="row">
+        <div className="col">
+          <h2 className="lineup-page-title text-center"><strong><u>LINEUP</u></strong></h2>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">
+          <table className="text-center">
+            <tbody>
+              <tr className="inning-row">
+                <td className="empty-cell"></td>
+                <td><strong>1st</strong></td>
+                <td><strong>2nd</strong></td>
+                <td><strong>3rd</strong></td>
+                <td><strong>4th</strong></td>
+                <td><strong>5th</strong></td>
+                <td><strong>6th</strong></td>
+                <td><strong>7th</strong></td>
+              </tr>
+              {renderPlayerLineupRows()}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="col">
+          {renderBattingOrder()}
+        </div>
+
+
+      </div>
+    </div>
   )
 };
 

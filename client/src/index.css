@@ -104,6 +104,7 @@ html {
 .player-row {
   width: 500px;
   margin-top: 1px;
+  padding-top: 3px;
   height: 35px;
 }
 
@@ -153,7 +154,49 @@ html {
 }
 
 .delete-player-button {
-  margin-right: 275px;
+  margin-right: 200px;
+}
+
+.sex-select-input {
+  width: 40%;
+}
+
+.sort-title {
+  margin-left: 10px;
+}
+
+.out-alert-col {
+  width: 50%;
+  margin-left: 35px;
+}
+
+/* LINEUP PAGE */
+td {
+  border: solid thin black;
+  width: 50px;
+}
+
+.player-row-header {
+  width: 100px;
+}
+
+.player-row-header-wrapper {
+  max-height: 25px;
+  overflow: hidden;
+}
+
+.inning-row {
+  background-color: rgb(175, 175, 175);
+}
+
+.empty-cell {
+  border: none;
+  background-color: rgb(250, 240, 210);
+}
+
+.pos-dd-btn {
+  background-color: transparent;
+  border: none;
 }
 
 /* MEDIA QUERIES */
@@ -177,6 +220,14 @@ html {
   }
 
   .delete-player-button {
-    margin-right: 150px;
+    margin-right: 75px;
+  }
+
+  td {
+    width: 40px;
+  }
+
+  .player-row-header {
+    width: 120px;
   }
 }
