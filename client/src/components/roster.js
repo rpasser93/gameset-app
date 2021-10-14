@@ -8,6 +8,15 @@ const Roster = () => {
   const [showEditStatus, setShowEditStatus] = useState(false);
   const [showPlayerEdit, setShowPlayerEdit] = useState(false);  
   const [showNewPlayer, setShowNewPlayer] = useState(false);
+
+  const [editedPlayerFirstName, setEditedPlayerFirstName] = useState("");
+  const [editedPlayerLastName, setEditedPlayerLastName] = useState("");
+  const [editedPlayerSex, setEditedPlayerSex] = useState("");
+
+  const [newPlayerFirstName, setNewPlayerFirstName] = useState("");
+  const [newPlayerLastName, setNewPlayerLastName] = useState("");
+  const [newPlayerSex, setNewPlayerSex] = useState("");
+
   
   const dispatch = useDispatch();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
@@ -26,9 +35,67 @@ const Roster = () => {
 
   const handleNewPlayerClose = () => setShowNewPlayer(false);
   const handleNewPlayerShow = () => setShowNewPlayer(true);
+  const handleNewPlayerCancel = () => {
+    setNewPlayerFirstName("");
+    setNewPlayerLastName("");
+    setNewPlayerSex("");
+    setShowNewPlayer(false);
+  }
+
+  const addNewPlayer = () => {
+    if (newPlayerFirstName === "" || newPlayerLastName === "" || newPlayerSex === "") {
+      return alert('Please fill in all fields.')
+    }
+
+    console.log(`Adding new player ${newPlayerFirstName} ${newPlayerLastName} (${newPlayerSex}).`);
+    setNewPlayerFirstName("");
+    setNewPlayerLastName("");
+    setNewPlayerSex("");
+    setShowNewPlayer(false);
+  }
+
+  const editPlayer = () => {
+    if (editedPlayerFirstName === "" && editedPlayerLastName === "" && editedPlayerSex === "") {
+      return setShowPlayerEdit(false);
+    }
+
+    console.log(`Editing: ${editedPlayerFirstName} ${editedPlayerLastName} (${editedPlayerSex}).`);
+    setEditedPlayerFirstName("");
+    setEditedPlayerLastName("");
+    setEditedPlayerSex("");
+    setShowPlayerEdit(false);
+  }
+
+  const deletePlayer = (playerId) => {
+    console.log('Deleting player with ID: ',playerId)
+  }
 
   const handlePlayerEditClose = () => setShowPlayerEdit(false);
   const handlePlayerEditShow = () => setShowPlayerEdit(true);
+  
+  const handleNewFirstNameInput = (e) => {
+    setNewPlayerFirstName(e.target.value);
+  }
+
+  const handleNewLastNameInput = (e) => {
+    setNewPlayerLastName(e.target.value)
+  }
+
+  const handleNewSexClick = (sex) => {
+    setNewPlayerSex(sex);
+  }
+
+  const handleEditedFirstNameInput = (e) => {
+    setEditedPlayerFirstName(e.target.value);
+  }
+
+  const handleEditedLastNameInput = (e) => {
+    setEditedPlayerLastName(e.target.value)
+  }
+
+  const handleEditedSexClick = (sex) => {
+    setEditedPlayerSex(sex);
+  }
 
   const newPlayerModal = () => {
     return (
@@ -40,9 +107,9 @@ const Roster = () => {
             <Modal.Body>
 
               <div className="new-player-modal-inputs">
-                <input type="email" className="form-control" id="first-name-input" placeholder="First name"/>
+                <input type="email" className="form-control" id="first-name-input" placeholder="First name" onChange={(e) => {handleNewFirstNameInput(e)}}/>
                 <br/>
-                <input type="email" className="form-control" id="last-name-input" placeholder="Last name"/>
+                <input type="email" className="form-control" id="last-name-input" placeholder="Last name" onChange={(e) => {handleNewLastNameInput(e)}}/>
                 <br/>
 
                 <div className="row">
@@ -50,20 +117,18 @@ const Roster = () => {
                     Sex:
                   </div>
                   <div className="col-5">
-                    <select className="form-select" aria-label="">
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                    </select>
+                    <button className="btn btn-sm btn-outline-primary male-btn"onClick={()=>{handleNewSexClick('male')}}>Male</button>
+                    <button className="btn btn-sm btn-outline-primary"onClick={()=>{handleNewSexClick('female')}}>Female</button>
                   </div>
                 </div>
               </div>
 
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => handleNewPlayerClose()}>
+              <Button variant="secondary" onClick={() => handleNewPlayerCancel()}>
                 Cancel
               </Button>
-              <Button variant="primary">
+              <Button variant="primary" onClick={()=>{addNewPlayer()}}>
                 Add Player
               </Button>
             </Modal.Footer>
@@ -73,24 +138,6 @@ const Roster = () => {
   }
 
   const playerEditModalButton = (player) => {
-    console.log('Edit Modal button arg: ', player);
-    const renderSexSelect = () => {
-      if (player.sex === 'male') {
-        return (
-          <select className="form-select" aria-label="">
-            <option selected value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        )
-      } else {
-        return (
-          <select className="form-select" aria-label="">
-            <option value="male">Male</option>
-            <option selected value="female">Female</option>
-          </select>
-        )
-      }
-    }
 
     return (
       <div>
@@ -108,7 +155,7 @@ const Roster = () => {
               <h6>First Name</h6>
             </div> 
             <div className="col-9">   
-            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.firstName}/>
+            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.firstName} onChange={(e) => {handleEditedFirstNameInput(e)}}/>
             </div> 
           </div>
           <br/>
@@ -118,7 +165,7 @@ const Roster = () => {
               <h6>Last Name</h6>
             </div> 
             <div className="col-9">   
-            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.lastName}/>
+            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.lastName} onChange={(e) => {handleEditedLastNameInput(e)}}/>
             </div> 
           </div>
           <br/>
@@ -128,22 +175,23 @@ const Roster = () => {
               <h6>Listed Sex:</h6>
             </div> 
             <div className="col-9 sex-select-input">   
-              {renderSexSelect()}
+              <div>
+                <button className="btn btn-sm btn-outline-primary male-btn" onClick={()=>{handleEditedSexClick('male')}}>Male</button>
+                <button className="btn btn-sm btn-outline-primary" onClick={()=>{handleEditedSexClick('female')}}>Female</button>
+              </div>
             </div> 
           </div>
           </Modal.Body>
 
           <Modal.Footer>
-
-                <Button variant="danger" className="delete-player-button" onClick={() => handlePlayerEditClose()}>
+                <Button variant="danger" className="delete-player-button" onClick={() => deletePlayer(player._id)}>
                   Delete Player</Button>
 
                 <Button variant="secondary" onClick={() => handlePlayerEditClose()}>
                   Cancel</Button>
 
-                <Button variant="primary">
+                <Button variant="primary" onClick={() => editPlayer()}>
                   Save</Button>
-
           </Modal.Footer>
 
         </Modal>

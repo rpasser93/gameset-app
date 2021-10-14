@@ -180,6 +180,11 @@ html {
   height: 50px;
 }
 
+.male-btn {
+  margin-left: 10px;
+  margin-right: 15px;
+}
+
 /* LINEUP PAGE */
 td {
   border: solid thin black;

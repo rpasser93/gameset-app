@@ -4,6 +4,7 @@ import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/acti
 
 const Lineup = () => {
   
+  
   const dispatch = useDispatch();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
