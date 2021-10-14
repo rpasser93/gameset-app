@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, updatePlayerAvailability, fetchTeamById } from "../actions/actions"
-import { FingerPrint } from "react-ionicons"
+import { ChevronBackCircleOutline, OpenOutline } from "react-ionicons"
+import { Modal, Button } from "react-bootstrap";
 
 const Roster = () => {
-  const [showEdit, setShowEdit] = useState(false);  
+  const [showEditStatus, setShowEditStatus] = useState(false);
+  const [showPlayerEdit, setShowPlayerEdit] = useState(false);  
+  const [showNewPlayer, setShowNewPlayer] = useState(false);
   
   const dispatch = useDispatch();
-
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   let players = useSelector(state => state.players[0]);
-  let playerState = useSelector(state => state.player[0])
   let team = useSelector(state => state.team[0]);
 
   useEffect(() => {
@@ -19,13 +20,126 @@ const Roster = () => {
     dispatch(fetchTeamById(paramId));
   }, [dispatch, paramId]);
 
-  const toggleShowEdit = () => {
-    setShowEdit(!showEdit);
+  const toggleShowEditStatus = () => {
+    setShowEditStatus(!showEditStatus);
+  }
+
+  const handleNewPlayerClose = () => setShowNewPlayer(false);
+  const handleNewPlayerShow = () => setShowNewPlayer(true);
+
+  const handlePlayerEditClose = () => setShowPlayerEdit(false);
+  const handlePlayerEditShow = () => setShowPlayerEdit(true);
+
+  const newPlayerModal = () => {
+    return (
+      <div>
+        <Modal show={showNewPlayer} onHide={() => handleNewPlayerClose()}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add Player To Roster</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+
+              <div className="new-player-modal-inputs">
+                <input type="email" class="form-control" id="first-name-input" placeholder="First name"/>
+                <br/>
+                <input type="email" class="form-control" id="last-name-input" placeholder="Last name"/>
+                <br/>
+
+                <div className="row">
+                  <div className="col-1">
+                    Sex:
+                  </div>
+                  <div className="col-5">
+                    <select className="form-select" aria-label="">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => handleNewPlayerClose()}>
+                Cancel
+              </Button>
+              <Button variant="primary">
+                Add Player
+              </Button>
+            </Modal.Footer>
+          </Modal>
+      </div>
+    )
+  }
+
+  const playerEditModalButton = (player) => {
+    const renderSexSelect = () => {
+      if (player.sex === 'male') {
+        return (
+          <select className="form-select" aria-label="">
+            <option selected value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        )
+      } else {
+        return (
+          <select className="form-select" aria-label="">
+            <option value="male">Male</option>
+            <option selected value="female">Female</option>
+          </select>
+        )
+      }
+    }
+
+    return (
+      <div>
+        <OpenOutline className="edit-player-button" width="25px" height="25px" onClick={() => handlePlayerEditShow()}/>
+
+        <Modal show={showPlayerEdit} onHide={() => handlePlayerEditClose()}>
+
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Player</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+          <div className="input-group mb-3">
+            <button className="btn btn-outline-primary" type="button" id="firstName-btn">First Name</button>
+            <input type="text" className="form-control" defaultValue={player.firstName} aria-label="" aria-describedby="firstName-btn"/>
+          </div>
+          <div className="input-group mb-3">
+            <button className="btn btn-outline-primary" type="button" id="lastName-btn">Last Name</button>
+            <input type="text" className="form-control" defaultValue={player.lastName} aria-label="" aria-describedby="lastName-btn"/>
+          </div>
+
+          <div className="row">
+            <div className="col-3">
+              <h6>Listed Sex:</h6>
+            </div> 
+            <div className="col-3">   
+              {renderSexSelect()}
+            </div> 
+            <div className="col-6">
+            </div>
+          </div>
+          </Modal.Body>
+
+          <Modal.Footer>
+
+                <Button variant="danger" className="delete-player-button" onClick={() => handlePlayerEditClose()}>
+                  Delete Player</Button>
+
+                <Button variant="primary" onClick={() => handlePlayerEditClose()}>
+                  Done</Button>
+
+          </Modal.Footer>
+
+        </Modal>
+      </div>
+    )
   }
 
   const handlePlayerStatusToggle = (player) => {
     dispatch(updatePlayerAvailability(paramId, player._id));
-    console.log('playerstate', playerState);
   }
 
   const renderStatus = (player) => {
@@ -37,16 +151,16 @@ const Roster = () => {
   }
 
   const renderPlayerButtons = (player) => {
-    if (!showEdit) {
+    if (!showEditStatus) {
       return (
         <div>
-          <p>drop</p>
+          {playerEditModalButton(player)}
         </div>  
       )
     } else {
       return (
         <div>
-          <FingerPrint className="fingerprint-button" width="25px" height="25px" onClick={() => handlePlayerStatusToggle(player)}/>
+          <ChevronBackCircleOutline className="fingerprint-button" width="25px" height="25px" onClick={() => handlePlayerStatusToggle(player)}/>
         </div>
       )
     }
@@ -65,33 +179,33 @@ const Roster = () => {
   }
 
   const renderRoster = () => {
-
    return (
     players && players.length > 0 && players.map((player) => {
       return (
         <div key={player._id}>
           <div className={`row player-row row-${player.sex}`}>
-            <div className="col">
+            <div className="col-2 text-center">
               <strong>{renderStatus(player)}</strong>
             </div>
-            <div className="col">
-              <p><strong>{`${player.firstName} ${player.lastName.substr(0,1)}.`}</strong></p>
+            <div className="col-5">
+              <p><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
             </div>
-            <div className="col">
-              <strong><p>{player.sex}</p></strong>
+            <div className="col-3 text-center">
+              <p>{player.sex}</p>
             </div>
-            <div className="col">
+            <div className="col-2 text-end">
               {renderPlayerButtons(player)}
             </div>
           </div>
         </div>
-        )}))}
+        )})
+      )}
 
   const renderTeamDesc = () => {
     if (team) {
 
       return(
-        <div>
+        <div className="team-desc-section">
           <div className="col">
             <div className="row">
               <h4>{team.teamName}</h4>
@@ -109,6 +223,10 @@ const Roster = () => {
       )
     }
 }
+
+const renderToggleButtonText = () => {
+  return (showEditStatus ? 'Toggle Editing' : 'Toggle Availability');
+}
       
   return (
     <div className="container-fluid roster-container">
@@ -119,9 +237,13 @@ const Roster = () => {
       </div>
 
       <div className="row">
-        <div className="col-10 roster-col">
+        <div className="col-10">
           {renderTeamDesc()}
-          {renderRoster()}
+          <div className="row">
+            <div className="col roster-col">
+              {renderRoster()}
+            </div>
+          </div>
         </div>
         <div className="col-2 roster-side-col">
           <div className="row">
@@ -130,8 +252,11 @@ const Roster = () => {
               <h1 className="avail-track-num"><strong>15</strong></h1>
               <p>6F, 9M</p>
             </div>
-            <button type="button" className="btn btn-sm add-new-player-btn">Add New Player</button>
-            <button type="button" className="btn btn-sm edit-avail-btn" onClick={() => toggleShowEdit()}>Edit Availability</button>
+
+            <button type="button" className="btn btn-sm add-new-player-btn" onClick={() => handleNewPlayerShow()}>Add New Player</button>
+            {newPlayerModal()}
+
+            <button type="button" className="btn btn-sm edit-avail-btn" onClick={() => toggleShowEditStatus()}>{renderToggleButtonText()}</button>
           </div>
         </div>
       </div>

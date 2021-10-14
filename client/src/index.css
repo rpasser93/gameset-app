@@ -91,9 +91,14 @@ html {
   height: 100px;
 }
 
+.team-desc-section {
+  margin-bottom: -10px;
+  margin-top: -15px;
+}
+
 .roster-col {
-  max-height: 250px;
-  overflow: scroll;
+  max-height: 225px;
+  overflow: auto;
 }
 
 .player-row {
@@ -147,6 +152,10 @@ html {
   margin-top: 10px;
 }
 
+.delete-player-button {
+  margin-right: 275px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 480px) {
   body {
@@ -165,5 +174,9 @@ html {
     width: 100%;
     max-height: 30px;
     overflow: hidden;
+  }
+
+  .delete-player-button {
+    margin-right: 150px;
   }
 }

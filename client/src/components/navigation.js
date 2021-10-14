@@ -24,7 +24,6 @@ const Navigation = () => {
 
 
   const renderNavLinks = () => {
-    console.log(paramId);
     if (team && team._id) {
       return (
         <Nav className="me-auto">
