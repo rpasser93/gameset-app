@@ -143,8 +143,13 @@ const Lineup = () => {
     return (
     players && players.length >0 && players.map(player => {
       return (
-        <div className={`batting-order-player batting-order-row-${player.sex}`} key={player._id}>
-          {`${player.firstName} ${player.lastName.substr(0,1)}.`}
+        <div className="row">
+          <div className="col-1">
+            <strong>{players.indexOf(player)+1}.</strong>
+          </div>
+          <div className={`col batting-order-player batting-order-row-${player.sex}`} key={player._id}>
+            {`${player.firstName} ${player.lastName.substr(0,1)}.`}
+          </div>
         </div>
       )
     }))};
@@ -185,7 +190,7 @@ const Lineup = () => {
         </div>
 
         <div className="col-3 text-start batting-order-col">
-          <div className="batting-order-title"><strong>Batting Order:</strong></div>
+          <div className="batting-order-title text-center"><strong>Batting Order:</strong></div>
           {renderBattingOrder()}
         </div>
 

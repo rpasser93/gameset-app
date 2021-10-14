@@ -73,6 +73,7 @@ const Roster = () => {
   }
 
   const playerEditModalButton = (player) => {
+    console.log('Edit Modal button arg: ', player);
     const renderSexSelect = () => {
       if (player.sex === 'male') {
         return (
@@ -93,7 +94,7 @@ const Roster = () => {
 
     return (
       <div>
-        <OpenOutline className="edit-player-button" width="25px" height="25px" onClick={() => handlePlayerEditShow()}/>
+        <OpenOutline className="edit-player-button" width="25px" height="25px" value={`${player}`} onClick={() => handlePlayerEditShow()}/>
 
         <Modal show={showPlayerEdit} onHide={() => handlePlayerEditClose()}>
 
@@ -151,6 +152,7 @@ const Roster = () => {
   }
 
   const handlePlayerStatusToggle = (player) => {
+    console.log('Player status toggle arg: ', player);
     dispatch(updatePlayerAvailability(paramId, player._id));
   }
 
@@ -163,6 +165,7 @@ const Roster = () => {
   }
 
   const renderPlayerButtons = (player) => {
+    // console.log('Player Buttons arg: ', player);
     if (!showEditStatus) {
       return (
         <div>

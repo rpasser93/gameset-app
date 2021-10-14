@@ -211,15 +211,15 @@ td {
 }
 
 .batting-order-title {
-  background-color: rgb(225, 225, 225);
-  border: thin solid black;
   margin-bottom: 1px;
+  margin-left: 28px;
 }
 
 .batting-order-player {
   border: thin solid black;
   margin-top: 2px;
   margin-bottom: 2px;
+  margin-left: 8px;
   width: 100%;
 }
 
