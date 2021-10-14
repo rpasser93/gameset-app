@@ -295,14 +295,14 @@ router.get("/api/teams/:team/players/:player/lineup", (req, res, next) => {
   });
 });
 
-//PUT change a specific player's lineup, requires team ID param, player ID param and 'lineup' object key with array value in req body
+//PUT change a specific player's lineup, requires team ID param, player ID param and 'position' and 'arrayNumber' object keys in req body
 router.put("/api/teams/:team/players/:player/lineup", (req, res, next) => {
   const {team} = req.params;
   const {player} = req.params;
 
   Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}).exec((err, teamRes) => {
     if (err) return next(err);
-    teamRes[0].players[0].lineup = req.body.lineup;
+    teamRes[0].players[0].lineup[req.body.arrayNumber] = req.body.position;
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player lineup successfully changed.');

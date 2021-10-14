@@ -16,20 +16,27 @@ const Lineup = () => {
     dispatch(fetchTeamById(paramId));
   }, [dispatch, paramId]);
 
+  const handlePositionSelect = (playerId, pos, num) => {
+    console.log(`${playerId} change to ${pos} for inning ${num+1}`);
+  }
+
   const renderPlayerLineupRows = () => {
     let positionArray = []
 
     if (team && team.length > 0 && team.settings && team.settings[0] && team.setttings[0].positions && team.settings[0].positions.length > 0) {
-      positionArray = team.settings[0].positions
+      positionArray = team.settings[0].positions;
+      positionArray.push('-');
     } else {
-      positionArray = ['P','C','1B','2B','3B','SS','LF','CF','RCF','RF'];
+      positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RCF','RF'];
     }
 
-    const renderPositions = () => {
+    const renderPositions = (playerId, num) => {
       return (
         positionArray.map(pos => {
           return (
-            <li>{pos}</li>
+            <div key={pos}>
+              <button type="button" className="btn-sm btn-primary" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
+            </div>
           );
         })
       );
@@ -39,20 +46,19 @@ const Lineup = () => {
     return (
       players.map(player => {
         return (
-          <tr>
+          <tr key={player._id}>
             <td className="player-row-header text-start">
               <div className="player-row-header-wrapper">
                 <strong>{`${player.firstName} ${player.lastName.substr(0,1)}.`}</strong>
               </div>
             </td>
-
             <td>
               <div className="btn-group dropend">
                 <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[0]}
                 </button>
-                <ul className="dropdown-menu">
-                  {renderPositions()}
+                <ul className="dropdown-menu pos-dd-ul text-center">
+                  {renderPositions(player._id, 0)}
                 </ul>
               </div>
             </td>
@@ -61,8 +67,8 @@ const Lineup = () => {
                 <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[1]}
                 </button>
-                <ul className="dropdown-menu">
-                  {renderPositions()}
+                <ul className="dropdown-menu pos-dd-ul text-center">
+                  {renderPositions(player._id, 1)}
                 </ul>
               </div>
             </td>
@@ -71,8 +77,8 @@ const Lineup = () => {
                 <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[2]}
                 </button>
-                <ul className="dropdown-menu">
-                  {renderPositions()}
+                <ul className="dropdown-menu pos-dd-ul text-center">
+                  {renderPositions(player._id, 2)}
                 </ul>
               </div>
             </td>
@@ -81,8 +87,8 @@ const Lineup = () => {
                 <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[3]}
                 </button>
-                <ul className="dropdown-menu">
-                  {renderPositions()}
+                <ul className="dropdown-menu pos-dd-ul text-center">
+                  {renderPositions(player._id, 3)}
                 </ul>
               </div>
             </td>
@@ -91,8 +97,8 @@ const Lineup = () => {
                 <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[4]}
                 </button>
-                <ul className="dropdown-menu">
-                  {renderPositions()}
+                <ul className="dropdown-menu pos-dd-ul text-center">
+                  {renderPositions(player._id, 4)}
                 </ul>
               </div>
             </td>
@@ -101,8 +107,8 @@ const Lineup = () => {
                 <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[5]}
                 </button>
-                <ul className="dropdown-menu">
-                  {renderPositions()}
+                <ul className="dropdown-menu pos-dd-ul text-center">
+                  {renderPositions(player._id, 5)}
                 </ul>
               </div>
             </td>
@@ -111,13 +117,11 @@ const Lineup = () => {
                 <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[6]}
                 </button>
-                <ul className="dropdown-menu">
-                  {renderPositions()}
+                <ul className="dropdown-menu pos-dd-ul text-center">
+                  {renderPositions(player._id, 6)}
                 </ul>
               </div>
             </td>
-
-
           </tr>
         )
       })
@@ -140,7 +144,7 @@ const Lineup = () => {
       </div>
 
       <div className="row">
-        <div className="col">
+        <div className="col-9">
           <table className="text-center">
             <tbody>
               <tr className="inning-row">
@@ -158,7 +162,7 @@ const Lineup = () => {
           </table>
         </div>
 
-        <div className="col">
+        <div className="col-3">
           {renderBattingOrder()}
         </div>
 
