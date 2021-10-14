@@ -266,6 +266,13 @@ td {
   color: red;
 }
 
+/* LINEUP-FIELD PAGE */
+.table-view-btn {
+  color: black;
+  background-color: rgb(255, 187, 0);
+  margin-top: 5px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 480px) {
   body {

@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
+import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/actions"
 
 const Lineup = () => {
   
-  
   const dispatch = useDispatch();
+  const history = useHistory();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   let team = useSelector(state => state.team[0]);
@@ -26,6 +27,10 @@ const Lineup = () => {
   const handlePositionSelect = (playerId, pos, num) => {
     console.log(`${playerId} change to ${pos} for inning ${num+1}`);
     dispatch(updatePlayerLineup(paramId, playerId, pos, num))
+  }
+
+  const handleFieldView = () => {
+    history.push(`/lineup-field/${paramId}`);
   }
 
   const renderPlayerLineupRows = () => {
@@ -144,7 +149,7 @@ const Lineup = () => {
     return (
     players && players.length >0 && players.map(player => {
       return (
-        <div className="row">
+        <div className="row" key={player._id}>
           <div className="col-1">
             <strong>{players.indexOf(player)+1}.</strong>
           </div>
@@ -159,7 +164,7 @@ const Lineup = () => {
     <div className="container-fluid lineup-container">
       <div className="row">
         <div className="col text-start">
-          <button type="button" class="btn-sm field-view-btn">Field View</button>
+          <button type="button" className="btn-sm field-view-btn" onClick={() => {handleFieldView()}}>Field View</button>
         </div>
         <div className="col">
           <h2 className="lineup-page-title text-center"><strong><u>LINEUP</u></strong></h2>
