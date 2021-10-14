@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, fetchTeamById } from "../actions/actions"
-import teamsReducer from '../reducers/reducer-teams';
+import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/actions"
 
 const Lineup = () => {
   
@@ -18,6 +17,7 @@ const Lineup = () => {
 
   const handlePositionSelect = (playerId, pos, num) => {
     console.log(`${playerId} change to ${pos} for inning ${num+1}`);
+    dispatch(updatePlayerLineup(team._id, playerId, pos, num))
   }
 
   const renderPlayerLineupRows = () => {

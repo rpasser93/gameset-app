@@ -6,6 +6,7 @@ export const FETCH_TEAM_BY_LOGIN = "FETCH_TEAM_BY_LOGIN";
 export const FETCH_TEAM_BY_ID = "FETCH_TEAM_BY_ID";
 export const FETCH_PLAYERS = "FETCH_PLAYERS";
 export const UPDATE_PLAYER_AVAILABILITY = "UPDATE_PLAYER_AVAILABILITY";
+export const UPDATE_PLAYER_LINEUP = "UPDATE_PLAYER_LINEUP";
 
 export const addTeam = (login, password) => {
   const data = {
@@ -72,3 +73,19 @@ export const updatePlayerAvailability = (teamId, playerId) => {
   };
 
 }
+
+export const updatePlayerLineup = (teamId, playerId, position, arrayNumber) => {
+  const data = {
+    position: position,
+    arrayNumber: arrayNumber
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/players/${playerId}/lineup`, data);
+
+  return {
+    type: UPDATE_PLAYER_LINEUP,
+    payload: request
+  };
+
+}
+

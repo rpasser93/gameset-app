@@ -20,7 +20,7 @@ router.post("/api/teams", (req, res) => {
   newTeam.teamName = 'Your Team';
   newTeam.settings.push({
     numInnings: 7,
-      positions: ["P", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RCF", "RF"],
+      positions: ["-", "P", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RCF", "RF"],
       minPlayers: 0,
       sexMin: {
         sex: "female",
