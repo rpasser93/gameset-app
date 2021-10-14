@@ -141,6 +141,13 @@ router.get("/api/teams/:team/players", (req, res, next) => {
       if ( a.availability > b.availability ) {return -1};
       return 0;
     }
+    const compareBattingOrder = (a,b) => {
+      if (a === null) {return 1};
+      if (b === null) {return -1};
+      if (a.battingOrder < b.battingOrder ) {return -1};
+      if (a.battingOrder > b.battingOrder ) {return 1};
+      return 0;
+    }
 
     if (!sortQuery || sortQuery.toLowerCase() == 'name') {
       return res.send(teamRes[0].players.sort());
@@ -150,6 +157,9 @@ router.get("/api/teams/:team/players", (req, res, next) => {
     }
     if (sortQuery.toLowerCase() == 'availability') {
       return res.send(teamRes[0].players.sort(compareAvailability));
+    }
+    if (sortQuery.toLowerCase() == 'battingorder') {
+      return res.send(teamRes[0].players.sort(compareBattingOrder));
     }
   });
 });

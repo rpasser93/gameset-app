@@ -8,11 +8,15 @@ const Lineup = () => {
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   let team = useSelector(state => state.team[0]);
-  let players = useSelector(state => state.players[0].filter(player => {
-    return (player.availability)
-  }));
-  
 
+  let players = useSelector(state => state.players[0]);
+
+  if (players && players.length > 0) {
+    players = players.filter(player => {
+      return (player.availability)
+    });
+  };
+  
   useEffect(() => {
     dispatch(fetchPlayers(paramId,""));
     dispatch(fetchTeamById(paramId));
@@ -20,7 +24,7 @@ const Lineup = () => {
 
   const handlePositionSelect = (playerId, pos, num) => {
     console.log(`${playerId} change to ${pos} for inning ${num+1}`);
-    dispatch(updatePlayerLineup(team._id, playerId, pos, num))
+    dispatch(updatePlayerLineup(paramId, playerId, pos, num))
   }
 
   const renderPlayerLineupRows = () => {
@@ -49,10 +53,10 @@ const Lineup = () => {
     return (
       players.map(player => {
         return (
-          <tr key={player._id}>
+          <tr key={player._id} className={`lineup-row-${player.sex}`}>
             <td className="player-row-header text-start">
               <div className="player-row-header-wrapper">
-                <strong>{`${player.firstName} ${player.lastName.substr(0,1)}.`}</strong>
+                {`${player.firstName} ${player.lastName.substr(0,1)}.`}
               </div>
             </td>
             <td>
@@ -136,14 +140,29 @@ const Lineup = () => {
 
   const renderBattingOrder = () => {
 
-  }
+    return (
+    players && players.length >0 && players.map(player => {
+      return (
+        <div className={`batting-order-player batting-order-row-${player.sex}`} key={player._id}>
+          {`${player.firstName} ${player.lastName.substr(0,1)}.`}
+        </div>
+      )
+    }))};
 
   return (
     <div className="container-fluid lineup-container">
       <div className="row">
+        <div className="col text-start">
+          <button type="button" class="btn-sm field-view-btn">Field View</button>
+        </div>
         <div className="col">
           <h2 className="lineup-page-title text-center"><strong><u>LINEUP</u></strong></h2>
         </div>
+        <div className="col"></div>
+      </div>
+
+      <div className="row violation-alert-row">
+        <div className="col text-center">**alerts here**</div>
       </div>
 
       <div className="row">
@@ -165,10 +184,10 @@ const Lineup = () => {
           </table>
         </div>
 
-        <div className="col-3">
+        <div className="col-3 text-start batting-order-col">
+          <div className="batting-order-title"><strong>Batting Order:</strong></div>
           {renderBattingOrder()}
         </div>
-
 
       </div>
     </div>

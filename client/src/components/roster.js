@@ -40,9 +40,9 @@ const Roster = () => {
             <Modal.Body>
 
               <div className="new-player-modal-inputs">
-                <input type="email" class="form-control" id="first-name-input" placeholder="First name"/>
+                <input type="email" className="form-control" id="first-name-input" placeholder="First name"/>
                 <br/>
-                <input type="email" class="form-control" id="last-name-input" placeholder="Last name"/>
+                <input type="email" className="form-control" id="last-name-input" placeholder="Last name"/>
                 <br/>
 
                 <div className="row">
@@ -107,7 +107,7 @@ const Roster = () => {
               <h6>First Name</h6>
             </div> 
             <div className="col-9">   
-            <input type="email" class="form-control" id="exampleFormControlInput1" defaultValue={player.firstName}/>
+            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.firstName}/>
             </div> 
           </div>
           <br/>
@@ -117,7 +117,7 @@ const Roster = () => {
               <h6>Last Name</h6>
             </div> 
             <div className="col-9">   
-            <input type="email" class="form-control" id="exampleFormControlInput1" defaultValue={player.lastName}/>
+            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.lastName}/>
             </div> 
           </div>
           <br/>
@@ -272,7 +272,7 @@ const renderAvailableStats = () => {
 }
 
 const renderToggleButtonText = () => {
-  return (showEditStatus ? 'Toggle Editing' : 'Toggle Availability');
+  return (showEditStatus ? 'Done' : 'Toggle Availability');
 }
       
   return (
@@ -299,7 +299,7 @@ const renderToggleButtonText = () => {
             <button type="button" className="btn btn-sm add-new-player-btn" onClick={() => handleNewPlayerShow()}>Add New Player</button>
             {newPlayerModal()}
 
-            <button type="button" className="btn btn-sm edit-avail-btn" onClick={() => toggleShowEditStatus()}>{renderToggleButtonText()}</button>
+            <button type="button" className={`btn btn-sm edit-avail-btn toggle-edit-button-${showEditStatus}`} onClick={() => toggleShowEditStatus()}>{renderToggleButtonText()}</button>
           </div>
         </div>
       </div>

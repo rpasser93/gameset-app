@@ -30,7 +30,7 @@ const Navigation = () => {
           <Nav.Link className="navbar-link" href={`/roster/${team._id}`}>Roster</Nav.Link>
           <Nav.Link className="navbar-link" href={`/lineup/${team._id}`}>Lineup</Nav.Link>
           <Nav.Link className="navbar-link" href={`/settings/${team._id}`}>Settings</Nav.Link>
-          <Nav.Link className="navbar-link" href="/login">Log Out</Nav.Link>
+          <Nav.Link className="navbar-link logout-nav-link" href="/login">Log Out</Nav.Link>
         </Nav>
       )
     } else {
@@ -39,7 +39,7 @@ const Navigation = () => {
           <Nav.Link className="navbar-link" href={`/roster/${paramId}`}>Roster</Nav.Link>
           <Nav.Link className="navbar-link" href={`/lineup/${paramId}`}>Lineup</Nav.Link>
           <Nav.Link className="navbar-link" href={`/settings/${paramId}`}>Settings</Nav.Link>
-          <Nav.Link className="navbar-link" href="/login">Log Out</Nav.Link>
+          <Nav.Link className="navbar-link logout-nav-link" href="/login">Log Out</Nav.Link>
         </Nav>
       )
     }
