@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/actions"
 
 const Lineup = () => {
-  const [playerMinViolation, setPlayerMinViolation] = useState(false);
-  const [sexMinViolation, setSexMinViolation] = useState(false);
   
   const dispatch = useDispatch();
   const history = useHistory();
@@ -144,8 +142,6 @@ const Lineup = () => {
       return null;
     }
   };
-
-  
   
   const renderAlerts = () => {
     console.log(currentPlayerMin);
@@ -167,36 +163,44 @@ const Lineup = () => {
       let malesAvailableNumber = totalAvailableNumber - femalesAvailableNumber;
     
       if (totalAvailableNumber < currentPlayerMin) {
-        violations.push(`The amount of total available players (${totalAvailableNumber}) is below the minimum requirement (${currentPlayerMin}).`)
+        violations.push(`Your number of total available players (${totalAvailableNumber}) is below the minimum requirement (${currentPlayerMin}).`)
       }
 
       if (currentSexMin.sex === "female" && femalesAvailableNumber < currentSexMin.min) {
-        violations.push(`The amount of total available females (${femalesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
+        violations.push(`Your number of available females (${femalesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
       }
 
       if (currentSexMin.sex === "male" && malesAvailableNumber < currentSexMin.min) {
-        violations.push(`The amount of available males (${malesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
+        violations.push(`Your number of available males (${malesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
       }
 
       if (violations.length === 0) {
         return (<div></div>)
       }
 
-      console.log(currentPlayerMin);
-      console.log(currentSexMin);
+      const renderViolationAlertDetails = () => {
+        return (
+          violations.map(violation => {
+            return (
+              <li className="dropdown-item violation-dropdown">{violation}</li>
+            )
+          })
+        )
+      }
 
       return (
-        violations.map(violation => {
-          return (
-            <p>{violation}</p>
-          )
-        })
+        <div className="btn-group">
+          <button type="button" className="btn-sm btn-danger dropdown-toggle violation-dropdown-button" data-bs-toggle="dropdown" aria-expanded="false">
+            {violations.length}
+          </button>
+          <ul className="dropdown-menu">
+            {renderViolationAlertDetails()}
+          </ul>
+        </div>
       )
 
     } return (<div></div>)   
   }
-  
- 
 
   const renderBattingOrder = () => {
 

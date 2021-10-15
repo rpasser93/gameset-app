@@ -266,6 +266,14 @@ td {
   color: red;
 }
 
+.violation-dropdown {
+  color: red;
+}
+
+.violation-dropdown-button {
+  margin-bottom: 10px;
+}
+
 /* LINEUP-FIELD PAGE */
 .table-view-btn {
   color: black;
