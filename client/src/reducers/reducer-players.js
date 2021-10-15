@@ -2,6 +2,7 @@ import { FETCH_PLAYERS, ADD_PLAYER, DELETE_PLAYER, UPDATE_PLAYER_FIRSTNAME, UPDA
 
 const playersReducer = (state = [], action) => {
   switch(action.type) {
+    
     case FETCH_PLAYERS:
       return action.payload.data;
 

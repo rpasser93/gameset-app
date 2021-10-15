@@ -297,6 +297,18 @@ td {
   margin-bottom: 10px;
 }
 
+.at-least {
+  font-size: small;
+}
+
+.form-switch {
+  margin-left: 10px;
+}
+
+.save-sexmin-btn {
+  margin-left: 23px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 480px) {
   body {

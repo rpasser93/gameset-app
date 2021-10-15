@@ -4,8 +4,11 @@ const baseUrl = 'http://localhost:8000/api/teams';
 export const ADD_TEAM = "ADD_TEAM";
 export const FETCH_TEAM_BY_LOGIN = "FETCH_TEAM_BY_LOGIN";
 export const FETCH_TEAM_BY_ID = "FETCH_TEAM_BY_ID";
-export const FETCH_PLAYERS = "FETCH_PLAYERS";
+export const UPDATE_TEAM_NAME = "UPDATE_TEAM_NAME";
+export const UPDATE_PLAYER_MIN_SETTINGS = "UPDATE_PLAYER_MIN_SETTINGS";
+export const UPDATE_SEX_MIN_SETTINGS = "UPDATE_SEX_MIN_SETTINGS";
 
+export const FETCH_PLAYERS = "FETCH_PLAYERS";
 export const UPDATE_PLAYER_AVAILABILITY = "UPDATE_PLAYER_AVAILABILITY";
 export const UPDATE_PLAYER_LINEUP = "UPDATE_PLAYER_LINEUP";
 export const ADD_PLAYER = "ADD_PLAYER";
@@ -154,4 +157,42 @@ export const deletePlayer = (teamId, playerId) => {
   };
 }
 
+export const updateTeamName = (teamId, teamName) => {
+  const data = {
+    teamName: teamName
+  }
 
+  const request = axios.put(`${baseUrl}/${teamId}`, data);
+
+  return {
+    type: UPDATE_TEAM_NAME,
+    payload: request
+  };
+}
+
+export const updatePlayerMinSettings = (teamId, minPlayers) => {
+  const data = {
+    minPlayers: minPlayers
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/settings/minPlayers`, data);
+
+  return {
+    type: UPDATE_PLAYER_MIN_SETTINGS,
+    payload: request
+  };
+}
+
+export const updateSexMinSettings = (teamId, sex, min) => {
+  const data = {
+    sex: sex,
+    min: min
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/settings/sexMin`, data);
+
+  return {
+    type: UPDATE_SEX_MIN_SETTINGS,
+    payload: request
+  };
+}

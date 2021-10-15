@@ -90,9 +90,9 @@ router.put("/api/teams/:team", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Team name successfully changed.');
+      res.send(JSON.stringify({id: team, teamName: req.body.teamName}));
     });
   });
-  res.end();
 });
 
 //DELETE a specific team, requires team ID param
@@ -389,9 +389,9 @@ router.put("/api/teams/:team/settings/minPlayers", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player minimum settings successfully changed.');
+      res.send(JSON.stringify({id: team, minPlayers: req.body.minPlayers}));
     });
   });
-  res.end();
 });
 
 //PUT change sex minimum settings of a team, requires team ID param and 'sex' and 'min' in req body
@@ -404,9 +404,9 @@ router.put("/api/teams/:team/settings/sexMin", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Sex minimum settings successfully changed.');
+      res.end(JSON.stringify({id: team, sexMin: req.body}));
     });
   });
-  res.end();
 });
 
 //PUT change infield settings of a team, requires team ID param and 'sex' and 'min' in req body

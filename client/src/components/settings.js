@@ -1,28 +1,48 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTeamById } from "../actions/actions"
+import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings } from "../actions/actions"
 
 const Settings = () => {
   const [teamNameEdit, setTeamNameEdit] = useState("");
   const [minPlayers, setminPlayers] = useState(0);  
+  const [minSpecificSex, setminSpecificSex] = useState(true);
   const [minSexNumber, setMinSexNumber] = useState(0);
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   const dispatch = useDispatch();
 
-  let team = useSelector(state => state.team[0]);
-
   useEffect(() => {
     dispatch(fetchTeamById(paramId));
   }, [dispatch, paramId]);
+
+  let team = useSelector(state => state.team[0]);
+  
+  let currentSex = ""
+  let oppositeSex = ""
+
+  if (team) {
+    currentSex = team.settings[0].sexMin.sex
+  }
+
+  if (team) {
+    if (currentSex === "male") {
+      oppositeSex = "female"
+    } else {
+      oppositeSex = "male"
+    }
+  }
 
   const handleTeamNameEditChange = (e) => {
     setTeamNameEdit(e.target.value);
   }
 
   const saveTeamNameEdit = () => {
-    //DISPATCH
+    if (teamNameEdit === "") {
+      return alert('Please enter a valid name.');
+    }
+    dispatch(updateTeamName(paramId, teamNameEdit));
   }
 
   const handleMinPlayerChange = (e) => {
@@ -33,22 +53,31 @@ const Settings = () => {
     if (isNaN(minPlayers)) {
       return alert('Please enter a valid number.');
     }
-    //DISPATCH
+    dispatch(updatePlayerMinSettings(paramId, minPlayers))
   }
 
   const handleMinSexNumChange = (e) => {
     setMinSexNumber(e.target.value)
   }
 
+  const changeMinSpecificSex = () => {
+    setminSpecificSex(!minSpecificSex)
+    console.log(minSpecificSex);
+  }
+
   const saveMinSexNumber = () => {
     if (isNaN(minSexNumber)) {
       return alert('Please enter a valid number.');
     }
-    //DISPATCH
-  }
 
-  const saveMinSpecificSex = () => {
-    //DISPATCH
+    let sexToSend = ""
+    if (minSpecificSex) {
+      sexToSend = currentSex;
+    } else {
+      sexToSend = oppositeSex;
+    }
+
+    dispatch(updateSexMinSettings(paramId, sexToSend, minSexNumber));
   }
 
   const restoreDefaultSettings = () => {
@@ -104,22 +133,25 @@ const Settings = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-3 text-end">
+                  <div className="col-1 text-center at-least">
                   <em>at least</em>
                   </div>
                   <div className="col-2 text-start">
                    <input className="form-control form-control-sm" type="text" defaultValue={`${team.settings[0].sexMin.min}`} onChange={(e)=>{handleMinSexNumChange(e)}}/>
                   </div>
-                  <div className="col-2">
-                    <p><strong><em>{team.settings[0].sexMin.sex}s</em></strong></p>
+                  <div className="col-2 current-sex-label text-end">
+                    <p><strong><em>{currentSex}s</em></strong></p>
                   </div>
                   <div className="col-2">
                     <div className="form-check form-switch">
-                      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{saveMinSpecificSex()}}/>
+                      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{changeMinSpecificSex()}}/>
                       <label className="form-check-label" for="flexSwitchCheckDefault"></label>
                     </div>
                   </div>
-                  <div className="col-3 text-end">
+                  <div className="col-2 opp-sex-label text-start">
+                    <p><strong><em>{oppositeSex}s</em></strong></p>
+                  </div>
+                  <div className="col-2 text-end save-sexmin-btn">
                     <button type="button" class="btn btn-outline-primary" onClick={()=>{saveMinSexNumber()}}>Save</button>
                   </div>
                 </div>
