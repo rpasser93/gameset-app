@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, updatePlayerAvailability, fetchTeamById } from "../actions/actions"
+import { fetchPlayers, updatePlayerAvailability, fetchTeamById, updatePlayerFirstName, updatePlayerLastName, updatePlayerSex } from "../actions/actions"
 import { ChevronBackCircleOutline, OpenOutline } from "react-ionicons"
 import { Modal, Button } from "react-bootstrap";
 
 const Roster = () => {
   const [activePlayer, setActivePlayer] = useState("");
+
   const [showEditStatus, setShowEditStatus] = useState(false);
   const [showPlayerEdit, setShowPlayerEdit] = useState(false);  
   const [showNewPlayer, setShowNewPlayer] = useState(false);
@@ -34,9 +35,8 @@ const Roster = () => {
     setShowEditStatus(!showEditStatus);
   }
 
-  const handleNewPlayerClose = () => setShowNewPlayer(false);
   const handleNewPlayerShow = () => setShowNewPlayer(true);
-  const handleNewPlayerCancel = () => {
+  const handleNewPlayerClose = () => {
     setNewPlayerFirstName("");
     setNewPlayerLastName("");
     setNewPlayerSex("");
@@ -55,12 +55,24 @@ const Roster = () => {
     setShowNewPlayer(false);
   }
 
-  const editPlayer = () => {
+  const editPlayer = (playerId) => {
     if (editedPlayerFirstName === "" && editedPlayerLastName === "" && editedPlayerSex === "") {
       return setShowPlayerEdit(false);
     }
 
-    console.log(`Editing: ${editedPlayerFirstName} ${editedPlayerLastName} (${editedPlayerSex}).`);
+    if(editedPlayerFirstName !== "") {
+      dispatch(updatePlayerFirstName(paramId, playerId, editedPlayerFirstName));
+    }
+
+    if(editedPlayerLastName !== "") {
+      dispatch(updatePlayerLastName(paramId, playerId, editedPlayerLastName));
+    }
+
+    if(editedPlayerSex !== "") {
+      dispatch(updatePlayerSex(paramId, playerId, editedPlayerSex));
+    }
+    
+
     setEditedPlayerFirstName("");
     setEditedPlayerLastName("");
     setEditedPlayerSex("");
@@ -126,7 +138,7 @@ const Roster = () => {
 
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => handleNewPlayerCancel()}>
+              <Button variant="secondary" onClick={() => handleNewPlayerClose()}>
                 Cancel
               </Button>
               <Button variant="primary" onClick={()=>{addNewPlayer()}}>
@@ -188,7 +200,7 @@ const Roster = () => {
                 <Button variant="secondary" onClick={() => handlePlayerEditClose()}>
                   Cancel</Button>
 
-                <Button variant="primary" onClick={() => editPlayer()}>
+                <Button variant="primary" onClick={() => editPlayer(activePlayer._id)}>
                   Save</Button>
           </Modal.Footer>
 
@@ -233,7 +245,6 @@ const Roster = () => {
 
   const handleTouchRow = (player) => {
     setActivePlayer(player);
-    console.log(activePlayer);
     handlePlayerEditShow();
   }
 

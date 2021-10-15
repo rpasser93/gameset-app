@@ -5,8 +5,14 @@ export const ADD_TEAM = "ADD_TEAM";
 export const FETCH_TEAM_BY_LOGIN = "FETCH_TEAM_BY_LOGIN";
 export const FETCH_TEAM_BY_ID = "FETCH_TEAM_BY_ID";
 export const FETCH_PLAYERS = "FETCH_PLAYERS";
+
 export const UPDATE_PLAYER_AVAILABILITY = "UPDATE_PLAYER_AVAILABILITY";
 export const UPDATE_PLAYER_LINEUP = "UPDATE_PLAYER_LINEUP";
+export const ADD_PLAYER = "ADD_PLAYER";
+export const DELETE_PLAYER = "DELETE_PLAYER";
+export const UPDATE_PLAYER_FIRSTNAME = "UPDATE_PLAYER_FIRSTNAME";
+export const UPDATE_PLAYER_LASTNAME = "UPDATE_PLAYER_LASTNAME";
+export const UPDATE_PLAYER_SEX = "UPDATE_PLAYER_SEX";
 
 export const addTeam = (login, password) => {
   const data = {
@@ -34,7 +40,6 @@ export const fetchTeamByLogin = (login, password) => {
     type: FETCH_TEAM_BY_LOGIN,
     payload: request
   };
-
 }
 
 export const fetchTeamById = (id) => {
@@ -45,7 +50,6 @@ export const fetchTeamById = (id) => {
     type: FETCH_TEAM_BY_ID,
     payload: request
   };
-
 }
 
 export const fetchPlayers = (id, query, callback) => {
@@ -60,7 +64,6 @@ export const fetchPlayers = (id, query, callback) => {
     type: FETCH_PLAYERS,
     payload: request
   };
-
 }
 
 export const updatePlayerAvailability = (teamId, playerId) => {
@@ -71,7 +74,6 @@ export const updatePlayerAvailability = (teamId, playerId) => {
     type: UPDATE_PLAYER_AVAILABILITY,
     payload: request
   };
-
 }
 
 export const updatePlayerLineup = (teamId, playerId, position, arrayNumber) => {
@@ -86,6 +88,46 @@ export const updatePlayerLineup = (teamId, playerId, position, arrayNumber) => {
     type: UPDATE_PLAYER_LINEUP,
     payload: request
   };
-
 }
+
+export const updatePlayerFirstName = (teamId, playerId, firstName) => {
+  const data = {
+    firstName: firstName
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/players/${playerId}/firstName`, data);
+
+  return {
+    type: UPDATE_PLAYER_FIRSTNAME,
+    payload: request
+  };
+}
+
+export const updatePlayerLastName = (teamId, playerId, lastName) => {
+  const data = {
+    lastName: lastName
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/players/${playerId}/lastName`, data);
+
+  return {
+    type: UPDATE_PLAYER_LASTNAME,
+    payload: request
+  };
+}
+
+export const updatePlayerSex = (teamId, playerId, sex) => {
+  const data = {
+    sex: sex
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/players/${playerId}/sex`, data);
+
+  return {
+    type: UPDATE_PLAYER_SEX,
+    payload: request
+  };
+}
+
+
 
