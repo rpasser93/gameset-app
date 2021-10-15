@@ -183,8 +183,8 @@ router.post("/api/teams/:team/players", (req, res, next) => {
       if (err) return next(err);
       console.log('Player successfully added to team.');
     });
+    res.send(teamRes[0].players[teamRes[0].players.length-1]);
   });
-  res.end();
 });
 
 //GET a specific player from a team, requires team ID param and player ID param
@@ -206,7 +206,9 @@ router.delete("/api/teams/:team/players/:player", (req, res, next) => {
   Team.update({_id: team}, {$pull: {players: {_id: player}}}).exec((err, teamRes) => {
     if (err) return next(err);
   })
-  res.end();
+  console.log('Player successfully deleted from team.')
+
+  res.end(deletedPlayer);
 });
 
 //PUT change a player's first name, requires team ID param, player ID param, and 'firstName' in req body

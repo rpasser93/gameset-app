@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, updatePlayerAvailability, fetchTeamById, updatePlayerFirstName, updatePlayerLastName, updatePlayerSex } from "../actions/actions"
-import { ChevronBackCircleOutline, OpenOutline } from "react-ionicons"
+import { fetchPlayers, updatePlayerAvailability, fetchTeamById, updatePlayerFirstName, updatePlayerLastName, updatePlayerSex, addPlayer, deletePlayer } from "../actions/actions"
+import { FingerPrintOutline } from "react-ionicons"
 import { Modal, Button } from "react-bootstrap";
 
 const Roster = () => {
@@ -48,7 +48,8 @@ const Roster = () => {
       return alert('Please fill in all fields.')
     }
 
-    console.log(`Adding new player ${newPlayerFirstName} ${newPlayerLastName} (${newPlayerSex}).`);
+    dispatch(addPlayer(paramId, newPlayerFirstName, newPlayerLastName, newPlayerSex));
+
     setNewPlayerFirstName("");
     setNewPlayerLastName("");
     setNewPlayerSex("");
@@ -72,15 +73,19 @@ const Roster = () => {
       dispatch(updatePlayerSex(paramId, playerId, editedPlayerSex));
     }
     
-
     setEditedPlayerFirstName("");
     setEditedPlayerLastName("");
     setEditedPlayerSex("");
     setShowPlayerEdit(false);
   }
 
-  const deletePlayer = (playerId) => {
-    console.log('Deleting player with ID: ',playerId)
+  const deletePlayerFromRoster = (playerId) => {
+    //eslint-disable-next-line
+    const isConfirmed = confirm('Are you sure you want to delete this player from the team?');
+    if (isConfirmed) {
+      dispatch(deletePlayer(paramId, playerId));
+    }
+    setShowPlayerEdit(false);
   }
 
   const handlePlayerEditClose = () => setShowPlayerEdit(false);
@@ -194,7 +199,7 @@ const Roster = () => {
           </Modal.Body>
 
           <Modal.Footer>
-                <Button variant="danger" className="delete-player-button" onClick={() => deletePlayer(activePlayer._id)}>
+                <Button variant="danger" className="delete-player-button" onClick={() => deletePlayerFromRoster(activePlayer._id)}>
                   Delete Player</Button>
 
                 <Button variant="secondary" onClick={() => handlePlayerEditClose()}>
@@ -225,7 +230,7 @@ const Roster = () => {
     if (showEditStatus) {
       return (
         <div>
-          <ChevronBackCircleOutline className="fingerprint-button" width="25px" height="25px" onClick={() => handlePlayerStatusToggle(player)}/>
+          <FingerPrintOutline className="fingerprint-button" width="25px" height="25px" onClick={() => handlePlayerStatusToggle(player)}/>
         </div>
       )
     }
@@ -257,10 +262,10 @@ const Roster = () => {
           <div className={`row player-row row-${player.sex}`}>
             <div className="col-10"> 
               <div className="row touchable-row" onClick={()=>{handleTouchRow(player)}}>
-                <div className="col-5">
+                <div className="col-6">
                   <p><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
                 </div>
-                <div className="col-2 text-start">
+                <div className="col-3 text-start">
                   <p>{player.sex}</p>
                 </div>
                 <div className="col-3 text-center">

@@ -129,5 +129,29 @@ export const updatePlayerSex = (teamId, playerId, sex) => {
   };
 }
 
+export const addPlayer = (teamId, firstName, lastName, sex) => {
+  const data = {
+    firstName: firstName,
+    lastName: lastName,
+    sex: sex
+  }
+
+  const request = axios.post(`${baseUrl}/${teamId}/players`, data);
+
+  return {
+    type: ADD_PLAYER,
+    payload: request
+  };
+}
+
+export const deletePlayer = (teamId, playerId) => {
+
+  const request = axios.delete(`${baseUrl}/${teamId}/players/${playerId}`);
+
+  return {
+    type: DELETE_PLAYER,
+    payload: request
+  };
+}
 
 
