@@ -251,6 +251,7 @@ const Lineup = () => {
               {renderPlayerLineupRows()}
             </tbody>
           </table>
+          <br></br>
         </div>
 
         <div className="col-3 text-start batting-order-col">
