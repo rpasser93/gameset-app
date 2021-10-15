@@ -1,21 +1,10 @@
 import { Navbar, Container, Nav } from 'react-bootstrap'
-import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from "react-router";
 
 const Navigation = () => {
-  const [page, setPage] = useState(window.location.pathname);
-
   const team = useSelector(state => state.team[0]);
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
-
-  const history = useHistory();
-
-  useEffect(() => {
-    return history.listen((location) => { 
-      setPage(window.location.pathname);
-    })},[history]);
 
   if (window.location.pathname === '/login') {
     return (

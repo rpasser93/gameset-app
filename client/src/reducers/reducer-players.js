@@ -1,8 +1,6 @@
 import { FETCH_PLAYERS, ADD_PLAYER, DELETE_PLAYER, UPDATE_PLAYER_FIRSTNAME, UPDATE_PLAYER_LASTNAME, UPDATE_PLAYER_SEX, UPDATE_PLAYER_AVAILABILITY, UPDATE_PLAYER_LINEUP } from "../actions/actions"
 
 const playersReducer = (state = [], action) => {
-  console.log('state', state);
-  console.log('action', action);
   switch(action.type) {
     case FETCH_PLAYERS:
       return action.payload.data;

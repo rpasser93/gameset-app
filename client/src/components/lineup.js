@@ -9,8 +9,6 @@ const Lineup = () => {
   const history = useHistory();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
-  let team = useSelector(state => state.team[0]);
-
   let players = useSelector(state => state.players);
 
   if (players && players.length > 0) {
