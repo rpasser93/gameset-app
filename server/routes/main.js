@@ -208,7 +208,7 @@ router.delete("/api/teams/:team/players/:player", (req, res, next) => {
   })
   console.log('Player successfully deleted from team.')
 
-  res.end(deletedPlayer);
+  res.send(player);
 });
 
 //PUT change a player's first name, requires team ID param, player ID param, and 'firstName' in req body

@@ -23,7 +23,7 @@ const Roster = () => {
   const dispatch = useDispatch();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
-  let players = useSelector(state => state.players[0]);
+  let players = useSelector(state => state.players);
   let team = useSelector(state => state.team[0]);
 
   useEffect(() => {

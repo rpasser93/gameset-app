@@ -11,7 +11,7 @@ const Lineup = () => {
 
   let team = useSelector(state => state.team[0]);
 
-  let players = useSelector(state => state.players[0]);
+  let players = useSelector(state => state.players);
 
   if (players && players.length > 0) {
     players = players.filter(player => {
@@ -25,7 +25,6 @@ const Lineup = () => {
   }, [dispatch, paramId]);
 
   const handlePositionSelect = (playerId, pos, num) => {
-    console.log(`${playerId} change to ${pos} for inning ${num+1}`);
     dispatch(updatePlayerLineup(paramId, playerId, pos, num))
   }
 

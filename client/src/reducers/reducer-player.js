@@ -5,10 +5,10 @@ const playerReducer = (state = [], action) => {
     case UPDATE_PLAYER_FIRSTNAME:
       return [action.payload.data];
 
-      case UPDATE_PLAYER_LASTNAME:
+    case UPDATE_PLAYER_LASTNAME:
       return [action.payload.data];
 
-      case UPDATE_PLAYER_SEX:
+    case UPDATE_PLAYER_SEX:
       return [action.payload.data];
 
     case UPDATE_PLAYER_AVAILABILITY:
