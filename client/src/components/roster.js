@@ -5,6 +5,7 @@ import { ChevronBackCircleOutline, OpenOutline } from "react-ionicons"
 import { Modal, Button } from "react-bootstrap";
 
 const Roster = () => {
+  const [activePlayer, setActivePlayer] = useState("");
   const [showEditStatus, setShowEditStatus] = useState(false);
   const [showPlayerEdit, setShowPlayerEdit] = useState(false);  
   const [showNewPlayer, setShowNewPlayer] = useState(false);
@@ -137,12 +138,9 @@ const Roster = () => {
     )
   }
 
-  const playerEditModalButton = (player) => {
-
+  const editPlayerModal = () => {
     return (
       <div>
-        <OpenOutline className="edit-player-button" width="25px" height="25px" value={`${player}`} onClick={() => handlePlayerEditShow()}/>
-
         <Modal show={showPlayerEdit} onHide={() => handlePlayerEditClose()}>
 
           <Modal.Header closeButton>
@@ -155,7 +153,7 @@ const Roster = () => {
               <h6>First Name</h6>
             </div> 
             <div className="col-9">   
-            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.firstName} onChange={(e) => {handleEditedFirstNameInput(e)}}/>
+            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={activePlayer.firstName} onChange={(e) => {handleEditedFirstNameInput(e)}}/>
             </div> 
           </div>
           <br/>
@@ -165,7 +163,7 @@ const Roster = () => {
               <h6>Last Name</h6>
             </div> 
             <div className="col-9">   
-            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={player.lastName} onChange={(e) => {handleEditedLastNameInput(e)}}/>
+            <input type="email" className="form-control" id="exampleFormControlInput1" defaultValue={activePlayer.lastName} onChange={(e) => {handleEditedLastNameInput(e)}}/>
             </div> 
           </div>
           <br/>
@@ -184,7 +182,7 @@ const Roster = () => {
           </Modal.Body>
 
           <Modal.Footer>
-                <Button variant="danger" className="delete-player-button" onClick={() => deletePlayer(player._id)}>
+                <Button variant="danger" className="delete-player-button" onClick={() => deletePlayer(activePlayer._id)}>
                   Delete Player</Button>
 
                 <Button variant="secondary" onClick={() => handlePlayerEditClose()}>
@@ -198,9 +196,8 @@ const Roster = () => {
       </div>
     )
   }
-
+  
   const handlePlayerStatusToggle = (player) => {
-    console.log('Player status toggle arg: ', player);
     dispatch(updatePlayerAvailability(paramId, player._id));
   }
 
@@ -212,15 +209,8 @@ const Roster = () => {
     }
   }
 
-  const renderPlayerButtons = (player) => {
-    // console.log('Player Buttons arg: ', player);
-    if (!showEditStatus) {
-      return (
-        <div>
-          {playerEditModalButton(player)}
-        </div>  
-      )
-    } else {
+  const renderPlayerAvailButtons = (player) => {
+    if (showEditStatus) {
       return (
         <div>
           <ChevronBackCircleOutline className="fingerprint-button" width="25px" height="25px" onClick={() => handlePlayerStatusToggle(player)}/>
@@ -241,6 +231,12 @@ const Roster = () => {
     dispatch(fetchPlayers(paramId, 'availability'));
   }
 
+  const handleTouchRow = (player) => {
+    setActivePlayer(player);
+    console.log(activePlayer);
+    handlePlayerEditShow();
+  }
+
   const renderRoster = () => {
    return (
     players && players.length > 0 && players.map((player) => {
@@ -248,22 +244,28 @@ const Roster = () => {
       return (
         <div key={player._id}>
           <div className={`row player-row row-${player.sex}`}>
-            
-            <div className="col-5">
-              <p><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
-            </div>
-            <div className="col-2 text-start">
-              <p>{player.sex}</p>
-            </div>
-            <div className="col-3 text-center">
-              <div className="col out-alert-col">
-                {renderStatus(player)}
+            <div className="col-10"> 
+              <div className="row touchable-row" onClick={()=>{handleTouchRow(player)}}>
+                <div className="col-5">
+                  <p><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
+                </div>
+                <div className="col-2 text-start">
+                  <p>{player.sex}</p>
+                </div>
+                <div className="col-3 text-center">
+                  <div className="col out-alert-col">
+                    {renderStatus(player)}
+                  </div>
+                </div>
               </div>
             </div>
+
             <div className="col-2 text-end">
-              {renderPlayerButtons(player)}
+              {renderPlayerAvailButtons(player)}
             </div>
+
           </div>
+          {editPlayerModal()}
         </div>
         )})
       )}
@@ -348,6 +350,7 @@ const renderToggleButtonText = () => {
             {renderAvailableStats()}
 
             <button type="button" className="btn btn-sm add-new-player-btn" onClick={() => handleNewPlayerShow()}>Add New Player</button>
+
             {newPlayerModal()}
 
             <button type="button" className={`btn btn-sm edit-avail-btn toggle-edit-button-${showEditStatus}`} onClick={() => toggleShowEditStatus()}>{renderToggleButtonText()}</button>
