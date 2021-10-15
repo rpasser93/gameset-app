@@ -275,7 +275,7 @@ router.put("/api/teams/:team/players/:player/availability", (req, res, next) => 
       if (err) return next(err);
       console.log('Player availability successfully changed.');
     });
-    res.send(teamRes[0].players[0]);
+    res.send(player);
   });
 });
 

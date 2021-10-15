@@ -15,7 +15,6 @@ const playersReducer = (state = [], action) => {
        return player._id !== action.payload.data;
      });
 
-
      case UPDATE_PLAYER_FIRSTNAME:
       return state.map((player) => {
         if (player._id === action.payload.data.id) {
@@ -47,7 +46,14 @@ const playersReducer = (state = [], action) => {
       });
 
     case UPDATE_PLAYER_AVAILABILITY:
-      return [action.payload.data];
+      return state.map((player) => {
+        if (player._id === action.payload.data) {
+          player.availability = !player.availability;
+          return player;
+        } else {
+          return player;
+        }
+      });
 
     case UPDATE_PLAYER_LINEUP:
       return [action.payload.data];
