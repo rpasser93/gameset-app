@@ -273,6 +273,30 @@ td {
   margin-top: 5px;
 }
 
+/* SETTINGS PAGE */
+.settings-col {
+  background-color: rgb(245, 245, 245);
+  border: black solid thin;
+  margin-top: 20px;
+}
+
+.defaults-btn {
+  width: 51%;
+}
+
+.delete-team-btn {
+  width: 51%;
+  margin-bottom: 15px;
+}
+
+.gen-settings-header {
+  margin-top: 15px;
+}
+
+.req-settings-header {
+  margin-bottom: 10px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 480px) {
   body {
