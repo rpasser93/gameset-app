@@ -275,6 +275,13 @@ td {
 }
 
 /* LINEUP-FIELD PAGE */
+.field-img {
+  position: absolute;
+  top: 5px;
+  transform: scale(0.5);
+  mix-blend-mode: multiply;
+}
+
 .table-view-btn {
   color: black;
   background-color: rgb(255, 187, 0);

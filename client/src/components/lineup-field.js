@@ -1,4 +1,4 @@
-// import bballdiamond from './constants/bballdiamond.jpg';
+import bballdiamond from '../constants/bballdiamond.jpg';
 import { useHistory } from "react-router";
 
 const LineupField = () => {
@@ -22,10 +22,32 @@ const LineupField = () => {
         <div className="col"></div>
       </div>
 
-      <div className="row">
+      <div className="row text-center">
+        <div className="col"></div>
+        <div className="col">
 
+          <nav aria-label="Page navigation example">
+            <ul className="pagination">
+              <li className="page-item"><a className="page-link" href="#">1</a></li>
+              <li className="page-item"><a className="page-link" href="#">2</a></li>
+              <li className="page-item"><a className="page-link" href="#">3</a></li>
+              <li className="page-item"><a className="page-link" href="#">4</a></li>
+              <li className="page-item"><a className="page-link" href="#">5</a></li>
+              <li className="page-item"><a className="page-link" href="#">6</a></li>
+              <li className="page-item"><a className="page-link" href="#">7</a></li>
+            </ul>
+          </nav>
+
+        </div>
+        <div className="col"></div>
       </div>
-      
+
+      <div className="row">
+        <div className="col">
+          <img src={bballdiamond} className="field-img" alt="diamond"></img>
+        </div>
+      </div>
+
     </div>
   )
 }
