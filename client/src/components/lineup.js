@@ -33,14 +33,7 @@ const Lineup = () => {
   }
 
   const renderPlayerLineupRows = () => {
-    let positionArray = []
-
-    if (team && team.length > 0 && team.settings && team.settings[0] && team.setttings[0].positions && team.settings[0].positions.length > 0) {
-      positionArray = team.settings[0].positions;
-      positionArray.push('-');
-    } else {
-      positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RCF','RF'];
-    }
+    let positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RCF','RF'];
 
     const renderPositions = (playerId, num) => {
       return (

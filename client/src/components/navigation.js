@@ -22,7 +22,6 @@ const Navigation = () => {
       <div></div>
     )}
 
-
   const renderNavLinks = () => {
     if (team && team._id) {
       return (

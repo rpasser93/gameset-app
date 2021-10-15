@@ -223,9 +223,9 @@ router.put("/api/teams/:team/players/:player/firstName", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player first name successfully changed.');
+      res.send(JSON.stringify({id: player, firstName: req.body.firstName}));
     });
   });
-  res.end();
 });
 
 //PUT change a player's last name, requires team ID param, player ID param, and 'lastName' in req body
@@ -240,9 +240,9 @@ router.put("/api/teams/:team/players/:player/lastName", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player last name successfully changed.');
+      res.send(JSON.stringify({id: player, lastName: req.body.lastName}));
     });
   });
-  res.end();
 });
 
 //PUT change a player's sex, requires team ID param, player ID param, and 'sex' in req body
@@ -257,9 +257,9 @@ router.put("/api/teams/:team/players/:player/sex", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player sex successfully changed.');
+      res.send(JSON.stringify({id: player, sex: req.body.sex}));
     });
   });
-  res.end();
 });
 
 //PUT change a player's availability, requires team ID param and player ID param
