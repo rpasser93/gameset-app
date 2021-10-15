@@ -56,8 +56,14 @@ const playersReducer = (state = [], action) => {
       });
 
     case UPDATE_PLAYER_LINEUP:
-      return [action.payload.data];
-
+      return state.map((player) => {
+        if (player._id === action.payload.data.id) {
+          player.lineup[action.payload.data.arrayNum] = action.payload.data.pos;
+          return player;
+        } else {
+          return player;
+        }
+      });
     default:
       return state;
   }

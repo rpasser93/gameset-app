@@ -318,9 +318,9 @@ router.put("/api/teams/:team/players/:player/lineup", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player lineup successfully changed.');
+      res.send(JSON.stringify({id: player, arrayNum: req.body.arrayNumber, pos: req.body.position}));
     });
   });
-  res.end();
 });
 
 //PUT change a specific player's batting order, requires team ID param, player ID param and 'battingOrder' in req body
