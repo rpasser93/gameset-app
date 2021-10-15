@@ -1,15 +1,26 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/actions"
 
 const Lineup = () => {
+  const [playerMinViolation, setPlayerMinViolation] = useState(false);
+  const [sexMinViolation, setSexMinViolation] = useState(false);
   
   const dispatch = useDispatch();
   const history = useHistory();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   let players = useSelector(state => state.players);
+  let team = useSelector(state => state.team[0]);
+
+  let currentPlayerMin = 0;
+  let currentSexMin = {};
+
+  if (team && team.settings[0]) {
+    currentPlayerMin = team.settings[0].minPlayers;
+    currentSexMin = team.settings[0].sexMin;
+  }
 
   if (players && players.length > 0) {
     players = players.filter(player => {
@@ -134,6 +145,59 @@ const Lineup = () => {
     }
   };
 
+  
+  
+  const renderAlerts = () => {
+    console.log(currentPlayerMin);
+    console.log(currentSexMin);
+
+    if (players && players.length > 0 ) {
+
+      let violations = [];
+
+      let totalAvailable = players.filter(player => {
+        return (player.availability);
+      });
+      let totalAvailableNumber = totalAvailable.length;
+      let femalesAvailable = totalAvailable.filter(player => {
+        return (player.sex === "female");
+      });
+  
+      let femalesAvailableNumber = femalesAvailable.length;
+      let malesAvailableNumber = totalAvailableNumber - femalesAvailableNumber;
+    
+      if (totalAvailableNumber < currentPlayerMin) {
+        violations.push(`The amount of total available players (${totalAvailableNumber}) is below the minimum requirement (${currentPlayerMin}).`)
+      }
+
+      if (currentSexMin.sex === "female" && femalesAvailableNumber < currentSexMin.min) {
+        violations.push(`The amount of total available females (${femalesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
+      }
+
+      if (currentSexMin.sex === "male" && malesAvailableNumber < currentSexMin.min) {
+        violations.push(`The amount of available males (${malesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
+      }
+
+      if (violations.length === 0) {
+        return (<div></div>)
+      }
+
+      console.log(currentPlayerMin);
+      console.log(currentSexMin);
+
+      return (
+        violations.map(violation => {
+          return (
+            <p>{violation}</p>
+          )
+        })
+      )
+
+    } return (<div></div>)   
+  }
+  
+ 
+
   const renderBattingOrder = () => {
 
     return (
@@ -163,7 +227,7 @@ const Lineup = () => {
       </div>
 
       <div className="row violation-alert-row">
-        <div className="col text-center">**alerts here**</div>
+        <div className="col text-center">{renderAlerts()}</div>
       </div>
 
       <div className="row">

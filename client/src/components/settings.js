@@ -62,7 +62,6 @@ const Settings = () => {
 
   const changeMinSpecificSex = () => {
     setminSpecificSex(!minSpecificSex)
-    console.log(minSpecificSex);
   }
 
   const saveMinSexNumber = () => {
@@ -70,14 +69,21 @@ const Settings = () => {
       return alert('Please enter a valid number.');
     }
 
-    let sexToSend = ""
+    let sexToSend = "";
     if (minSpecificSex) {
       sexToSend = currentSex;
     } else {
       sexToSend = oppositeSex;
     }
 
-    dispatch(updateSexMinSettings(paramId, sexToSend, minSexNumber));
+    let numToSend = 0;
+    if (minSexNumber === 0) {
+      numToSend = team.settings[0].sexMin.min;
+    } else {
+      numToSend = minSexNumber;
+    }
+
+    dispatch(updateSexMinSettings(paramId, sexToSend, numToSend));
   }
 
   const restoreDefaultSettings = () => {

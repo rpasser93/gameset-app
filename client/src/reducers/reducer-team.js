@@ -1,8 +1,6 @@
 import { FETCH_TEAM_BY_LOGIN, FETCH_TEAM_BY_ID, UPDATE_TEAM_NAME, UPDATE_PLAYER_MIN_SETTINGS, UPDATE_SEX_MIN_SETTINGS } from "../actions/actions"
 
 const teamReducer = (state = [], action) => {
-  console.log('state', state);
-  console.log('action', action);
   if( action && action.payload && action.payload.data) {
   }
   switch(action.type) {
