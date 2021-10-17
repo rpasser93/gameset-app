@@ -92,15 +92,15 @@ const Settings = () => {
 
   if (team) {
     return (
-      <div className="container-fluid settings-container">
+      <div className="container-md settings-container">
         <div className="row">
           <div className="col">
             <h2 className="settings-page-title text-center"><strong><u>SETTINGS</u></strong></h2>
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-8 offset-2 settings-col">
+        <div className="row justify-content-center">
+          <div className="col-8  settings-col">
             <div className="row">
               <div className="col text-center">
 
@@ -110,7 +110,7 @@ const Settings = () => {
                   <p className="text-start">Edit team name:</p>
                   <div className="input-group mb-3">
                     <input type="text" className="form-control" defaultValue={`${team.teamName}`} onChange={(e)=>{handleTeamNameEditChange(e)}}/>
-                    <button className="btn btn-outline-success" type="button" onClick={()=>{saveTeamNameEdit()}}>Change</button>
+                    <button className="btn btn-outline-primary" type="button" onClick={()=>{saveTeamNameEdit()}}>Save</button>
                   </div>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ const Settings = () => {
                   <div className="col-2 opp-sex-label text-start">
                     <p><strong><em>{oppositeSex}s</em></strong></p>
                   </div>
-                  <div className="col-2 text-end save-sexmin-btn">
+                  <div className="col-3 text-end save-sexmin-btn">
                     <button type="button" class="btn btn-outline-primary" onClick={()=>{saveMinSexNumber()}}>Save</button>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/actions"
@@ -219,7 +219,7 @@ const Lineup = () => {
     }))};
 
   return (
-    <div className="container-fluid lineup-container">
+    <div className="container-md lineup-container">
       <div className="row">
         <div className="col text-start">
           <button type="button" className="btn-sm field-view-btn" onClick={() => {handleFieldView()}}>Field View</button>

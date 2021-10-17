@@ -32,8 +32,29 @@ html {
   color: white !important;
 }
 
-.logout-nav-link {
+.navbar-link:hover {
+  color: rgb(250, 240, 210) !important;
+}
+
+.nav-roster-roster {
   color: rgb(255, 187, 0) !important;
+}
+
+.nav-lineup-lineup {
+  color: rgb(255, 187, 0) !important;
+}
+
+.nav-settings-settings {
+  color: rgb(255, 187, 0) !important;
+}
+
+.nav-bracket {
+  color: white !important;
+  display: none;
+}
+
+.nav-bracket:hover {
+  cursor: default;
 }
 
 /* LOGIN PAGE */
@@ -185,6 +206,41 @@ html {
   margin-right: 15px;
 }
 
+.add-new-player-btn:hover {
+  background-color: rgb(0, 80, 0);
+  color: white;
+}
+
+.fingerprint-button:hover {
+  cursor: pointer;
+}
+
+.row-male:hover {
+  background-color: rgb(100, 100, 100);
+  cursor: pointer;
+}
+
+.row-female:hover {
+  background-color: rgb(235, 235, 235);
+  cursor: pointer;
+}
+
+.sort-title:hover {
+  cursor: pointer;
+}
+
+.namesort-name {
+  font-weight: bold;
+}
+
+.sexsort-sex {
+  font-weight: bold;
+}
+
+.availsort-avail {
+  font-weight: bold;
+}
+
 /* LINEUP PAGE */
 td {
   border: solid thin black;
@@ -260,6 +316,10 @@ td {
   margin-top: 5px;
 }
 
+.field-view-btn:hover {
+  background-color: rgb(0, 80, 0);
+}
+
 .violation-alert-row {
   margin-top: 10px;
   margin-bottom: 5px;
@@ -286,6 +346,10 @@ td {
   color: black;
   background-color: rgb(255, 187, 0);
   margin-top: 5px;
+}
+
+.table-view-btn:hover {
+  background-color: rgb(230, 155, 0);
 }
 
 /* SETTINGS PAGE */
@@ -320,39 +384,72 @@ td {
   margin-left: 10px;
 }
 
-.save-sexmin-btn {
-  margin-left: 24px;
+.form-check-input:hover {
+  cursor: pointer;
 }
 
 /* MEDIA QUERIES */
-@media screen and (max-width: 480px) {
-  body {
+@media screen and (min-width: 1024px) {
+  /* NAVIGATION */
+  .nav-bracket {
+    display: initial;
   }
 
-  .login-container {
-    height: 750px;
+  /* ROSTER PAGE */
+  .team-desc-section {
+    margin-top: 10px;
   }
 
   .roster-col {
-    width: 100%;
-    max-height: 450px;
+    max-height: none;
+    overflow: visible;
   }
 
   .player-row {
-    width: 100%;
-    max-height: 30px;
-    overflow: hidden;
+    width: 800px;
   }
 
-  .delete-player-button {
-    margin-right: 75px;
+  .add-new-player-btn {
+    width: 110px;
+    height: 65px;
+    margin-left: 40px;
   }
 
+  .edit-avail-btn {
+    width: 110px;
+    height: 65px;
+    margin-left: 40px;
+  }
+
+  /* LINEUP PAGE */
   td {
-    width: 40px;
+    width: 80px;
   }
 
   .player-row-header {
-    width: 120px;
+    width: 150px;
+  }
+
+  .pos-dd-btn:hover {
+    background-color: rgb(0, 225, 255);
+  }
+
+  /* LINEUP-FIELD PAGE */
+
+  /* SETTINGS PAGE */
+  .settings-col {
+    width: 35%;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
   }
 }

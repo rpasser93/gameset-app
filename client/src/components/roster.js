@@ -6,6 +6,7 @@ import { Modal, Button } from "react-bootstrap";
 
 const Roster = () => {
   const [activePlayer, setActivePlayer] = useState("");
+  const [sortBy, setSortBy] = useState("name");
 
   const [showEditStatus, setShowEditStatus] = useState(false);
   const [showPlayerEdit, setShowPlayerEdit] = useState(false);  
@@ -238,14 +239,17 @@ const Roster = () => {
 
   const nameSortHandler = () => {
     dispatch(fetchPlayers(paramId, 'name'));
+    setSortBy("name");
   }
 
   const sexSortHandler = () => {
     dispatch(fetchPlayers(paramId, 'sex'));
+    setSortBy("sex");
   }
 
   const availSortHandler = () => {
     dispatch(fetchPlayers(paramId, 'availability'));
+    setSortBy("avail");
   }
 
   const handleTouchRow = (player) => {
@@ -307,7 +311,7 @@ const Roster = () => {
                   <p>{`Total: ${players.length} players (${filterFemalesFromTeam.length}F, ${players.length - filterFemalesFromTeam.length}M)`}</p>
               </div>
               <div className="col-6">
-                <p>Sort:<u className="sort-title" onClick={() => nameSortHandler()}>Name</u> <u className="sort-title" onClick={() => sexSortHandler()}>Sex</u> <u className="sort-title" onClick={() => availSortHandler()}>Availability</u></p>
+                <p>Sort:<u className={`sort-title namesort-${sortBy}`} onClick={() => nameSortHandler()}>Name</u> <u className={`sort-title sexsort-${sortBy}`} onClick={() => sexSortHandler()}>Sex</u> <u className={`sort-title availsort-${sortBy}`} onClick={() => availSortHandler()}>Availability</u></p>
               </div>
             </div>
           </div>
@@ -345,7 +349,7 @@ const renderToggleButtonText = () => {
 }
       
   return (
-    <div className="container-fluid roster-container">
+    <div className="container-md roster-container">
       <div className="row">
         <div className="col">
           <h2 className="roster-page-title text-center"><strong><u>ROSTER</u></strong></h2>

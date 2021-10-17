@@ -11,7 +11,7 @@ const LineupField = () => {
   }
 
   return (
-    <div className="container-fluid lineup-container">
+    <div className="container-md lineup-container">
       <div className="row">
         <div className="col text-start">
           <button type="button" className="btn-sm table-view-btn" onClick={() => {handleTableView()}}>TableView</button>

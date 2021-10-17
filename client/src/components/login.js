@@ -1,5 +1,5 @@
 import { useHistory } from "react-router";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Nav } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTeam, fetchTeamByLogin } from "../actions/actions"
@@ -101,7 +101,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container-fluid login-container">
+    <div className="container-md login-container">
       <div className="diamond-logo"></div>
       <div className="login-content-field text-center">
 
@@ -123,7 +123,7 @@ const Login = () => {
               <button type="button" className="btn login-button" onClick={() => handleSignInClick()}><strong>Sign In</strong></button>
 
             {renderModalButton()}
-            
+          
           </div>
         </div>
 
