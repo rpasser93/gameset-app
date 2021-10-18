@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/actions"
+import { fetchPlayers, fetchTeamById, updatePlayerBattingOrder, updatePlayerLineup } from "../actions/actions"
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Lineup = () => {
   
@@ -11,20 +12,6 @@ const Lineup = () => {
 
   let players = useSelector(state => state.players);
   let team = useSelector(state => state.team[0]);
-
-  const battingOrderList = players.map(player => {
-    return {
-      firstName: player.firstName,
-      lastName: player.lastName,
-      sex: player.sex,
-      id: player._id,
-      battingOrder: player.battingOrder
-    }
-  }).sort((a,b) => { if (a.battingOrder === null) {return 1};
-  if (b.battingOrder === null) {return -1};
-  if (a.battingOrder < b.battingOrder ) {return -1};
-  if (a.battingOrder > b.battingOrder ) {return 1};
-  return 0;});
 
   let currentPlayerMin = 0;
   let currentSexMin = {};
@@ -39,6 +26,20 @@ const Lineup = () => {
       return (player.availability)
     });
   };
+
+  const battingOrderList = players.map(player => {
+    return {
+      firstName: player.firstName,
+      lastName: player.lastName,
+      sex: player.sex,
+      id: player._id,
+      battingOrder: player.battingOrder
+    }
+  }).sort((a,b) => { if (a.battingOrder === null) {return 1};
+  if (b.battingOrder === null) {return -1};
+  if (a.battingOrder < b.battingOrder ) {return -1};
+  if (a.battingOrder > b.battingOrder ) {return 1};
+  return 0;});
 
   useEffect(() => {
     dispatch(fetchPlayers(paramId,""));
@@ -217,62 +218,124 @@ const Lineup = () => {
   const renderBattingOrder = () => {
 
     return (
-    players && players.length >0 && battingOrderList.map(player => {
-      return (
-        <div className="row" key={player._id}>
-          <div className="col-1">
-            <strong>{battingOrderList.indexOf(player)+1}.</strong>
-          </div>
-          <div className={`col batting-order-player batting-order-row-${player.sex}`} key={player._id}>
-            {`${player.firstName} ${player.lastName.substr(0,1)}.`}
-          </div>
+      battingOrderList.map((player,index) => {
+        return (
+          <div className="row" key={player._id}>
+            <div className="col-1">
+              <strong>{battingOrderList.indexOf(player)+1}.</strong>
+            </div>
+            <div className="col">
+
+              <Draggable draggableId={player.id} key={player.id} index={index}>
+        
+                {(provided, snapshot) => {
+                  return (
+                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                      <div>
+
+                          <div className={`col batting-order-player batting-order-row-${player.sex}`} key={player._id}>
+                            <div className="batting-order-player-name">{`${player.firstName} ${player.lastName.substr(0,1)}.`}</div>
+                          </div>
+                        
+                      </div>
+                    </div>
+                  )
+                }}
+
+              </Draggable>
+            </div>
         </div>
-      )
-    }))};
+        )
+      })
+    )
+  }
+
+  const onStart = () => {
+    battingOrderList.map(player => {
+      return dispatch(updatePlayerBattingOrder(paramId, player.id, battingOrderList.indexOf(player)));
+    })
+  }
+
+  const onEnd = (result) => {
+    if (!result.destination) { return }
+    battingOrderList.map(player => {
+      if (player.id === result.draggableId) {
+        return (
+          dispatch(updatePlayerBattingOrder(paramId, player.id, result.destination.index))
+        )
+      }
+      if (battingOrderList.indexOf(player) >= result.destination.index && battingOrderList.indexOf(player) < result.source.index) {
+        return (
+          dispatch(updatePlayerBattingOrder(paramId, player.id, battingOrderList.indexOf(player)+1))
+        )
+      }
+      if (battingOrderList.indexOf(player) <= result.destination.index && battingOrderList.indexOf(player) > result.source.index) {
+        return (
+          dispatch(updatePlayerBattingOrder(paramId, player.id, battingOrderList.indexOf(player)-1))
+        )
+      }
+      return(null);
+    })
+  }
 
   return (
-    <div className="container-md lineup-container">
-      <div className="row">
-        <div className="col text-start">
-          <button type="button" className="btn-sm field-view-btn" onClick={() => {handleFieldView()}}>Field View</button>
+    <DragDropContext onDragStart={onStart} onDragEnd={onEnd}>
+      <div className="container-md lineup-container">
+        <div className="row">
+          <div className="col text-start">
+            <button type="button" className="btn-sm field-view-btn" onClick={() => {handleFieldView()}}>Field View</button>
+          </div>
+          <div className="col">
+            <h2 className="lineup-page-title text-center"><strong><u>LINEUP</u></strong></h2>
+          </div>
+          <div className="col"></div>
         </div>
-        <div className="col">
-          <h2 className="lineup-page-title text-center"><strong><u>LINEUP</u></strong></h2>
+
+        <div className="row violation-alert-row">
+          <div className="col text-center">{renderAlerts()}</div>
         </div>
-        <div className="col"></div>
+
+        <div className="row">
+          <div className="col-9">
+            <table className="text-center">
+              <tbody>
+                <tr className="inning-row">
+                  <td className="empty-cell"></td>
+                  <td><strong>1st</strong></td>
+                  <td><strong>2nd</strong></td>
+                  <td><strong>3rd</strong></td>
+                  <td><strong>4th</strong></td>
+                  <td><strong>5th</strong></td>
+                  <td><strong>6th</strong></td>
+                  <td><strong>7th</strong></td>
+                </tr>
+
+                {renderPlayerLineupRows()}
+
+              </tbody>
+            </table>
+            <br></br>
+          </div>
+
+          <div className="col-3 text-start batting-order-col">
+            <div className="batting-order-title text-center"><strong>Batting Order:</strong></div>
+
+            <Droppable droppableId="droppable01">
+              {(provided, snapshot) => (
+                <div ref={provided.innerRef}>
+
+                  {renderBattingOrder()}
+
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+            
+          </div>
+
+        </div>
       </div>
-
-      <div className="row violation-alert-row">
-        <div className="col text-center">{renderAlerts()}</div>
-      </div>
-
-      <div className="row">
-        <div className="col-9">
-          <table className="text-center">
-            <tbody>
-              <tr className="inning-row">
-                <td className="empty-cell"></td>
-                <td><strong>1st</strong></td>
-                <td><strong>2nd</strong></td>
-                <td><strong>3rd</strong></td>
-                <td><strong>4th</strong></td>
-                <td><strong>5th</strong></td>
-                <td><strong>6th</strong></td>
-                <td><strong>7th</strong></td>
-              </tr>
-              {renderPlayerLineupRows()}
-            </tbody>
-          </table>
-          <br></br>
-        </div>
-
-        <div className="col-3 text-start batting-order-col">
-          <div className="batting-order-title text-center"><strong>Batting Order:</strong></div>
-          {renderBattingOrder()}
-        </div>
-
-      </div>
-    </div>
+    </DragDropContext>
   )
 };
 
