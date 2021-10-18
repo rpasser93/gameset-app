@@ -21,7 +21,7 @@ const Navigation = () => {
     } else if (window.location.pathname === settingsUrl) {
       setActivePage('settings');
     }
-  }, setActivePage);
+  }, [setActivePage, rosterUrl, lineupUrl, settingsUrl]);
 
   if (window.location.pathname === '/login') {
     return (

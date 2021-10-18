@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, updatePlayerAvailability, fetchTeamById, updatePlayerFirstName, updatePlayerLastName, updatePlayerSex, addPlayer, deletePlayer } from "../actions/actions"
+import { fetchPlayers, updatePlayerAvailability, fetchTeamById, updatePlayerFirstName, updatePlayerLastName, updatePlayerSex, updatePlayerBattingOrder, addPlayer, deletePlayer } from "../actions/actions"
 import { FingerPrintOutline } from "react-ionicons"
 import { Modal, Button } from "react-bootstrap";
 
@@ -217,6 +217,7 @@ const Roster = () => {
   
   const handlePlayerStatusToggle = (player) => {
     dispatch(updatePlayerAvailability(paramId, player._id));
+    dispatch(updatePlayerBattingOrder(paramId, player._id, null));
   }
 
   const renderStatus = (player) => {
@@ -304,7 +305,7 @@ const Roster = () => {
         <div className="team-desc-section">
           <div className="col">
             <div className="row">
-              <h4>{team.teamName}</h4>
+              <h4><strong>{team.teamName}</strong></h4>
             </div>
             <div className="row">
               <div className="col-6">

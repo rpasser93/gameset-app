@@ -11,6 +11,7 @@ export const UPDATE_SEX_MIN_SETTINGS = "UPDATE_SEX_MIN_SETTINGS";
 export const FETCH_PLAYERS = "FETCH_PLAYERS";
 export const UPDATE_PLAYER_AVAILABILITY = "UPDATE_PLAYER_AVAILABILITY";
 export const UPDATE_PLAYER_LINEUP = "UPDATE_PLAYER_LINEUP";
+export const UPDATE_PLAYER_BATTING_ORDER = "UPDATE_PLAYER_BATTING_ORDER";
 export const ADD_PLAYER = "ADD_PLAYER";
 export const DELETE_PLAYER = "DELETE_PLAYER";
 export const UPDATE_PLAYER_FIRSTNAME = "UPDATE_PLAYER_FIRSTNAME";
@@ -128,6 +129,19 @@ export const updatePlayerSex = (teamId, playerId, sex) => {
 
   return {
     type: UPDATE_PLAYER_SEX,
+    payload: request
+  };
+}
+
+export const updatePlayerBattingOrder = (teamId, playerId, battingOrder) => {
+  const data = {
+    battingOrder: battingOrder
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/players/${playerId}/battingOrder`, data);
+
+  return {
+    type: UPDATE_PLAYER_BATTING_ORDER,
     payload: request
   };
 }

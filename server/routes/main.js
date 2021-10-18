@@ -142,8 +142,8 @@ router.get("/api/teams/:team/players", (req, res, next) => {
       return 0;
     }
     const compareBattingOrder = (a,b) => {
-      if (a === null) {return 1};
-      if (b === null) {return -1};
+      if (a.battingOrder === null) {return 1};
+      if (b.battingOrder === null) {return -1};
       if (a.battingOrder < b.battingOrder ) {return -1};
       if (a.battingOrder > b.battingOrder ) {return 1};
       return 0;
@@ -334,9 +334,9 @@ router.put("/api/teams/:team/players/:player/battingOrder", (req, res, next) => 
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Player batting order successfully changed.');
+      res.send(JSON.stringify({id: player, battingOrder: req.body.battingOrder}))
     });
   });
-  res.end();
 });
 
 //GET all settings of a team, requires team ID param

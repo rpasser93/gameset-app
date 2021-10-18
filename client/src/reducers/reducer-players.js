@@ -1,4 +1,4 @@
-import { FETCH_PLAYERS, ADD_PLAYER, DELETE_PLAYER, UPDATE_PLAYER_FIRSTNAME, UPDATE_PLAYER_LASTNAME, UPDATE_PLAYER_SEX, UPDATE_PLAYER_AVAILABILITY, UPDATE_PLAYER_LINEUP } from "../actions/actions"
+import { FETCH_PLAYERS, ADD_PLAYER, DELETE_PLAYER, UPDATE_PLAYER_FIRSTNAME, UPDATE_PLAYER_LASTNAME, UPDATE_PLAYER_SEX, UPDATE_PLAYER_AVAILABILITY, UPDATE_PLAYER_LINEUP, UPDATE_PLAYER_BATTING_ORDER } from "../actions/actions"
 
 const playersReducer = (state = [], action) => {
   switch(action.type) {
@@ -63,6 +63,17 @@ const playersReducer = (state = [], action) => {
           return player;
         }
       });
+
+    case UPDATE_PLAYER_BATTING_ORDER:
+      return state.map((player) => {
+        if (player._id === action.payload.data.id) {
+          player.battingOrder = action.payload.data.battingOrder;
+          return player;
+        } else {
+          return player;
+        }
+      });
+      
     default:
       return state;
   }

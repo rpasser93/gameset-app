@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerLineup } from "../actions/actions"
@@ -11,6 +11,20 @@ const Lineup = () => {
 
   let players = useSelector(state => state.players);
   let team = useSelector(state => state.team[0]);
+
+  const battingOrderList = players.map(player => {
+    return {
+      firstName: player.firstName,
+      lastName: player.lastName,
+      sex: player.sex,
+      id: player._id,
+      battingOrder: player.battingOrder
+    }
+  }).sort((a,b) => { if (a.battingOrder === null) {return 1};
+  if (b.battingOrder === null) {return -1};
+  if (a.battingOrder < b.battingOrder ) {return -1};
+  if (a.battingOrder > b.battingOrder ) {return 1};
+  return 0;});
 
   let currentPlayerMin = 0;
   let currentSexMin = {};
@@ -25,7 +39,7 @@ const Lineup = () => {
       return (player.availability)
     });
   };
-  
+
   useEffect(() => {
     dispatch(fetchPlayers(paramId,""));
     dispatch(fetchTeamById(paramId));
@@ -144,8 +158,6 @@ const Lineup = () => {
   };
   
   const renderAlerts = () => {
-    console.log(currentPlayerMin);
-    console.log(currentSexMin);
 
     if (players && players.length > 0 ) {
 
@@ -182,7 +194,7 @@ const Lineup = () => {
         return (
           violations.map(violation => {
             return (
-              <li className="dropdown-item violation-dropdown">{violation}</li>
+              <li key={violations.indexOf(violation)} className="dropdown-item violation-dropdown">{violation}</li>
             )
           })
         )
@@ -205,11 +217,11 @@ const Lineup = () => {
   const renderBattingOrder = () => {
 
     return (
-    players && players.length >0 && players.map(player => {
+    players && players.length >0 && battingOrderList.map(player => {
       return (
         <div className="row" key={player._id}>
           <div className="col-1">
-            <strong>{players.indexOf(player)+1}.</strong>
+            <strong>{battingOrderList.indexOf(player)+1}.</strong>
           </div>
           <div className={`col batting-order-player batting-order-row-${player.sex}`} key={player._id}>
             {`${player.firstName} ${player.lastName.substr(0,1)}.`}

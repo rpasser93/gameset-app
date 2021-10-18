@@ -151,14 +151,14 @@ const Settings = () => {
                   <div className="col-2">
                     <div className="form-check form-switch">
                       <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{changeMinSpecificSex()}}/>
-                      <label className="form-check-label" for="flexSwitchCheckDefault"></label>
+                      <label className="form-check-label" htmlFor="flexSwitchCheckDefault"></label>
                     </div>
                   </div>
                   <div className="col-2 opp-sex-label text-start">
                     <p><strong><em>{oppositeSex}s</em></strong></p>
                   </div>
                   <div className="col-3 text-end save-sexmin-btn">
-                    <button type="button" class="btn btn-outline-primary" onClick={()=>{saveMinSexNumber()}}>Save</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumber()}}>Save</button>
                   </div>
                 </div>
                
