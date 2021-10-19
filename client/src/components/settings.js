@@ -134,11 +134,11 @@ const Settings = () => {
   }
 
   const handleMinSexNumChangeInfield = (e) => {
-    setMinSexNumberInfield(e.target.value)
+    setMinSexNumberInfield(e.target.value);
   }
 
   const changeMinSexInfield = () => {
-    setMinSexInfield(!minSexInfield)
+    setMinSexInfield(!minSexInfield);
   }
 
   const saveMinSexNumberInfield = () => {
@@ -164,11 +164,11 @@ const Settings = () => {
   }
 
   const handleMinSexNumChangeOutfield = (e) => {
-    setMinSexNumberOutfield(e.target.value)
+    setMinSexNumberOutfield(e.target.value);
   }
 
   const changeMinSexOutfield = () => {
-    setMinSexOutfield(!minSexOutfield)
+    setMinSexOutfield(!minSexOutfield);
   }
 
   const saveMinSexNumberOutfield = () => {
@@ -224,7 +224,28 @@ const Settings = () => {
   }
 
   const restoreDefaultSettings = () => {
-    //DISPATCH////////
+    //eslint-disable-next-line
+    const isConfirmed = confirm('Restore all requirement settings to default?');
+    if (isConfirmed) {
+      dispatch(updatePlayerMinSettings(paramId, 0));
+      setMinPlayers(0);
+
+      dispatch(updateSexMinSettings(paramId,'female', 0));
+      setMinSpecificSex(true);
+      setMinSexNumber(0);
+
+      dispatch(updateInfieldMinSettings(paramId, 'female', 0));
+      setMinSexInfield(true);
+      setMinSexNumberInfield(0);
+
+      dispatch(updateOutfieldMinSettings(paramId, 'female', 0));
+      setMinSexOutfield(true);
+      setMinSexNumberOutfield(0);
+
+      dispatch(updateBattingReqSettings(paramId, 'female', 0));
+      setMinSexBatting(true);
+      setMinSexNumberBatting(0);
+    }
   }
 
   if (team) {
