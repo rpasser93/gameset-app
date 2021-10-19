@@ -449,9 +449,9 @@ router.put("/api/teams/:team/settings/battingReq", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Batting settings successfully changed.');
+      res.end(JSON.stringify({id: team, battingReq: req.body}));
     });
   });
-  res.end();
 });
 
 module.exports = router;

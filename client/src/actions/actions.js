@@ -9,6 +9,7 @@ export const UPDATE_PLAYER_MIN_SETTINGS = "UPDATE_PLAYER_MIN_SETTINGS";
 export const UPDATE_SEX_MIN_SETTINGS = "UPDATE_SEX_MIN_SETTINGS";
 export const UPDATE_INFIELD_MIN_SETTINGS = "UPDATE_INFIELD_MIN_SETTINGS";
 export const UPDATE_OUTFIELD_MIN_SETTINGS = "UPDATE_OUTFIELD_MIN_SETTINGS";
+export const UPDATE_BATTING_REQ_SETTINGS = "UPDATE_BATTING_REQ_SETTINGS";
 
 export const FETCH_PLAYERS = "FETCH_PLAYERS";
 export const UPDATE_PLAYER_AVAILABILITY = "UPDATE_PLAYER_AVAILABILITY";
@@ -237,6 +238,20 @@ export const updateOutfieldMinSettings = (teamId, sex, min) => {
 
   return {
     type: UPDATE_OUTFIELD_MIN_SETTINGS,
+    payload: request
+  };
+}
+
+export const updateBattingReqSettings = (teamId, sex, min) => {
+  const data = {
+    sex: sex,
+    min: min
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/settings/battingReq`, data);
+
+  return {
+    type: UPDATE_BATTING_REQ_SETTINGS,
     payload: request
   };
 }

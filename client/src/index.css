@@ -525,6 +525,19 @@ td {
   cursor: pointer;
 }
 
+.requirements-row {
+  margin-top: 35px;
+}
+
+.requirements-row-second {
+  margin-top: 25px;
+}
+
+.requirements-row-last {
+  margin-top: 25px;
+  margin-bottom: -15px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 1024px) {
   /* NAVIGATION */
