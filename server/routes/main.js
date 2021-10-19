@@ -419,9 +419,9 @@ router.put("/api/teams/:team/settings/infieldReq", (req, res, next) => {
     teamRes[0].save((err) => {
       if (err) return next(err);
       console.log('Infield settings successfully changed.');
+      res.end(JSON.stringify({id: team, infieldReq: req.body}));
     });
   });
-  res.end();
 });
 
 //PUT change outfield settings of a team, requires team ID param and 'sex' and 'min' in req body
@@ -435,8 +435,8 @@ router.put("/api/teams/:team/settings/outfieldReq", (req, res, next) => {
       if (err) return next(err);
       console.log('Outfield settings successfully changed.');
     });
+    res.end(JSON.stringify({id: team, outfieldReq: req.body}));
   });
-  res.end();
 });
 
 //PUT change batting settings of a team, requires team ID param and 'sex' and 'min' in req body

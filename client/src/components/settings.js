@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTeamById } from "../actions/actions"
-import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings } from "../actions/actions"
+import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings } from "../actions/actions"
 
 const Settings = () => {
   const [teamNameEdit, setTeamNameEdit] = useState("");
-  const [minPlayers, setminPlayers] = useState(0);  
-  const [minSpecificSex, setminSpecificSex] = useState(true);
+
+  const [minPlayers, setMinPlayers] = useState(0);  
+
+  const [minSpecificSex, setMinSpecificSex] = useState(true);
   const [minSexNumber, setMinSexNumber] = useState(0);
+
+  const [minSexInfield, setMinSexInfield] = useState(true);
+  const [minSexNumberInfield, setMinSexNumberInfield] = useState(0);
+
+  const [minSexOutfield, setMinSexOutfield] = useState(true);
+  const [minSexNumberOutfield, setMinSexNumberOutfield] = useState(0);
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
@@ -22,8 +30,16 @@ const Settings = () => {
   let currentSex = ""
   let oppositeSex = ""
 
+  let currentSexInfield = ""
+  let oppositeSexInfield = ""
+
+  let currentSexOutfield = ""
+  let oppositeSexOutfield = ""
+
   if (team) {
-    currentSex = team.settings[0].sexMin.sex
+    currentSex = team.settings[0].sexMin.sex;
+    currentSexInfield = team.settings[0].infieldReq.sex;
+    currentSexOutfield = team.settings[0].outfieldReq.sex;
   }
 
   if (team) {
@@ -31,6 +47,22 @@ const Settings = () => {
       oppositeSex = "female"
     } else {
       oppositeSex = "male"
+    }
+  }
+
+  if (team) {
+    if (currentSexInfield === "male") {
+      oppositeSexInfield = "female"
+    } else {
+      oppositeSexInfield = "male"
+    }
+  }
+
+  if (team) {
+    if (currentSexOutfield === "male") {
+      oppositeSexOutfield = "female"
+    } else {
+      oppositeSexOutfield = "male"
     }
   }
 
@@ -46,11 +78,11 @@ const Settings = () => {
   }
 
   const handleMinPlayerChange = (e) => {
-    setminPlayers(e.target.value)
+    setMinPlayers(e.target.value)
   }
 
   const saveMinPlayers = () => {
-    if (isNaN(minPlayers)) {
+    if (isNaN(minPlayers) || minPlayers < 0 ) {
       return alert('Please enter a valid number.');
     }
     dispatch(updatePlayerMinSettings(paramId, minPlayers))
@@ -61,11 +93,11 @@ const Settings = () => {
   }
 
   const changeMinSpecificSex = () => {
-    setminSpecificSex(!minSpecificSex)
+    setMinSpecificSex(!minSpecificSex)
   }
 
   const saveMinSexNumber = () => {
-    if (isNaN(minSexNumber)) {
+    if (isNaN(minSexNumber) || minSexNumber < 0 ) {
       return alert('Please enter a valid number.');
     }
 
@@ -84,6 +116,66 @@ const Settings = () => {
     }
 
     dispatch(updateSexMinSettings(paramId, sexToSend, numToSend));
+  }
+
+  const handleMinSexNumChangeInfield = (e) => {
+    setMinSexNumberInfield(e.target.value)
+  }
+
+  const changeMinSexInfield = () => {
+    setMinSexInfield(!minSexInfield)
+  }
+
+  const saveMinSexNumberInfield = () => {
+    if (isNaN(minSexNumberInfield) || minSexNumberInfield < 0 ) {
+      return alert('Please enter a valid number.');
+    }
+
+    let sexToSend = "";
+    if (minSexInfield) {
+      sexToSend = currentSexInfield;
+    } else {
+      sexToSend = oppositeSexInfield;
+    }
+
+    let numToSend = 0;
+    if (minSexNumberInfield === 0) {
+      numToSend = team.settings[0].infieldReq.min;
+    } else {
+      numToSend = minSexNumberInfield;
+    }
+
+    dispatch(updateInfieldMinSettings(paramId, sexToSend, numToSend));
+  }
+
+  const handleMinSexNumChangeOutfield = (e) => {
+    setMinSexNumberOutfield(e.target.value)
+  }
+
+  const changeMinSexOutfield = () => {
+    setMinSexOutfield(!minSexOutfield)
+  }
+
+  const saveMinSexNumberOutfield = () => {
+    if (isNaN(minSexNumberOutfield) || minSexNumberOutfield < 0 ) {
+      return alert('Please enter a valid number.');
+    }
+
+    let sexToSend = "";
+    if (minSexOutfield) {
+      sexToSend = currentSexOutfield;
+    } else {
+      sexToSend = oppositeSexOutfield;
+    }
+
+    let numToSend = 0;
+    if (minSexNumberOutfield === 0) {
+      numToSend = team.settings[0].outfieldReq.min;
+    } else {
+      numToSend = minSexNumberOutfield;
+    }
+
+    dispatch(updateOutfieldMinSettings(paramId, sexToSend, numToSend));
   }
 
   const restoreDefaultSettings = () => {
@@ -123,9 +215,11 @@ const Settings = () => {
                   </div>
                 </div>
                 <div className="row">
+
                   <div className="col">
                     <p className="text-start">Minimum players needed:</p>
                   </div>
+
                   <div className="col">
                     <div className="input-group mb-3">
                       <input type="text" className="form-control" defaultValue={`${team.settings[0].minPlayers}`} onChange={(e)=>{handleMinPlayerChange(e)}} />
@@ -133,11 +227,13 @@ const Settings = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className="row">
                   <div className="col">
-                    <p className="text-start">Minimum of specific Sex:</p>
+                    <p className="text-start">Minimum of specific Sex needed:</p>
                   </div>
                 </div>
+
                 <div className="row">
                   <div className="col-1 text-center at-least">
                   <em>at least</em>
@@ -161,6 +257,67 @@ const Settings = () => {
                     <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumber()}}>Save</button>
                   </div>
                 </div>
+
+                <div className="row">
+                  <div className="col">
+                    <p className="text-start">Minimum of Sex in the <u>infield</u>:</p>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-1 text-center at-least">
+                  <em>at least</em>
+                  </div>
+                  <div className="col-2 text-start">
+                   <input className="form-control form-control-sm" type="text" defaultValue={`${team.settings[0].infieldReq.min}`} onChange={(e)=>{handleMinSexNumChangeInfield(e)}}/>
+                  </div>
+                  <div className="col-2 current-sex-label text-end">
+                    <p><strong><em>{currentSexInfield}s</em></strong></p>
+                  </div>
+                  <div className="col-2">
+                    <div className="form-check form-switch">
+                      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{changeMinSexInfield()}}/>
+                      <label className="form-check-label" htmlFor="flexSwitchCheckDefault"></label>
+                    </div>
+                  </div>
+                  <div className="col-2 opp-sex-label text-start">
+                    <p><strong><em>{oppositeSexInfield}s</em></strong></p>
+                  </div>
+                  <div className="col-3 text-end save-sexmin-btn">
+                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberInfield()}}>Save</button>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col">
+                    <p className="text-start">Minimum of Sex in the <u>outfield</u>:</p>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-1 text-center at-least">
+                  <em>at least</em>
+                  </div>
+                  <div className="col-2 text-start">
+                   <input className="form-control form-control-sm" type="text" defaultValue={`${team.settings[0].outfieldReq.min}`} onChange={(e)=>{handleMinSexNumChangeOutfield(e)}}/>
+                  </div>
+                  <div className="col-2 current-sex-label text-end">
+                    <p><strong><em>{currentSexOutfield}s</em></strong></p>
+                  </div>
+                  <div className="col-2">
+                    <div className="form-check form-switch">
+                      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{changeMinSexOutfield()}}/>
+                      <label className="form-check-label" htmlFor="flexSwitchCheckDefault"></label>
+                    </div>
+                  </div>
+                  <div className="col-2 opp-sex-label text-start">
+                    <p><strong><em>{oppositeSexOutfield}s</em></strong></p>
+                  </div>
+                  <div className="col-3 text-end save-sexmin-btn">
+                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberOutfield()}}>Save</button>
+                  </div>
+                </div>
+                
                
               <hr/>
               <div className="row">

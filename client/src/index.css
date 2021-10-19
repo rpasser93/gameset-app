@@ -493,6 +493,7 @@ td {
   background-color: rgb(245, 245, 245);
   border: black solid thin;
   margin-top: 20px;
+  margin-bottom: 5px;
 }
 
 .defaults-btn {
