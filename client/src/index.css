@@ -26,6 +26,7 @@ html {
   background-color: rgb(85, 25, 25);
   margin-top: 5px;
   border: solid thin black;
+  z-index: 4;
 }
 
 .navbar-link {
@@ -341,9 +342,10 @@ td {
 /* LINEUP-FIELD PAGE */
 .field-img {
   position: absolute;
-  top: 5px;
+  top: -150px;
   transform: scale(0.5);
   mix-blend-mode: multiply;
+  z-index: 2;
 }
 
 .table-view-btn {
@@ -356,7 +358,125 @@ td {
   background-color: rgb(230, 155, 0);
 }
 
+.field-player {
+  border: solid black thin;
+  max-width: 75px;
+  max-height: 26px;
+  overflow: hidden;
+}
+
+.field-player-male {
+  color: white;
+  background-color: grey;
+}
+
+.field-player-female {
+  color: black;
+  background-color: white;
+}
+
+.on-bench-col {
+  border: solid thin black;
+  background-color: rgb(85, 25, 25);
+  color: white;
+  margin-bottom: 25px;
+  max-height: 250px;
+  overflow: scroll;
+}
+
+.on-bench-row {
+  margin-left: 3px;
+  color: white;
+}
+
+.relative-pos-col {
+  position: relative;
+}
+
+.playing-at-P {
+  position: absolute;
+  z-index: 3;
+  top: 145px;
+  left: 210px;
+}
+
+.playing-at-C {
+  position: absolute;
+  z-index: 3;
+  top: 205px;
+  left: 200px;
+}
+
+.playing-at-1B {
+  position: absolute;
+  z-index: 3;
+  top: 145px;
+  left: 280px;
+}
+
+.playing-at-2B {
+  position: absolute;
+  z-index: 3;
+  top: 95px;
+  left: 250px;
+}
+
+.playing-at-3B {
+  position: absolute;
+  z-index: 3;
+  top: 145px;
+  left: 120px;
+}
+
+.playing-at-SS {
+  position: absolute;
+  z-index: 3;
+  top: 95px;
+  left: 150px;
+}
+
+.playing-at-LF {
+  position: absolute;
+  z-index: 3;
+  top: 45px;
+  left: 80px;
+}
+
+.playing-at-CF {
+  position: absolute;
+  z-index: 3;
+  top: 0px;
+  left: 155px;
+}
+
+.playing-at-RCF {
+  position: absolute;
+  z-index: 3;
+  top: 5px;
+  left: 250px;
+}
+
+.playing-at-RF {
+  position: absolute;
+  z-index: 3;
+  top: 55px;
+  left: 305px;
+}
+
+.inning-display-column {
+  margin-top: 150px;
+}
+
+.big-inning-display {
+  margin-left: 20px;
+  transform: scale(1.75);
+}
+
 /* SETTINGS PAGE */
+.lineup-field-top-row {
+  z-index: 1;
+}
+
 .settings-col {
   background-color: rgb(245, 245, 245);
   border: black solid thin;
@@ -439,10 +559,134 @@ td {
   }
 
   /* LINEUP-FIELD PAGE */
+  .field-img {
+    position: absolute;
+    top: 0px;
+    transform: scale(1);
+    mix-blend-mode: multiply;
+    z-index: 2;
+  }
+
+  .on-bench-col {
+    margin-bottom: 25px;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .playing-at-P {
+    top: 345px;
+    left: 368px;
+  }
+
+  .playing-at-C {
+    top: 455px;
+    left: 365px;
+  }
+
+  .playing-at-1B {
+    top: 345px;
+    left: 475px;
+  }
+
+  .playing-at-2B {
+    top: 280px;
+    left: 440px;
+  }
+
+  .playing-at-3B {
+    top: 345px;
+    left: 240px;
+  }
+
+  .playing-at-SS {
+    top: 280px;
+    left: 290px;
+  }
+
+  .playing-at-LF {
+    top: 150px;
+    left: 155px;
+  }
+
+  .playing-at-CF {
+    top: 75px;
+    left: 300px;
+  }
+
+  .playing-at-RCF {
+    top: 85px;
+    left: 465px;
+  }
+
+  .playing-at-RF {
+    top: 150px;
+    left: 590px;
+  }
+
+  .big-inning-display {
+    margin-left: 120px;
+    transform: scale(2);
+  }
+
+  .inning-subtitle {
+    margin-left: 85px;
+  }
 
   /* SETTINGS PAGE */
   .settings-col {
     width: 35%;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .playing-at-P {
+    top: 345px;
+    left: 428px;
+  }
+
+  .playing-at-C {
+    top: 455px;
+    left: 425px;
+  }
+
+  .playing-at-1B {
+    top: 345px;
+    left: 535px;
+  }
+
+  .playing-at-2B {
+    top: 280px;
+    left: 500px;
+  }
+
+  .playing-at-3B {
+    top: 345px;
+    left: 300px;
+  }
+
+  .playing-at-SS {
+    top: 280px;
+    left: 350px;
+  }
+
+  .playing-at-LF {
+    top: 150px;
+    left: 215px;
+  }
+
+  .playing-at-CF {
+    top: 75px;
+    left: 360px;
+  }
+
+  .playing-at-RCF {
+    top: 85px;
+    left: 525px;
+  }
+
+  .playing-at-RF {
+    top: 150px;
+    left: 650px;
   }
 }
 

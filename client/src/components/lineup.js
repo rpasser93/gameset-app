@@ -72,11 +72,18 @@ const Lineup = () => {
     if (players && players.length > 0) {
     return (
       players.map(player => {
+        let playername = ""
+        if (players.filter(plyr => {
+          return plyr.firstName === player.firstName;
+        }).length > 1) {
+          playername = `${player.firstName} ${player.lastName.substr(0,1)}.`
+        } else {playername = player.firstName}
+
         return (
           <tr key={player._id} className={`lineup-row-${player.sex}`}>
             <td className="player-row-header text-start">
               <div className="player-row-header-wrapper">
-                {`${player.firstName} ${player.lastName.substr(0,1)}.`}
+                {playername}
               </div>
             </td>
             <td>
@@ -219,6 +226,14 @@ const Lineup = () => {
 
     return (
       battingOrderList.map((player,index) => {
+
+        let playername = ""
+        if (battingOrderList.filter(plyr => {
+          return plyr.firstName === player.firstName;
+        }).length > 1) {
+          playername = `${player.firstName} ${player.lastName.substr(0,1)}.`
+        } else {playername = player.firstName}
+
         return (
           <div className="row" key={player._id}>
             <div className="col-1">
@@ -234,7 +249,7 @@ const Lineup = () => {
                       <div>
 
                           <div className={`col batting-order-player batting-order-row-${player.sex}`} key={player._id}>
-                            <div className="batting-order-player-name">{`${player.firstName} ${player.lastName.substr(0,1)}.`}</div>
+                            <div className="batting-order-player-name">{playername}</div>
                           </div>
                         
                       </div>
