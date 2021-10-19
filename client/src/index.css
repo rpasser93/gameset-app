@@ -222,7 +222,7 @@ html {
 }
 
 .row-female:hover {
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(240, 240, 240);
   cursor: pointer;
 }
 
@@ -315,6 +315,14 @@ td {
   background-color: white;
 }
 
+.batting-order-row-male:hover {
+  background-color: rgb(100, 100, 100);
+}
+
+.batting-order-row-female:hover {
+  background-color: rgb(240, 240, 240);
+}
+
 .field-view-btn {
   color: white;
   background-color: rgb(0, 100, 0);
@@ -358,6 +366,10 @@ td {
   background-color: rgb(230, 155, 0);
 }
 
+.page-link:hover {
+  cursor: pointer;
+}
+
 .field-player {
   border: solid black thin;
   max-width: 75px;
@@ -397,14 +409,14 @@ td {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 210px;
+  left: 207px;
 }
 
 .playing-at-C {
   position: absolute;
   z-index: 3;
   top: 205px;
-  left: 200px;
+  left: 205px;
 }
 
 .playing-at-1B {
@@ -425,14 +437,14 @@ td {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 120px;
+  left: 125px;
 }
 
 .playing-at-SS {
   position: absolute;
   z-index: 3;
   top: 95px;
-  left: 150px;
+  left: 155px;
 }
 
 .playing-at-LF {
@@ -575,52 +587,52 @@ td {
 
   .playing-at-P {
     top: 345px;
-    left: 368px;
+    left: 375px;
   }
 
   .playing-at-C {
     top: 455px;
-    left: 365px;
+    left: 373px;
   }
 
   .playing-at-1B {
     top: 345px;
-    left: 475px;
+    left: 482px;
   }
 
   .playing-at-2B {
     top: 280px;
-    left: 440px;
+    left: 447px;
   }
 
   .playing-at-3B {
     top: 345px;
-    left: 240px;
+    left: 247px;
   }
 
   .playing-at-SS {
     top: 280px;
-    left: 290px;
+    left: 297px;
   }
 
   .playing-at-LF {
     top: 150px;
-    left: 155px;
+    left: 162px;
   }
 
   .playing-at-CF {
     top: 75px;
-    left: 300px;
+    left: 307px;
   }
 
   .playing-at-RCF {
     top: 85px;
-    left: 465px;
+    left: 472px;
   }
 
   .playing-at-RF {
     top: 150px;
-    left: 590px;
+    left: 597px;
   }
 
   .big-inning-display {
@@ -641,52 +653,52 @@ td {
 @media screen and (min-width: 1440px) {
   .playing-at-P {
     top: 345px;
-    left: 428px;
+    left: 435px;
   }
 
   .playing-at-C {
     top: 455px;
-    left: 425px;
+    left: 432px;
   }
 
   .playing-at-1B {
     top: 345px;
-    left: 535px;
+    left: 542px;
   }
 
   .playing-at-2B {
     top: 280px;
-    left: 500px;
+    left: 507px;
   }
 
   .playing-at-3B {
     top: 345px;
-    left: 300px;
+    left: 307px;
   }
 
   .playing-at-SS {
     top: 280px;
-    left: 350px;
+    left: 357px;
   }
 
   .playing-at-LF {
     top: 150px;
-    left: 215px;
+    left: 222px;
   }
 
   .playing-at-CF {
     top: 75px;
-    left: 360px;
+    left: 367px;
   }
 
   .playing-at-RCF {
     top: 85px;
-    left: 525px;
+    left: 532px;
   }
 
   .playing-at-RF {
     top: 150px;
-    left: 650px;
+    left: 657px;
   }
 }
 
