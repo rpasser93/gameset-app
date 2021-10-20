@@ -37,8 +37,8 @@ export const addTeam = (login, password) => {
 
 export const fetchTeamByLogin = (login, password) => {
   const data = {
-    login: 'kpauli',
-    password: 'simisimi'
+    login: login,
+    password: password
   }
 
   const request = axios.post(`http://localhost:8000/api/team`, data);

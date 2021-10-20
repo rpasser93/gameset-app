@@ -52,6 +52,14 @@ const Navigation = () => {
     }
   }
 
+  const renderUserName = () => {
+    if (team) {
+      return (
+        <div className="text-end nav-username" ><u>{team.login}</u></div>
+      )
+    }
+  }
+
   return (
     <div className="container-md">
       <Navbar className="navbar-bg" variant="dark" expand="lg">
@@ -60,6 +68,7 @@ const Navigation = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse id="basic-navbar-nav">
             {renderNavLinks()}
+            {renderUserName()}
           </Navbar.Collapse>
         </Container>
       </Navbar>

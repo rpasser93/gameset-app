@@ -1,5 +1,5 @@
 import { useHistory } from "react-router";
-import { Modal, Button, Nav } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTeam, fetchTeamByLogin } from "../actions/actions"
@@ -17,8 +17,8 @@ const Login = () => {
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(fetchTeamByLogin("",""))
-  }, [dispatch]);
+    dispatch(fetchTeamByLogin(login,password));
+  }, [dispatch, login, password]);
 
   const handleSignInClick = () => {
 
@@ -26,19 +26,17 @@ const Login = () => {
       return alert('Please fill in all fields.')
     } else {
 
-    dispatch(fetchTeamByLogin(login, password));
+      dispatch(fetchTeamByLogin(login, password));
 
-    team && history.push(`/roster/${team._id}`);
-  
-    setLogin("");
-    setPassword("");
+      team && history.push(`/roster/${team._id}`);
+
+    }
   }
-}
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleCreateAccount = () => {
+  const handleCreateAccount = () => { ///////////
     if (newAccountLogin === "" || newAccountPassword === "") 
     {
       return (alert('Please fill in all fields.'))

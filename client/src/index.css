@@ -58,6 +58,10 @@ html {
   cursor: default;
 }
 
+.nav-username {
+  color: white;
+}
+
 /* LOGIN PAGE */
 .login-container {
   background-color: rgb(85, 25, 25);
