@@ -3,6 +3,7 @@ const baseUrl = 'http://localhost:8000/api/teams';
 
 export const FETCH_TEAMS = "FETCH_TEAMS";
 export const ADD_TEAM = "ADD_TEAM";
+export const DELETE_TEAM = "DELETE_TEAM";
 export const FETCH_TEAM_BY_LOGIN = "FETCH_TEAM_BY_LOGIN";
 export const FETCH_TEAM_BY_ID = "FETCH_TEAM_BY_ID";
 export const UPDATE_TEAM_NAME = "UPDATE_TEAM_NAME";
@@ -41,6 +42,16 @@ export const addTeam = (login, password) => {
 
   return {
     type: ADD_TEAM,
+    payload: request
+  };
+}
+
+export const deleteTeam = (id) => {
+
+  const request = axios.delete(`http://localhost:8000/api/teams/${id}`);
+
+  return {
+    type: DELETE_TEAM,
     payload: request
   };
 }

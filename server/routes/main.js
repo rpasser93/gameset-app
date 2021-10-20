@@ -100,6 +100,7 @@ router.delete("/api/teams/:team", (req, res, next) => {
   Team.remove({_id: team}).exec((err, teamRes) => {
     if (err) return next(err);
       console.log('Team successfully deleted.');
+      console.log(teamRes);
     });
   res.end();
 });

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { fetchTeamById } from "../actions/actions"
-import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings } from "../actions/actions"
+import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions"
 
 const Settings = () => {
   const [teamNameEdit, setTeamNameEdit] = useState("");
@@ -23,6 +24,7 @@ const Settings = () => {
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(fetchTeamById(paramId));
@@ -249,8 +251,17 @@ const Settings = () => {
   }
 
   const handleDeleteTeam = () => {
-    console.log('deleted!!');
-    //DISPATCH
+     //eslint-disable-next-line
+     const isConfirmed1 = confirm('Permenantly delete your account and all team information?');
+     if (isConfirmed1) {
+       //eslint-disable-next-line
+       const isConfirmed2 = confirm('This is irreversible. Are you sure you want to proceed?')
+       if (isConfirmed2) { 
+         console.log('deleted!!');
+         dispatch(deleteTeam(paramId));
+         history.push(`/login`);
+       }
+     }
   }
 
   if (team) {
