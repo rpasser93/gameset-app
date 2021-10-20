@@ -16,12 +16,14 @@ const Lineup = () => {
   let currentSexMin = {};
   let currentInfieldReq = {};
   let currentOutfieldReq = {};
+  let currentBattingReq = {};
 
   if (team && team.settings[0]) {
     currentPlayerMin = team.settings[0].minPlayers;
     currentSexMin = team.settings[0].sexMin;
     currentInfieldReq = team.settings[0].infieldReq;
     currentOutfieldReq = team.settings[0].outfieldReq;
+    currentBattingReq = team.settings[0].battingReq;
   }
 
   if (players && players.length > 0) {
@@ -282,6 +284,22 @@ const Lineup = () => {
         })
       })
 
+      const battingOrderBySex = battingOrderList.map(plyr => {
+        return plyr.sex[0];
+      })
+
+      const frontSliceOfBattingOrderBySex = battingOrderBySex.slice(0,currentBattingReq.min-1);
+
+      const combinedBattingOrderBySex = [...battingOrderBySex, ...frontSliceOfBattingOrderBySex];
+
+      let testPortion = [];
+
+      for (let i = 0; i < currentBattingReq.min; i++) {
+        if (currentBattingReq.sex === 'female') {
+          testPortion.push('m')
+        } else { testPortion.push('f') }
+      }
+
       //ALERTS
     
       if (totalAvailableNumber < currentPlayerMin) {
@@ -334,6 +352,12 @@ const Lineup = () => {
           }
         });
         if (violatedInnings.length > 0) {violations.push(`Not enough males outfield (min: ${currentOutfieldReq.min}) for innings: [${violatedInnings} ].`)}
+      }
+
+      if (currentBattingReq.min > 0) {
+        if (combinedBattingOrderBySex.toString().includes(testPortion.toString())) {
+          violations.push(`Need at least 1 ${currentBattingReq.sex} every ${currentBattingReq.min} batters.`)
+        }
       }
 
       if (violations.length === 0) {
