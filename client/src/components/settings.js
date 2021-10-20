@@ -248,6 +248,11 @@ const Settings = () => {
     }
   }
 
+  const handleDeleteTeam = () => {
+    console.log('deleted!!');
+    //DISPATCH
+  }
+
   if (team) {
     return (
       <div className="container-md settings-container">
@@ -425,7 +430,7 @@ const Settings = () => {
               <br/>
               <div className="row">
                 <div className="col">
-                  <button type="button" className="btn btn-danger delete-team-btn">Delete Team</button>
+                  <button type="button" className="btn btn-danger delete-team-btn" onClick={()=> {handleDeleteTeam()}}>Delete Team</button>
                 </div>
               </div>
               </div>

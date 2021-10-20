@@ -5,7 +5,6 @@ import { fetchPlayers, fetchTeamById, updatePlayerBattingOrder, updatePlayerLine
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Lineup = () => {
-  
   const dispatch = useDispatch();
   const history = useHistory();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
@@ -15,10 +14,14 @@ const Lineup = () => {
 
   let currentPlayerMin = 0;
   let currentSexMin = {};
+  let currentInfieldReq = {};
+  let currentOutfieldReq = {};
 
   if (team && team.settings[0]) {
     currentPlayerMin = team.settings[0].minPlayers;
     currentSexMin = team.settings[0].sexMin;
+    currentInfieldReq = team.settings[0].infieldReq;
+    currentOutfieldReq = team.settings[0].outfieldReq;
   }
 
   if (players && players.length > 0) {
@@ -171,27 +174,166 @@ const Lineup = () => {
 
       let violations = [];
 
+      let femalesInfieldTotals = [0,0,0,0,0,0,0];
+      let femalesOutfieldTotals = [0,0,0,0,0,0,0];
+      let malesInfieldTotals = [0,0,0,0,0,0,0];
+      let malesOutfieldTotals = [0,0,0,0,0,0,0];
+
       let totalAvailable = players.filter(player => {
         return (player.availability);
       });
       let totalAvailableNumber = totalAvailable.length;
+
       let femalesAvailable = totalAvailable.filter(player => {
         return (player.sex === "female");
       });
-  
       let femalesAvailableNumber = femalesAvailable.length;
-      let malesAvailableNumber = totalAvailableNumber - femalesAvailableNumber;
+
+      let malesAvailable = totalAvailable.filter(player => {
+        return (player.sex === "male");
+      });
+      let malesAvailableNumber = malesAvailable.length;
+
+      let femalesInfieldArray = femalesAvailable.map(female => {
+        return (
+          [
+            female.lineup[0],
+            female.lineup[1],
+            female.lineup[2],
+            female.lineup[3],
+            female.lineup[4],
+            female.lineup[5],
+            female.lineup[6]
+          ]
+        )
+      })
+
+      femalesInfieldArray.forEach(arrayOuter => {
+        arrayOuter.forEach((arrayInner, index) => {
+          if (arrayInner === "P" || arrayInner === "C" || arrayInner === "1B" || arrayInner === "2B" || arrayInner === "3B" || arrayInner === "SS") {
+            femalesInfieldTotals[index]++;
+          }
+        })
+      })
+
+      let femalesOutfieldArray = femalesAvailable.map(female => {
+        return (
+          [
+            female.lineup[0],
+            female.lineup[1],
+            female.lineup[2],
+            female.lineup[3],
+            female.lineup[4],
+            female.lineup[5],
+            female.lineup[6]
+          ]
+        )
+      })
+
+      femalesOutfieldArray.forEach(arrayOuter => {
+        arrayOuter.forEach((arrayInner, index) => {
+          if (arrayInner === "LF" || arrayInner === "CF" || arrayInner === "RCF" || arrayInner === "RF") {
+            femalesOutfieldTotals[index]++;
+          }
+        })
+      })
+
+      let malesInfieldArray = malesAvailable.map(male => {
+        return (
+          [
+            male.lineup[0],
+            male.lineup[1],
+            male.lineup[2],
+            male.lineup[3],
+            male.lineup[4],
+            male.lineup[5],
+            male.lineup[6]
+          ]
+        )
+      })
+
+      malesInfieldArray.forEach(arrayOuter => {
+        arrayOuter.forEach((arrayInner, index) => {
+          if (arrayInner === "P" || arrayInner === "C" || arrayInner === "1B" || arrayInner === "2B" || arrayInner === "3B" || arrayInner === "SS") {
+            malesInfieldTotals[index]++;
+          }
+        })
+      })
+
+      let malesOutfieldArray = malesAvailable.map(male => {
+        return (
+          [
+            male.lineup[0],
+            male.lineup[1],
+            male.lineup[2],
+            male.lineup[3],
+            male.lineup[4],
+            male.lineup[5],
+            male.lineup[6]
+          ]
+        )
+      })
+
+      malesOutfieldArray.forEach(arrayOuter => {
+        arrayOuter.forEach((arrayInner, index) => {
+          if (arrayInner === "LF" || arrayInner === "CF" || arrayInner === "RCF" || arrayInner === "RF") {
+            malesOutfieldTotals[index]++;
+          }
+        })
+      })
+
+      //ALERTS
     
       if (totalAvailableNumber < currentPlayerMin) {
-        violations.push(`Your number of total available players (${totalAvailableNumber}) is below the minimum requirement (${currentPlayerMin}).`)
+        violations.push(`Total available players (${totalAvailableNumber}) below the minimum required (${currentPlayerMin}).`)
       }
 
       if (currentSexMin.sex === "female" && femalesAvailableNumber < currentSexMin.min) {
-        violations.push(`Your number of available females (${femalesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
+        violations.push(`Available females (${femalesAvailableNumber}) below the minimum required (${currentSexMin.min}).`)
       }
 
       if (currentSexMin.sex === "male" && malesAvailableNumber < currentSexMin.min) {
-        violations.push(`Your number of available males (${malesAvailableNumber}) is below the minimum requirement (${currentSexMin.min}).`)
+        violations.push(`Available males (${malesAvailableNumber}) below the minimum required (${currentSexMin.min}).`)
+      }
+
+      if (currentInfieldReq.sex === "female") {
+        let violatedInnings = [];
+        femalesInfieldTotals.forEach((quantity, index) => {
+          if (quantity < currentInfieldReq.min) {
+            violatedInnings.push(` ${index+1}`);
+          }
+        });
+        if (violatedInnings.length > 0) {violations.push(`Not enough females infield (min: ${currentInfieldReq.min}) for innings: [${violatedInnings} ].`)}
+      }
+
+      if (currentOutfieldReq.sex === "female") {
+        let violatedInnings = [];
+        femalesOutfieldTotals.forEach((quantity, index) => {
+          if (quantity < currentOutfieldReq.min) {
+            violatedInnings.push(` ${index+1}`);
+          }
+        });
+        if (violatedInnings.length > 0) {violations.push(`Not enough females outfield (min: ${currentOutfieldReq.min}) for innings: [${violatedInnings} ].`)}
+      }
+
+      if (currentInfieldReq.sex === "male") {
+        let violatedInnings = [];
+        malesInfieldTotals.forEach((quantity, index) => {
+          if (quantity < currentInfieldReq.min) {
+            violatedInnings.push(` ${index+1}`);
+          }
+        });
+        if (violatedInnings.length > 0) {violations.push(`Not enough males infield (min: ${currentInfieldReq.min}) for innings: [${violatedInnings} ].`)}
+      }
+
+      if (currentOutfieldReq.sex === "male") {
+        let violatedInnings = [];
+        malesOutfieldTotals.forEach((quantity, index) => {
+          if (quantity < currentOutfieldReq.min) {
+            violatedInnings.push(` ${index+1}`);
+          }
+        });
+        if (violatedInnings.length > 0) {violations.push(`Not enough males outfield (min: ${currentOutfieldReq.min}) for innings: [${violatedInnings} ].`)}
       }
 
       if (violations.length === 0) {
