@@ -40,7 +40,6 @@ router.post("/api/teams", (req, res) => {
       }
   })
 
-
   async function compareTeams() {
 
     let promise = new Promise((resolve, reject) => {
@@ -53,13 +52,12 @@ router.post("/api/teams", (req, res) => {
       newTeam.save((err) => {
         if (err) return next(err);
         console.log('Team successfully added.');
+        res.send(newTeam);
         });
-      }
+      } else res.end();
     }
   
   compareTeams()
-
-  res.end();
 });
 
 //GET a specific team, requires team ID param

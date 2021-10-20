@@ -2,51 +2,75 @@ import { useHistory } from "react-router";
 import { Modal, Button } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTeam, fetchTeamByLogin } from "../actions/actions"
+import { fetchTeams, addTeam, fetchTeamByLogin } from "../actions/actions"
 
 const Login = () => {
   const [show, setShow] = useState(false);
+
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [newAccountLogin, setNewAccountLogin] = useState("");
   const [newAccountPassword, setNewAccountPassword] = useState("");
 
   const team = useSelector(state => state.team[0]);
+  const teams = useSelector(state => state.teams);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
+    dispatch(fetchTeams());
     dispatch(fetchTeamByLogin(login,password));
   }, [dispatch, login, password]);
 
   const handleSignInClick = () => {
+    let alertLoginFailed = true;
 
     if (login === "" || password === "") {
       return alert('Please fill in all fields.')
+    }
+
+    teams.forEach(team => {
+      if (team.login === login && team.password === password) {
+        return alertLoginFailed = false;
+      }
+    });
+
+    if (alertLoginFailed) {
+      return alert('Invalid login information.')
     } else {
 
-      dispatch(fetchTeamByLogin(login, password));
+    dispatch(fetchTeamByLogin(login, password));
 
-      team && history.push(`/roster/${team._id}`);
-
+    team && history.push(`/roster/${team._id}`);
     }
   }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleCreateAccount = () => { ///////////
+  const handleCreateAccount = () => {
+    let cancelNewAccount = false;
+
     if (newAccountLogin === "" || newAccountPassword === "") 
     {
       return (alert('Please fill in all fields.'))
     }
 
-    dispatch(addTeam(newAccountLogin, newAccountPassword));
-    alert('Account successfully created! Please sign in.')
-    setNewAccountLogin("");
-    setNewAccountPassword("");
-    setShow(false);
+    teams.forEach(team => {
+      if (team.login === newAccountLogin) {
+        cancelNewAccount = true;
+        return (alert('That username already exists. Please choose a different one.'));
+      }
+    });
+
+    if (!cancelNewAccount) {
+      dispatch(addTeam(newAccountLogin, newAccountPassword));
+      alert('Account created!')
+      setNewAccountLogin("");
+      setNewAccountPassword("");
+      setShow(false);
+    }
   }
 
   const handleLogin = (e) => {

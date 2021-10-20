@@ -55,7 +55,7 @@ const Navigation = () => {
   const renderUserName = () => {
     if (team) {
       return (
-        <div className="text-end nav-username" ><u>{team.login}</u></div>
+        <div className="text-end nav-username" ><u><strong>{team.login}</strong></u></div>
       )
     }
   }

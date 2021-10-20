@@ -1,6 +1,7 @@
 import axios from 'axios';
 const baseUrl = 'http://localhost:8000/api/teams';
 
+export const FETCH_TEAMS = "FETCH_TEAMS";
 export const ADD_TEAM = "ADD_TEAM";
 export const FETCH_TEAM_BY_LOGIN = "FETCH_TEAM_BY_LOGIN";
 export const FETCH_TEAM_BY_ID = "FETCH_TEAM_BY_ID";
@@ -20,6 +21,15 @@ export const DELETE_PLAYER = "DELETE_PLAYER";
 export const UPDATE_PLAYER_FIRSTNAME = "UPDATE_PLAYER_FIRSTNAME";
 export const UPDATE_PLAYER_LASTNAME = "UPDATE_PLAYER_LASTNAME";
 export const UPDATE_PLAYER_SEX = "UPDATE_PLAYER_SEX";
+
+export const fetchTeams = () => {
+  const request = axios.get(baseUrl);
+
+  return {
+    type: FETCH_TEAMS,
+    payload: request
+  };
+}
 
 export const addTeam = (login, password) => {
   const data = {

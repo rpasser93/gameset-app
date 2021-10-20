@@ -309,7 +309,7 @@ const Roster = () => {
             </div>
             <div className="row">
               <div className="col-6">
-                  <p>{`Total: ${players.length} players (${filterFemalesFromTeam.length}F, ${players.length - filterFemalesFromTeam.length}M)`}</p>
+                  <p>{`Total: ${players.length} players (${filterFemalesFromTeam.length || 0}F, ${players.length - filterFemalesFromTeam.length || 0}M)`}</p>
               </div>
               <div className="col-6">
                 <p>Sort:<u className={`sort-title namesort-${sortBy}`} onClick={() => nameSortHandler()}>Name</u> <u className={`sort-title sexsort-${sortBy}`} onClick={() => sexSortHandler()}>Sex</u> <u className={`sort-title availsort-${sortBy}`} onClick={() => availSortHandler()}>Availability</u></p>
@@ -340,7 +340,7 @@ const renderAvailableStats = () => {
     <div className="col text-center avail-track-col">
       <p>available:</p>
       <h1 className="avail-track-num"><strong>{filterForAvailable.length}</strong></h1>
-      <p>{filterFemalesFromAvailable.length}F, {filterForAvailable.length - filterFemalesFromAvailable.length}M</p>
+      <p>{filterFemalesFromAvailable.length || 0}F, {filterForAvailable.length - filterFemalesFromAvailable.length || 0}M</p>
     </div>
   )
 }
