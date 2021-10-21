@@ -266,6 +266,8 @@ const Settings = () => {
       dispatch(updateBattingReqSettings(paramId, 'female', 0));
       setMinSexBatting(true);
       setMinSexNumberBatting(0);
+
+      window.location.reload();
     }
   }
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerBattingOrder, updatePlayerLineup } from "../actions/actions"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import printJS from 'print-js';
-import { Print, ReturnDownBack } from 'react-ionicons'
+import { Print, Backspace } from 'react-ionicons'
 
 const Lineup = () => {
   const [printToggle, setPrintToggle] = useState("off");
@@ -471,6 +471,7 @@ const Lineup = () => {
           printable: 'print-this',
           type: 'html',
           targetStyles: ['*'],
+          ignoreElements: ['ignore'],
           onLoadingStart: setPrintToggle("on")
         }) 
     },1)
@@ -516,7 +517,9 @@ const Lineup = () => {
               <tbody>
                 <tr className="inning-row">
                   <td className="empty-cell">
-                    <ReturnDownBack onClick={()=>{clearLineup()}}/>
+                    <div id="ignore">
+                      <Backspace className="clear-lineup-button" onClick={()=>{clearLineup()}}/>
+                    </div>
                   </td>
                   <td><strong>1st</strong></td>
                   <td><strong>2nd</strong></td>

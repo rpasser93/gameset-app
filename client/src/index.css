@@ -220,16 +220,6 @@ html {
   cursor: pointer;
 }
 
-.row-male:hover {
-  background-color: rgb(100, 100, 100);
-  cursor: pointer;
-}
-
-.row-female:hover {
-  background-color: rgb(240, 240, 240);
-  cursor: pointer;
-}
-
 .sort-title:hover {
   cursor: pointer;
 }
@@ -367,6 +357,10 @@ td {
   width: 25%;
   float: left;
   margin: 5px;
+}
+
+.clear-lineup-button:hover {
+  cursor: pointer;
 }
 
 /* LINEUP-FIELD PAGE */
@@ -556,7 +550,7 @@ td {
 }
 
 .requirements-row-last {
-  margin-top: 25px;
+  margin-top: 35px;
   margin-bottom: -15px;
 }
 
@@ -591,6 +585,16 @@ td {
     width: 110px;
     height: 65px;
     margin-left: 40px;
+  }
+
+  .row-male:hover {
+    background-color: rgb(100, 100, 100);
+    cursor: pointer;
+  }
+
+  .row-female:hover {
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
   }
 
   /* LINEUP PAGE */
