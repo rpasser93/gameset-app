@@ -21,6 +21,13 @@ const Settings = () => {
   const [minSexBatting, setMinSexBatting] = useState(true);
   const [minSexNumberBatting, setMinSexNumberBatting] = useState(0);
 
+  const [saveTextTeamName, setSaveTextTeamName] = useState("Save");
+  const [saveTextMinPlayers, setSaveTextMinPlayers] = useState("Save");
+  const [saveTextMinSex, setSaveTextMinSex] = useState("Save");
+  const [saveTextInfieldReq, setSaveTextInfieldReq] = useState("Save");
+  const [saveTextOutfieldReq, setSaveTextOutfieldReq] = useState("Save");
+  const [saveTextBattingReq, setSaveTextBattingReq] = useState("Save");
+
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   const dispatch = useDispatch();
@@ -92,6 +99,8 @@ const Settings = () => {
       return alert('Please enter a valid name.');
     }
     dispatch(updateTeamName(paramId, teamNameEdit));
+    setSaveTextTeamName("Saved!");
+    setTimeout(()=>{setSaveTextTeamName("Save")}, 1000);
   }
 
   const handleMinPlayerChange = (e) => {
@@ -103,6 +112,8 @@ const Settings = () => {
       return alert('Please enter a valid number.');
     }
     dispatch(updatePlayerMinSettings(paramId, minPlayers))
+    setSaveTextMinPlayers("Saved!");
+    setTimeout(()=>{setSaveTextMinPlayers("Save")}, 1000);
   }
 
   const handleMinSexNumChange = (e) => {
@@ -133,6 +144,8 @@ const Settings = () => {
     }
 
     dispatch(updateSexMinSettings(paramId, sexToSend, numToSend));
+    setSaveTextMinSex("Saved!");
+    setTimeout(()=>{setSaveTextMinSex("Save")}, 1000);
   }
 
   const handleMinSexNumChangeInfield = (e) => {
@@ -163,6 +176,8 @@ const Settings = () => {
     }
 
     dispatch(updateInfieldMinSettings(paramId, sexToSend, numToSend));
+    setSaveTextInfieldReq("Saved!");
+    setTimeout(()=>{setSaveTextInfieldReq("Save")}, 1000);
   }
 
   const handleMinSexNumChangeOutfield = (e) => {
@@ -193,6 +208,8 @@ const Settings = () => {
     }
 
     dispatch(updateOutfieldMinSettings(paramId, sexToSend, numToSend));
+    setSaveTextOutfieldReq("Saved!");
+    setTimeout(()=>{setSaveTextOutfieldReq("Save")}, 1000);
   }
 
   const handleMinSexNumChangeBatting = (e) => {
@@ -223,6 +240,8 @@ const Settings = () => {
     }
 
     dispatch(updateBattingReqSettings(paramId, sexToSend, numToSend));
+    setSaveTextBattingReq("Saved!");
+    setTimeout(()=>{setSaveTextBattingReq("Save")}, 1000);
   }
 
   const restoreDefaultSettings = () => {
@@ -283,7 +302,7 @@ const Settings = () => {
                   <p className="text-start">Edit team name:</p>
                   <div className="input-group mb-3">
                     <input type="text" className="form-control" defaultValue={`${team.teamName}`} onChange={(e)=>{handleTeamNameEditChange(e)}}/>
-                    <button className="btn btn-outline-primary" type="button" onClick={()=>{saveTeamNameEdit()}}>Save</button>
+                    <button className="btn btn-outline-primary" type="button" onClick={()=>{saveTeamNameEdit()}}>{saveTextTeamName}</button>
                   </div>
                   </div>
                 </div>
@@ -304,7 +323,7 @@ const Settings = () => {
                   <div className="col">
                     <div className="input-group mb-3">
                       <input type="text" className="form-control" defaultValue={`${team.settings[0].minPlayers}`} onChange={(e)=>{handleMinPlayerChange(e)}} />
-                      <button className="btn btn-outline-primary" type="button" onClick={()=>saveMinPlayers()}>Save</button>
+                      <button className="btn btn-outline-primary" type="button" onClick={()=>saveMinPlayers()}>{saveTextMinPlayers}</button>
                     </div>
                   </div>
                 </div>
@@ -335,7 +354,7 @@ const Settings = () => {
                     <p><strong><em>{oppositeSex}s</em></strong></p>
                   </div>
                   <div className="col-3 text-end save-sexmin-btn">
-                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumber()}}>Save</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumber()}}>{saveTextMinSex}</button>
                   </div>
                 </div>
 
@@ -365,7 +384,7 @@ const Settings = () => {
                     <p><strong><em>{oppositeSexInfield}s</em></strong></p>
                   </div>
                   <div className="col-3 text-end save-sexmin-btn">
-                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberInfield()}}>Save</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberInfield()}}>{saveTextInfieldReq}</button>
                   </div>
                 </div>
 
@@ -395,7 +414,7 @@ const Settings = () => {
                     <p><strong><em>{oppositeSexOutfield}s</em></strong></p>
                   </div>
                   <div className="col-3 text-end save-sexmin-btn">
-                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberOutfield()}}>Save</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberOutfield()}}>{saveTextOutfieldReq}</button>
                   </div>
                 </div>
 
@@ -427,7 +446,7 @@ const Settings = () => {
                     <em className="at-least">batters</em>
                   </div>
                   <div className="col-3 text-end save-sexmin-btn">
-                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberBatting()}}>Save</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={()=>{saveMinSexNumberBatting()}}>{saveTextBattingReq}</button>
                   </div>
                 </div>
                 
