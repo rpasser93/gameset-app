@@ -37,7 +37,7 @@ const Login = () => {
     });
 
     if (alertLoginFailed) {
-      return alert('Invalid login information.')
+      return alert('Your login information is invalid. Please try again.')
     } else {
 
     dispatch(fetchTeamByLogin(login, password));
@@ -66,10 +66,10 @@ const Login = () => {
 
     if (!cancelNewAccount) {
       dispatch(addTeam(newAccountLogin, newAccountPassword));
-      alert('Account created!')
+      setShow(false);
       setNewAccountLogin("");
       setNewAccountPassword("");
-      setShow(false);
+      setTimeout(()=>{alert('Account created!')},1)
     }
   }
 
