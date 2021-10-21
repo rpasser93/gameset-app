@@ -268,7 +268,7 @@ const Roster = () => {
             <div className="col-10"> 
               <div className="row touchable-row" onClick={()=>{handleTouchRow(player)}}>
                 <div className="col-6">
-                  <p><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
+                  <p className="player-name-on-roster"><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
                 </div>
                 <div className="col-3 text-start">
                   <p>{player.sex}</p>

@@ -236,6 +236,12 @@ html {
   font-weight: bold;
 }
 
+.player-name-on-roster {
+  max-width: 175px;
+  overflow: hidden;
+  max-height: 30px;
+}
+
 /* LINEUP PAGE */
 td {
   border: solid thin black;
@@ -249,6 +255,7 @@ td {
 .player-row-header-wrapper {
   margin-left: 3px;
   max-height: 25px;
+  max-width: 125px;
   overflow: hidden;
 }
 
@@ -281,6 +288,8 @@ td {
 
 .batting-order-player-name {
   margin-left: 3px;
+  max-width: 95px;
+  overflow: hidden;
 }
 
 .lineup-row-male {
@@ -542,15 +551,15 @@ td {
 }
 
 .requirements-row {
-  margin-top: 35px;
+  margin-top: 50px;
 }
 
 .requirements-row-second {
-  margin-top: 25px;
+  margin-top: 40px;
 }
 
 .requirements-row-last {
-  margin-top: 35px;
+  margin-top: 50px;
   margin-bottom: -15px;
 }
 
