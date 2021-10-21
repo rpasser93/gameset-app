@@ -363,6 +363,12 @@ td {
   color: black !important;
 }
 
+.position-selection {
+  width: 25%;
+  float: left;
+  margin: 5px;
+}
+
 /* LINEUP-FIELD PAGE */
 .field-img {
   position: absolute;

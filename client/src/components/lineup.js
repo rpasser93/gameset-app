@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerBattingOrder, updatePlayerLineup } from "../actions/actions"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import printJS from 'print-js';
-import { Print } from 'react-ionicons'
+import { Print, ReturnDownBack } from 'react-ionicons'
 
 const Lineup = () => {
   const [printToggle, setPrintToggle] = useState("off");
@@ -71,7 +71,7 @@ const Lineup = () => {
         positionArray.map(pos => {
           return (
             <div key={pos}>
-              <button type="button" className="btn-sm btn-primary" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
+              <button type="button" className="btn-sm btn-primary position-selection" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
             </div>
           );
         })
@@ -476,7 +476,18 @@ const Lineup = () => {
     },1)
 
     setTimeout(()=>{setPrintToggle("off")},1000);
-    
+  }
+
+  const clearLineup = () => {
+    //eslint-disable-next-line
+    const isConfirmed = confirm('Clear positions across all innings?');
+    if (isConfirmed) {
+      players.forEach(plyr => {
+        for (let i = 0; i < 7; i++) {
+          dispatch(updatePlayerLineup(paramId,plyr._id,'-',i));
+        }
+      })
+    }
   }
 
   return (
@@ -504,7 +515,9 @@ const Lineup = () => {
             <table className="text-center">
               <tbody>
                 <tr className="inning-row">
-                  <td className="empty-cell"></td>
+                  <td className="empty-cell">
+                    <ReturnDownBack onClick={()=>{clearLineup()}}/>
+                  </td>
                   <td><strong>1st</strong></td>
                   <td><strong>2nd</strong></td>
                   <td><strong>3rd</strong></td>
