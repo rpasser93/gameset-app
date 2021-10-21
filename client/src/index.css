@@ -377,6 +377,11 @@ td {
   cursor: pointer;
 }
 
+.btn-chosen-pos {
+  color: white !important;
+  background-color: #003563 !important;
+}
+
 /* LINEUP-FIELD PAGE */
 .field-img {
   position: absolute;

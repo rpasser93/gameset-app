@@ -74,8 +74,24 @@ const Lineup = () => {
     let positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RCF','RF'];
 
     const renderPositions = (playerId, num) => {
+
+      const assignedPositions = players.map(plyr=> {
+        return plyr.lineup[num];
+      })
+
+      console.log(assignedPositions);
+
       return (
         positionArray.map(pos => {
+
+          if(assignedPositions.includes(pos) && pos !== '-') {
+            return (
+              <div key={pos}>
+              <button type="button" className="btn-sm btn-chosen-pos position-selection" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
+            </div>
+            )
+          }
+
           return (
             <div key={pos}>
               <button type="button" className="btn-sm btn-primary position-selection" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
