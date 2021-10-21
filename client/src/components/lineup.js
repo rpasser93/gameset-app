@@ -516,7 +516,7 @@ const Lineup = () => {
             <table className="text-center">
               <tbody>
                 <tr className="inning-row">
-                  <td className="empty-cell">
+                  <td className={`empty-cell print-toggle-${printToggle}`}>
                     <div id="ignore">
                       <Backspace className="clear-lineup-button" onClick={()=>{clearLineup()}}/>
                     </div>
