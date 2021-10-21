@@ -159,7 +159,7 @@ const Roster = () => {
   const editPlayerModal = () => {
     return (
       <div>
-        <Modal show={showPlayerEdit} onHide={() => handlePlayerEditClose()}>
+        <Modal show={showPlayerEdit} onHide={() => handlePlayerEditClose()} className="edit-player-modal">
 
           <Modal.Header closeButton>
             <Modal.Title>Edit Player</Modal.Title>

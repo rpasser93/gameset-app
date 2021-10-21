@@ -242,6 +242,10 @@ html {
   max-height: 30px;
 }
 
+.edit-player-modal ~ .modal-backdrop {
+  opacity: 0.001;
+}
+
 /* LINEUP PAGE */
 td {
   border: solid thin black;
