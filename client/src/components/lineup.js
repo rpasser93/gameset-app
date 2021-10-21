@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers, fetchTeamById, updatePlayerBattingOrder, updatePlayerLineup } from "../actions/actions"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import printJS from 'print-js';
+import { Print } from 'react-ionicons'
 
 const Lineup = () => {
+  const [printToggle, setPrintToggle] = useState("off");
+
   const dispatch = useDispatch();
   const history = useHistory();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
@@ -85,7 +89,7 @@ const Lineup = () => {
         } else {playername = player.firstName}
 
         return (
-          <tr key={player._id} className={`lineup-row-${player.sex}`}>
+          <tr key={player._id} className={`print-toggle-${printToggle} lineup-row-${player.sex}`}>
             <td className="player-row-header text-start">
               <div className="player-row-header-wrapper">
                 {playername}
@@ -93,7 +97,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[0]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -103,7 +107,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[1]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -113,7 +117,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[2]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -123,7 +127,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[3]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -133,7 +137,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[4]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -143,7 +147,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[5]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -153,7 +157,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className="btn-sm pos-dd-btn" data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[6]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -414,7 +418,7 @@ const Lineup = () => {
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <div>
 
-                          <div className={`col batting-order-player batting-order-row-${player.sex}`} key={player._id}>
+                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player._id}>
                             <div className="batting-order-player-name">{playername}</div>
                           </div>
                         
@@ -459,6 +463,22 @@ const Lineup = () => {
     })
   }
 
+  const printForm = () => {
+
+    setTimeout(() => {
+      printJS(
+        {
+          printable: 'print-this',
+          type: 'html',
+          targetStyles: ['*'],
+          onLoadingStart: setPrintToggle("on")
+        }) 
+    },1)
+
+    setTimeout(()=>{setPrintToggle("off")},1000);
+    
+  }
+
   return (
     <DragDropContext onDragStart={onStart} onDragEnd={onEnd}>
       <div className="container-md lineup-container">
@@ -469,14 +489,17 @@ const Lineup = () => {
           <div className="col">
             <h2 className="lineup-page-title text-center"><strong><u>LINEUP</u></strong></h2>
           </div>
-          <div className="col"></div>
+
+          <div className="col print-col text-end">
+            <Print className="print-button" height="30px" width="30px" onClick={()=>{printForm()}} />
+          </div>
         </div>
 
         <div className="row violation-alert-row">
           <div className="col text-center">{renderAlerts()}</div>
         </div>
 
-        <div className="row">
+        <div className="row" id="print-this">
           <div className="col-9">
             <table className="text-center">
               <tbody>

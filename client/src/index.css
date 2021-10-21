@@ -351,6 +351,18 @@ td {
   margin-bottom: 10px;
 }
 
+.print-col {
+  margin-top: 5px;
+}
+
+.print-button:hover {
+  cursor: pointer;
+}
+
+.print-toggle-on {
+  color: black !important;
+}
+
 /* LINEUP-FIELD PAGE */
 .field-img {
   position: absolute;

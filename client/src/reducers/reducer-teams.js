@@ -1,8 +1,6 @@
 import { FETCH_TEAMS, ADD_TEAM, DELETE_TEAM } from "../actions/actions"
 
 const teamsReducer = (state = [], action) => {
-  console.log('state', state);
-  console.log('action', action);
   switch(action.type) {
 
     case FETCH_TEAMS:

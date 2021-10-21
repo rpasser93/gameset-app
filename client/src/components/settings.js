@@ -257,7 +257,6 @@ const Settings = () => {
        //eslint-disable-next-line
        const isConfirmed2 = confirm('This is irreversible. Are you sure you want to proceed?')
        if (isConfirmed2) { 
-         console.log('deleted!!');
          dispatch(deleteTeam(paramId));
          history.push(`/login`);
        }
