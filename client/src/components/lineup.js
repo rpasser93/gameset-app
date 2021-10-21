@@ -79,8 +79,6 @@ const Lineup = () => {
         return plyr.lineup[num];
       })
 
-      console.log(assignedPositions);
-
       return (
         positionArray.map(pos => {
 

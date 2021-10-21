@@ -293,6 +293,7 @@ td {
 .batting-order-player-name {
   margin-left: 3px;
   max-width: 95px;
+  max-height: 25px;
   overflow: hidden;
 }
 
@@ -616,6 +617,11 @@ td {
     cursor: pointer;
   }
 
+  .player-name-on-roster {
+    max-width: 275px;
+    overflow: hidden;
+  }
+
   /* LINEUP PAGE */
   td {
     width: 80px;
@@ -627,6 +633,19 @@ td {
 
   .pos-dd-btn:hover {
     background-color: rgb(0, 225, 255);
+  }
+
+  .batting-order-player {
+    width: 75%;
+  }
+
+  .batting-order-player-name {
+    max-width: 150px;
+    overflow: hidden;
+  }
+
+  .batting-order-title {
+    margin-left: -30px;
   }
 
   /* LINEUP-FIELD PAGE */
@@ -695,7 +714,7 @@ td {
   }
 
   .big-inning-display {
-    margin-left: 120px;
+    margin-left: 110px;
     transform: scale(2);
   }
 
@@ -758,6 +777,11 @@ td {
   .playing-at-RF {
     top: 150px;
     left: 657px;
+  }
+
+  .big-inning-display {
+    margin-left: 120px;
+    transform: scale(2);
   }
 }
 

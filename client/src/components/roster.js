@@ -45,8 +45,20 @@ const Roster = () => {
   }
 
   const addNewPlayer = () => {
+    let playerExists = false;
+
     if (newPlayerFirstName === "" || newPlayerLastName === "" || newPlayerSex === "") {
-      return alert('Please fill in all fields.')
+      return alert('Please fill in all fields.');
+    }
+
+    players.forEach(plyr=>{
+      if (plyr.firstName === newPlayerFirstName && plyr.lastName === newPlayerLastName) {
+        playerExists = true;
+      }
+    })
+
+    if (playerExists) {
+      return alert ('Player already exists.');
     }
 
     dispatch(addPlayer(paramId, newPlayerFirstName, newPlayerLastName, newPlayerSex));
@@ -350,7 +362,7 @@ const renderAvailableStats = () => {
 }
 
 const renderToggleButtonText = () => {
-  return (showEditStatus ? 'Done' : 'Toggle Availability');
+  return (showEditStatus ? 'Off' : 'Toggle Availability');
 }
       
   return (
