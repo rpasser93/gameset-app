@@ -56,7 +56,14 @@ const Lineup = () => {
   }, [dispatch, paramId]);
 
   const handlePositionSelect = (playerId, pos, num) => {
-    dispatch(updatePlayerLineup(paramId, playerId, pos, num))
+
+    players.forEach(plyr => {
+      if (plyr.lineup[num] === pos) {
+        dispatch(updatePlayerLineup(paramId, plyr._id, '-', num));
+      }
+    })
+
+    dispatch(updatePlayerLineup(paramId, playerId, pos, num));
   }
 
   const handleFieldView = () => {
