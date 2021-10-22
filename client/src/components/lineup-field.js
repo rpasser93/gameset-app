@@ -53,7 +53,7 @@ const LineupField = () => {
     <div className="container-md lineup-field-container">
       <div className="row">
         <div className="col text-start">
-          <button type="button" className="btn-sm table-view-btn" onClick={() => {handleTableView()}}>TableView</button>
+          <button type="button" className="btn-sm table-view-btn" onClick={() => {handleTableView()}}>Table View</button>
         </div>
         <div className="col">
           <h2 className="lineup-field-page-title text-center"><strong><u>LINEUP</u></strong></h2>
