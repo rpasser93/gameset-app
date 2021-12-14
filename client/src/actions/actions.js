@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:8000/api/teams';
+const baseUrl = '/api/teams';
 
 export const FETCH_TEAMS = "FETCH_TEAMS";
 export const ADD_TEAM = "ADD_TEAM";
@@ -48,7 +48,7 @@ export const addTeam = (login, password) => {
 
 export const deleteTeam = (id) => {
 
-  const request = axios.delete(`http://localhost:8000/api/teams/${id}`);
+  const request = axios.delete(`/api/teams/${id}`);
 
   return {
     type: DELETE_TEAM,
@@ -62,7 +62,7 @@ export const fetchTeamByLogin = (login, password) => {
     password: password
   }
 
-  const request = axios.post(`http://localhost:8000/api/team`, data);
+  const request = axios.post(`/api/team`, data);
 
   return {
     type: FETCH_TEAM_BY_LOGIN,
@@ -72,7 +72,7 @@ export const fetchTeamByLogin = (login, password) => {
 
 export const fetchTeamById = (id) => {
 
-  const request = axios.get(`http://localhost:8000/api/teams/${id}`);
+  const request = axios.get(`/api/teams/${id}`);
 
   return {
     type: FETCH_TEAM_BY_ID,
