@@ -184,7 +184,7 @@ html {
 }
 
 .delete-player-button {
-  margin-right: 200px;
+  margin-right: 175px;
 }
 
 .sex-select-input {
@@ -437,6 +437,38 @@ td {
   color: white;
 }
 
+.switch-inning-left-col {
+  margin-top: 75px;
+}
+
+.switch-inning-right-col {
+  margin-top: 75px;
+}
+
+.inning-left-button {
+  width: 100%;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+}
+
+.inning-right-button {
+  width: 100%;
+  display: flex;
+  align-items: right;
+  justify-content: right;
+}
+
+.inning-left-button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 187, 0);
+}
+
+.inning-right-button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 187, 0);
+}
+
 .relative-pos-col {
   position: relative;
 }
@@ -445,70 +477,70 @@ td {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 207px;
+  left: 172px;
 }
 
 .playing-at-C {
   position: absolute;
   z-index: 3;
   top: 205px;
-  left: 205px;
+  left: 170px;
 }
 
 .playing-at-1B {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 280px;
+  left: 245px;
 }
 
 .playing-at-2B {
   position: absolute;
   z-index: 3;
   top: 95px;
-  left: 250px;
+  left: 215px;
 }
 
 .playing-at-3B {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 125px;
+  left: 90px;
 }
 
 .playing-at-SS {
   position: absolute;
   z-index: 3;
   top: 95px;
-  left: 155px;
+  left: 120px;
 }
 
 .playing-at-LF {
   position: absolute;
   z-index: 3;
   top: 45px;
-  left: 80px;
+  left: 45px;
 }
 
 .playing-at-CF {
   position: absolute;
   z-index: 3;
   top: 0px;
-  left: 155px;
+  left: 120px;
 }
 
 .playing-at-RCF {
   position: absolute;
   z-index: 3;
   top: 5px;
-  left: 250px;
+  left: 215px;
 }
 
 .playing-at-RF {
   position: absolute;
   z-index: 3;
   top: 55px;
-  left: 305px;
+  left: 270px;
 }
 
 .inning-display-column {
@@ -652,7 +684,7 @@ td {
   .field-img {
     position: absolute;
     top: 0px;
-    transform: scale(1);
+    transform: scale(0.8);
     mix-blend-mode: multiply;
     z-index: 2;
   }
@@ -663,54 +695,62 @@ td {
     overflow: visible;
   }
 
+  .switch-inning-left-col {
+    margin-top: 215px;
+  }
+
+  .switch-inning-right-col {
+    margin-top: 215px;
+  }
+
   .playing-at-P {
-    top: 345px;
-    left: 375px;
+    top: 325px;
+    left: 235px;
   }
 
   .playing-at-C {
-    top: 455px;
-    left: 373px;
+    top: 435px;
+    left: 233px;
   }
 
   .playing-at-1B {
-    top: 345px;
-    left: 482px;
+    top: 325px;
+    left: 342px;
   }
 
   .playing-at-2B {
-    top: 280px;
-    left: 447px;
-  }
-
-  .playing-at-3B {
-    top: 345px;
-    left: 247px;
-  }
-
-  .playing-at-SS {
-    top: 280px;
-    left: 297px;
-  }
-
-  .playing-at-LF {
-    top: 150px;
-    left: 162px;
-  }
-
-  .playing-at-CF {
-    top: 75px;
+    top: 255px;
     left: 307px;
   }
 
-  .playing-at-RCF {
+  .playing-at-3B {
+    top: 325px;
+    left: 117px;
+  }
+
+  .playing-at-SS {
+    top: 260px;
+    left: 157px;
+  }
+
+  .playing-at-LF {
+    top: 160px;
+    left: 42px;
+  }
+
+  .playing-at-CF {
     top: 85px;
-    left: 472px;
+    left: 167px;
+  }
+
+  .playing-at-RCF {
+    top: 95px;
+    left: 332px;
   }
 
   .playing-at-RF {
-    top: 150px;
-    left: 597px;
+    top: 160px;
+    left: 427px;
   }
 
   .big-inning-display {
@@ -729,54 +769,71 @@ td {
 }
 
 @media screen and (min-width: 1440px) {
+  /* LINEUP-FIELD PAGE */
+  .field-img {
+    position: absolute;
+    top: 0px;
+    transform: scale(1);
+    mix-blend-mode: multiply;
+    z-index: 2;
+  }
+
+  .switch-inning-left-col {
+    margin-top: 175px;
+  }
+
+  .switch-inning-right-col {
+    margin-top: 175px;
+  }
+
   .playing-at-P {
     top: 345px;
-    left: 435px;
+    left: 325px;
   }
 
   .playing-at-C {
     top: 455px;
-    left: 432px;
+    left: 322px;
   }
 
   .playing-at-1B {
     top: 345px;
-    left: 542px;
+    left: 432px;
   }
 
   .playing-at-2B {
     top: 280px;
-    left: 507px;
+    left: 397px;
   }
 
   .playing-at-3B {
     top: 345px;
-    left: 307px;
+    left: 197px;
   }
 
   .playing-at-SS {
     top: 280px;
-    left: 357px;
+    left: 247px;
   }
 
   .playing-at-LF {
     top: 150px;
-    left: 222px;
+    left: 112px;
   }
 
   .playing-at-CF {
     top: 75px;
-    left: 367px;
+    left: 257px;
   }
 
   .playing-at-RCF {
     top: 85px;
-    left: 532px;
+    left: 422px;
   }
 
   .playing-at-RF {
     top: 150px;
-    left: 657px;
+    left: 547px;
   }
 
   .big-inning-display {

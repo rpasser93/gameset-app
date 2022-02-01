@@ -2,7 +2,8 @@ import bballdiamond from '../constants/bballdiamond.jpg';
 import { useHistory } from "react-router";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers } from "../actions/actions"
+import { fetchPlayers } from "../actions/actions";
+import { ChevronBack, ChevronForward } from 'react-ionicons';
 
 const LineupField = () => {
   const [inning, setInning] = useState("1");
@@ -13,6 +14,21 @@ const LineupField = () => {
 
   const handleTableView = () => {
     history.push(`/lineup/${paramId}`);
+  }
+
+  const handleInningLeftButton = () => {
+    if (inning !==1) {
+      setInning(inning - 1);
+    }
+  }
+
+  const handleInningRightButton = () => {
+    if (inning === 1 || inning === "1") {
+      setInning(2);
+    }
+    else if (inning !==7) {
+      setInning(inning + 1);
+    }
   }
 
   useEffect(() => {
@@ -47,7 +63,26 @@ const LineupField = () => {
     }
     return (<h1>{inning}th</h1>)
   }
-  
+
+  const renderInningLeftButton = () => {
+    if (inning !== 1 && inning !== "1") {
+      return (
+        <div>
+          <ChevronBack className="inning-left-button" height='50px' width='50px' onClick={() => handleInningLeftButton()} />
+        </div>
+      )
+    }
+  }
+
+  const renderInningRightButton = () => {
+    if (inning !== 7) {
+      return (
+        <div>
+          <ChevronForward className="inning-right-button" height='50px' width='50px' onClick={() => handleInningRightButton()} />
+        </div>
+      )
+    }
+  }
 
   return (
     <div className="container-md lineup-field-container">
@@ -87,7 +122,11 @@ const LineupField = () => {
           <p className="inning-subtitle">inning</p>
         </div>
 
-        <div className="col-8 d-flex justify-content-center relative-pos-col">
+        <div className="col-1 switch-inning-left-col">
+          <div>{renderInningLeftButton()}</div>
+        </div>
+
+        <div className="col-6 d-flex justify-content-center relative-pos-col">
           <ul>
           {fieldPlayers.map(player => {
 
@@ -112,8 +151,12 @@ const LineupField = () => {
           </ul>
           <img src={bballdiamond} className="field-img" alt="diamond"></img>
         </div>
+
+        <div className="col-1 switch-inning-right-col">
+          <div>{renderInningRightButton()}</div>
+        </div>
         
-        <div className="col-2 bench-display-column d-flex align-items-end">
+        <div className="col-2 bench-display-column">
           <div className="col on-bench-col">
             <h6 className="text-center"><u>Bench</u></h6>
             {benchPlayers.map(player => {
