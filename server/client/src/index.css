@@ -477,70 +477,70 @@ td {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 172px;
+  left: 157px;
 }
 
 .playing-at-C {
   position: absolute;
   z-index: 3;
   top: 205px;
-  left: 170px;
+  left: 155px;
 }
 
 .playing-at-1B {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 245px;
+  left: 230px;
 }
 
 .playing-at-2B {
   position: absolute;
   z-index: 3;
   top: 95px;
-  left: 215px;
+  left: 200px;
 }
 
 .playing-at-3B {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 90px;
+  left: 75px;
 }
 
 .playing-at-SS {
   position: absolute;
   z-index: 3;
   top: 95px;
-  left: 120px;
+  left: 105px;
 }
 
 .playing-at-LF {
   position: absolute;
   z-index: 3;
   top: 45px;
-  left: 45px;
+  left: 30px;
 }
 
 .playing-at-CF {
   position: absolute;
   z-index: 3;
   top: 0px;
-  left: 120px;
+  left: 105px;
 }
 
 .playing-at-RCF {
   position: absolute;
   z-index: 3;
   top: 5px;
-  left: 215px;
+  left: 200px;
 }
 
 .playing-at-RF {
   position: absolute;
   z-index: 3;
   top: 55px;
-  left: 270px;
+  left: 255px;
 }
 
 .inning-display-column {
