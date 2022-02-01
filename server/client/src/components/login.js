@@ -58,7 +58,7 @@ const Login = () => {
     }
 
     teams.forEach(team => {
-      if (team.login === newAccountLogin) {
+      if (team.login.toLowerCase() === newAccountLogin.toLowerCase()) {
         cancelNewAccount = true;
         return (alert('That username already exists. Please choose a different one.'));
       }
