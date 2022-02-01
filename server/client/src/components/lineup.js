@@ -8,6 +8,7 @@ import { Print, Backspace } from 'react-ionicons'
 
 const Lineup = () => {
   const [printToggle, setPrintToggle] = useState("off");
+  const [spinToggle, setSpinToggle] = useState("off");
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -456,6 +457,16 @@ const Lineup = () => {
     )
   }
 
+  const renderSpinningWheel = () => {
+    if (spinToggle === "on") {
+      return (
+        <div>
+          <div className="spinner-border spinner-border-sm print-loading-icon" role="status"></div>
+        </div>
+      )
+    }
+  }
+
   const onStart = () => {
     battingOrderList.map(player => {
       return dispatch(updatePlayerBattingOrder(paramId, player.id, battingOrderList.indexOf(player)));
@@ -486,6 +497,8 @@ const Lineup = () => {
 
   const printForm = () => {
 
+    setSpinToggle("on");
+
     setTimeout(() => {
       printJS(
         {
@@ -497,7 +510,7 @@ const Lineup = () => {
         }) 
     },1)
 
-    setTimeout(()=>{setPrintToggle("off")},1000);
+    setTimeout(()=>{setPrintToggle("off"); setSpinToggle("off")},1000);
   }
 
   const clearLineup = () => {
@@ -524,7 +537,15 @@ const Lineup = () => {
           </div>
 
           <div className="col print-col text-end">
-            <Print className="print-button" height="30px" width="30px" onClick={()=>{printForm()}} />
+
+            <div className="row">
+             <div className="col-9">{renderSpinningWheel()}</div>
+
+             <div className="col-3">
+               <Print className="print-button" height="30px" width="30px" onClick={()=>{printForm()}} />
+              </div>
+            </div>
+
           </div>
         </div>
 

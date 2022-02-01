@@ -461,7 +461,7 @@ const Settings = () => {
               <br/>
               <div className="row">
                 <div className="col">
-                  <button type="button" className="btn btn-danger delete-team-btn" onClick={()=> {handleDeleteTeam()}}>Delete Team</button>
+                  <button type="button" className="btn btn-danger delete-team-btn" onClick={()=> {handleDeleteTeam()}}>Delete Account</button>
                 </div>
               </div>
               </div>
