@@ -280,6 +280,7 @@ td {
 .batting-order-title {
   margin-bottom: 1px;
   margin-left: 28px;
+  font-size: smaller;
 }
 
 .batting-order-player {
@@ -543,13 +544,31 @@ td {
   left: 255px;
 }
 
-.inning-display-column {
-  margin-top: 150px;
+.big-inning-display {
+  margin-left: 35px;
+  margin-top: 100px;
+  transform: scale(1.75);
 }
 
-.big-inning-display {
-  margin-left: 20px;
-  transform: scale(1.75);
+.inning-subtitle {
+  margin-left: 35px;
+}
+
+.pos-filled-num {
+  margin-bottom: 0px;
+  font-size: larger;
+}
+
+.pos-filled-text {
+  font-size: smaller;
+}
+
+.pos-num-color {
+  color: red;
+}
+
+.pos-num-color-10 {
+  color: rgb(0, 120, 0);
 }
 
 /* SETTINGS PAGE */
@@ -755,6 +774,7 @@ td {
 
   .big-inning-display {
     margin-left: 110px;
+    margin-top: 250px;
     transform: scale(2);
   }
 

@@ -118,8 +118,17 @@ const LineupField = () => {
 
       <div className="row">
         <div className="col-2 inning-display-column">
-          <div className="big-inning-display">{renderInningDisplay()}</div>
-          <p className="inning-subtitle">inning</p>
+          <div className="row pos-filled-row">
+            <div className="col pos-filled-col">
+              <p className="pos-filled-num text-center"><strong><span className={`pos-num-color pos-num-color-${fieldPlayers.length}`}>{fieldPlayers.length}</span>/10</strong></p>
+              <p className="pos-filled-text text-center">Pos. filled</p>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="big-inning-display">{renderInningDisplay()}</div>
+            <p className="inning-subtitle">inning</p>
+          </div>
         </div>
 
         <div className="col-1 switch-inning-left-col">
