@@ -174,9 +174,9 @@ router.post("/api/teams/:team/players", (req, res, next) => {
       lastName: req.body.lastName,
       sex: req.body.sex,
       availability: true,
-      preferredPos: [],
       lineup: ["-","-","-","-","-","-","-"],
-      battingOrder: null
+      battingOrder: null,
+      battingRotateWith: null
     });
     teamRes[0].save((err) => {
       if (err) return next(err);
@@ -276,23 +276,6 @@ router.put("/api/teams/:team/players/:player/availability", (req, res, next) => 
     });
     res.send(player);
   });
-});
-
-//PUT change a player's preferred positions, requires team ID param, player ID param, and 'preferredPos' object key with array value in req body
-router.put("/api/teams/:team/players/:player/preferredPos", (req, res, next) => {
-  const {team} = req.params;
-  const {player} = req.params;
-
-  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}
-  ).exec((err, teamRes) => {
-    if (err) return next(err);
-    teamRes[0].players[0].preferredPos = req.body.preferredPos;
-    teamRes[0].save((err) => {
-      if (err) return next(err);
-      console.log('Player position preferences successfully changed.');
-    });
-  });
-  res.end();
 });
 
 //GET a specific player's lineup, requires team ID param and player ID param

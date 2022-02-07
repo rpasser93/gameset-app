@@ -28,9 +28,9 @@ const PlayerSchema = new Schema({
   lastName: String,
   sex: String,
   availability: Boolean,
-  preferredPos: Array,
   lineup: Array,
-  battingOrder: Number
+  battingOrder: Number,
+  battingRotateWith: String
 });
 
 const TeamSchema = new Schema({
@@ -38,6 +38,7 @@ const TeamSchema = new Schema({
   players: [PlayerSchema],
   settings: [SettingsSchema],
   login: String,
+  email: String,
   password: String
 });
 

@@ -67,12 +67,32 @@ const Lineup = () => {
     dispatch(updatePlayerLineup(paramId, playerId, pos, num));
   }
 
+  const handlePasteAllInnings = (playerId, inning) => {
+
+    let currentPlayer = players.filter( plyr => {
+      return plyr._id === playerId
+    })
+
+    let pos = currentPlayer[0].lineup[inning];
+
+    for (let num=0; num<7; num++) {
+
+      players.forEach(plyr => {
+        if (plyr.lineup[num] === (pos) && plyr._id !== playerId && pos !== '-') {
+          dispatch(updatePlayerLineup(paramId, plyr._id, '-', num))
+        }
+      })
+
+      dispatch(updatePlayerLineup(paramId, playerId, pos, num))
+    }
+  }
+
   const handleFieldView = () => {
     history.push(`/lineup-field/${paramId}`);
   }
 
   const renderPlayerLineupRows = () => {
-    let positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RCF','RF'];
+    let positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RCF','RF', '>>'];
 
     const renderPositions = (playerId, num) => {
 
@@ -83,11 +103,27 @@ const Lineup = () => {
       return (
         positionArray.map(pos => {
 
-          if(assignedPositions.includes(pos) && pos !== '-') {
+          if(pos === '>>') {
             return (
               <div key={pos}>
-              <button type="button" className="btn-sm btn-chosen-pos position-selection" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
+                <button type="button" className="btn-sm btn-warning btn-paste-all-innings position-selection" onClick={()=>handlePasteAllInnings(playerId, num)}>{pos}</button>
+              </div>
+            )
+          }
+
+          if(pos === '-') {
+            return (
+            <div key={pos}>
+              <button type="button" className="btn-sm btn-danger position-selection" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
             </div>
+            )
+          }
+
+          if(assignedPositions.includes(pos) && pos !== '-' && pos !== '>>') {
+            return (
+              <div key={pos}>
+                <button type="button" className="btn-sm btn-chosen-pos position-selection" onClick={()=>handlePositionSelect(playerId, pos, num)}>{pos}</button>
+              </div>
             )
           }
 
