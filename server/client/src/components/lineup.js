@@ -9,6 +9,7 @@ import { Print, Backspace } from 'react-ionicons'
 const Lineup = () => {
   const [printToggle, setPrintToggle] = useState("off");
   const [spinToggle, setSpinToggle] = useState("off");
+  const [rotateBattingToggle, setRotateBattingToggle] = useState(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -57,9 +58,8 @@ const Lineup = () => {
   }, [dispatch, paramId]);
 
   const handlePositionSelect = (playerId, pos, num) => {
-
     players.forEach(plyr => {
-      if (plyr.lineup[num] === pos) {
+      if (plyr.lineup[num] === pos && pos !== '-') {
         dispatch(updatePlayerLineup(paramId, plyr._id, '-', num));
       }
     })
@@ -67,8 +67,7 @@ const Lineup = () => {
     dispatch(updatePlayerLineup(paramId, playerId, pos, num));
   }
 
-  const handlePasteAllInnings = (playerId, inning) => {
-
+  const handlePasteAllInnings = (playerId, inning) => {    
     let currentPlayer = players.filter( plyr => {
       return plyr._id === playerId
     })
@@ -76,7 +75,6 @@ const Lineup = () => {
     let pos = currentPlayer[0].lineup[inning];
 
     for (let num=0; num<7; num++) {
-
       players.forEach(plyr => {
         if (plyr.lineup[num] === (pos) && plyr._id !== playerId && pos !== '-') {
           dispatch(updatePlayerLineup(paramId, plyr._id, '-', num))
@@ -84,6 +82,40 @@ const Lineup = () => {
       })
 
       dispatch(updatePlayerLineup(paramId, playerId, pos, num))
+    }
+  }
+
+  const handleRotateBattingClick = (playerId, playername) => {
+
+    if (!rotateBattingToggle) {
+      setRotateBattingToggle(playerId);
+      document.getElementById(`${playerId}`).style.border="ridge red";
+
+    } else {
+      setRotateBattingToggle(null);
+
+      document.getElementById(`${playerId}`).style.border="ridge red";
+
+      const battingRotatePrompt = () => {
+        //eslint-disable-next-line
+        const isConfirmed = confirm(`Rotate ${playerId} and ${playername} in batting order?`);
+
+        if (isConfirmed) {
+          const batterCollection = document.getElementsByClassName(`batting-order-player`);
+          for (let i = 0; i < batterCollection.length; i++) {
+            batterCollection[i].style.border="thin solid black";
+          }
+        } else {
+          const batterCollection = document.getElementsByClassName(`batting-order-player`);
+          for (let i = 0; i < batterCollection.length; i++) {
+            batterCollection[i].style.border="thin solid black";
+          }
+        }
+      }
+
+      setTimeout(() => {
+        battingRotatePrompt();
+      }, 1)
     }
   }
 
@@ -476,7 +508,7 @@ const Lineup = () => {
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <div>
 
-                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player._id}>
+                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player.id} id={player.id} onClick={() => {handleRotateBattingClick(player.id, playername)}}>
                             <div className="batting-order-player-name">{playername}</div>
                           </div>
                         
@@ -555,7 +587,9 @@ const Lineup = () => {
     if (isConfirmed) {
       players.forEach(plyr => {
         for (let i = 0; i < 7; i++) {
-          dispatch(updatePlayerLineup(paramId,plyr._id,'-',i));
+          if(plyr.lineup[i] !== '-') {
+            dispatch(updatePlayerLineup(paramId,plyr._id,'-',i));
+          }
         }
       })
     }

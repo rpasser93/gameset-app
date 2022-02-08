@@ -12,6 +12,12 @@ const LineupField = () => {
   const history = useHistory();
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
+  useEffect(() => {
+    dispatch(fetchPlayers(paramId,""));
+  }, [dispatch, paramId]);
+
+  let players = useSelector(state => state.players);
+
   const handleTableView = () => {
     history.push(`/lineup/${paramId}`);
   }
@@ -30,12 +36,6 @@ const LineupField = () => {
       setInning(inning + 1);
     }
   }
-
-  useEffect(() => {
-    dispatch(fetchPlayers(paramId,""));
-  }, [dispatch, paramId]);
-
-  let players = useSelector(state => state.players);
 
   if (players && players.length > 0) {
     players = players.filter(player => {
@@ -62,6 +62,25 @@ const LineupField = () => {
       return (<h1>3rd</h1>)
     }
     return (<h1>{inning}th</h1>)
+  }
+
+  const renderPosFilled = () => {
+
+    if (fieldPlayers.length < 10) {
+      return (
+        <div className="col pos-filled-col">
+          <p className="pos-filled-num text-center"><strong><span className={`pos-num-below`}>{fieldPlayers.length}</span>/10</strong></p>
+          <p className="pos-filled-text text-center">Pos. filled</p>
+        </div>
+      )
+    }
+
+    return (
+      <div className="col pos-filled-col">
+        <p className="pos-filled-num text-center"><strong><span className={`pos-num-meets`}>{fieldPlayers.length}</span>/10</strong></p>
+        <p className="pos-filled-text text-center">Pos. filled</p>
+      </div>
+    )
   }
 
   const renderInningLeftButton = () => {
@@ -102,13 +121,13 @@ const LineupField = () => {
 
           <nav aria-label="Page navigation example">
             <ul className="pagination">
-              <li className="page-item"><div className="page-link" onClick={()=>{setInning(1)}}>1st</div></li>
-              <li className="page-item"><div className="page-link" onClick={()=>{setInning(2)}}>2nd</div></li>
-              <li className="page-item"><div className="page-link" onClick={()=>{setInning(3)}}>3rd</div></li>
-              <li className="page-item"><div className="page-link" onClick={()=>{setInning(4)}}>4th</div></li>
-              <li className="page-item"><div className="page-link" onClick={()=>{setInning(5)}}>5th</div></li>
-              <li className="page-item"><div className="page-link" onClick={()=>{setInning(6)}}>6th</div></li>
-              <li className="page-item"><div className="page-link" onClick={()=>{setInning(7)}}>7th</div></li>
+              <li className="page-item"><div className="page-link pl-i1" onClick={()=>{setInning(1)}}>1st</div></li>
+              <li className="page-item"><div className="page-link pl-i2" onClick={()=>{setInning(2)}}>2nd</div></li>
+              <li className="page-item"><div className="page-link pl-i3" onClick={()=>{setInning(3)}}>3rd</div></li>
+              <li className="page-item"><div className="page-link pl-i4" onClick={()=>{setInning(4)}}>4th</div></li>
+              <li className="page-item"><div className="page-link pl-i5" onClick={()=>{setInning(5)}}>5th</div></li>
+              <li className="page-item"><div className="page-link pl-i6" onClick={()=>{setInning(6)}}>6th</div></li>
+              <li className="page-item"><div className="page-link pl-i7" onClick={()=>{setInning(7)}}>7th</div></li>
             </ul>
           </nav>
 
@@ -119,10 +138,7 @@ const LineupField = () => {
       <div className="row">
         <div className="col-2 inning-display-column">
           <div className="row pos-filled-row">
-            <div className="col pos-filled-col">
-              <p className="pos-filled-num text-center"><strong><span className={`pos-num-color pos-num-color-${fieldPlayers.length}`}>{fieldPlayers.length}</span>/10</strong></p>
-              <p className="pos-filled-text text-center">Pos. filled</p>
-            </div>
+            {renderPosFilled()}
           </div>
 
           <div className="row">

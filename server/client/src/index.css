@@ -562,11 +562,11 @@ td {
   font-size: smaller;
 }
 
-.pos-num-color {
+.pos-num-below {
   color: red;
 }
 
-.pos-num-color-10 {
+.pos-num-meets {
   color: rgb(0, 120, 0);
 }
 
