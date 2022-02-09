@@ -38,8 +38,8 @@ const TeamSchema = new Schema({
   players: [PlayerSchema],
   settings: [SettingsSchema],
   login: String,
-  email: String,
-  password: String
+  password: String,
+  email: String
 });
 
 module.exports = mongoose.model("Team", TeamSchema);

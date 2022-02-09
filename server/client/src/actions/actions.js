@@ -17,6 +17,7 @@ export const FETCH_PLAYERS = "FETCH_PLAYERS";
 export const UPDATE_PLAYER_AVAILABILITY = "UPDATE_PLAYER_AVAILABILITY";
 export const UPDATE_PLAYER_LINEUP = "UPDATE_PLAYER_LINEUP";
 export const UPDATE_PLAYER_BATTING_ORDER = "UPDATE_PLAYER_BATTING_ORDER";
+export const UPDATE_PLAYER_BATTING_ROTATION = "UPDATE_PLAYER_BATTING_ROTATION";
 export const ADD_PLAYER = "ADD_PLAYER";
 export const DELETE_PLAYER = "DELETE_PLAYER";
 export const UPDATE_PLAYER_FIRSTNAME = "UPDATE_PLAYER_FIRSTNAME";
@@ -166,6 +167,19 @@ export const updatePlayerBattingOrder = (teamId, playerId, battingOrder) => {
 
   return {
     type: UPDATE_PLAYER_BATTING_ORDER,
+    payload: request
+  };
+}
+
+export const updatePlayerBattingRotation = (teamId, playerId, battingRotateWith) => {
+  const data = {
+    battingRotateWith: battingRotateWith
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/players/${playerId}/battingRotateWith`, data);
+
+  return {
+    type: UPDATE_PLAYER_BATTING_ROTATION,
     payload: request
   };
 }

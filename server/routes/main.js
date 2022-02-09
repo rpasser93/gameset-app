@@ -17,6 +17,7 @@ router.post("/api/teams", (req, res) => {
 
   newTeam.login = req.body.login;
   newTeam.password = req.body.password;
+  newTeam.email = null;
   newTeam.teamName = 'Your Team';
   newTeam.settings.push({
     numInnings: 7,
@@ -317,6 +318,22 @@ router.put("/api/teams/:team/players/:player/battingOrder", (req, res, next) => 
       if (err) return next(err);
       console.log('Player batting order successfully changed.');
       res.send(JSON.stringify({id: player, battingOrder: req.body.battingOrder}))
+    });
+  });
+});
+
+//PUT change a specific player's batting rotation pairing, requires team ID param, player ID param and 'battingRotateWith' in req body containing another player's ID
+router.put("/api/teams/:team/players/:player/battingRotateWith", (req, res, next) => {
+  const {team} = req.params;
+  const {player} = req.params;
+
+  Team.find({_id: team}, {players: {$elemMatch: {_id: player}}}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].players[0].battingRotateWith = req.body.battingRotateWith;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Player batting rotation pairing successfully changed.');
+      res.send(JSON.stringify({id: player, battingRotateWith: req.body.battingRotateWith}))
     });
   });
 });
