@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlayers, updatePlayerAvailability, fetchTeamById, updatePlayerFirstName, updatePlayerLastName, updatePlayerSex, updatePlayerBattingOrder, updatePlayerLineup, addPlayer, deletePlayer } from "../actions/actions"
+import { fetchPlayers, updatePlayerAvailability, fetchTeamById, updatePlayerFirstName, updatePlayerLastName, updatePlayerSex, updatePlayerBattingOrder, updatePlayerBattingRotation, updatePlayerLineup, addPlayer, deletePlayer } from "../actions/actions"
 import { FingerPrintOutline } from "react-ionicons"
 import { Modal, Button } from "react-bootstrap";
 
@@ -92,11 +92,28 @@ const Roster = () => {
     setShowPlayerEdit(false);
   }
 
-  const deletePlayerFromRoster = (playerId) => {
+  const deletePlayerFromRoster = (player) => {
     //eslint-disable-next-line
     const isConfirmed = confirm('Are you sure you want to delete this player from the team?');
     if (isConfirmed) {
-      dispatch(deletePlayer(paramId, playerId));
+
+      dispatch(updatePlayerBattingRotation(paramId, player._id, null));
+
+      let checkOwnIdInRotation = players.filter(plyr => {
+        return plyr.battingRotateWith === player._id;
+      })
+
+      let checkOthersIdInRotation = (player.battingRotateWith && player.battingRotateWith !== "exclude");
+
+      if (checkOwnIdInRotation[0]) {
+        dispatch(updatePlayerBattingRotation(paramId, checkOwnIdInRotation[0]._id, null));
+      }
+
+      if (checkOthersIdInRotation) {
+        dispatch(updatePlayerBattingRotation(paramId, player.battingRotateWith, null));
+      }
+
+      dispatch(deletePlayer(paramId, player._id));
     }
     setShowPlayerEdit(false);
   }
@@ -212,7 +229,7 @@ const Roster = () => {
           </Modal.Body>
 
           <Modal.Footer>
-                <Button variant="danger" className="delete-player-button" onClick={() => deletePlayerFromRoster(activePlayer._id)}>
+                <Button variant="danger" className="delete-player-button" onClick={() => deletePlayerFromRoster(activePlayer)}>
                   Delete Player</Button>
 
                 <Button variant="secondary" onClick={() => handlePlayerEditClose()}>
@@ -228,6 +245,23 @@ const Roster = () => {
   }
   
   const handlePlayerStatusToggle = (player) => {
+
+    dispatch(updatePlayerBattingRotation(paramId, player._id, null));
+
+    let checkOwnIdInRotation = players.filter(plyr => {
+      return plyr.battingRotateWith === player._id;
+    })
+
+    let checkOthersIdInRotation = (player.battingRotateWith && player.battingRotateWith !== "exclude");
+
+    if (checkOwnIdInRotation[0]) {
+      dispatch(updatePlayerBattingRotation(paramId, checkOwnIdInRotation[0]._id, null));
+    }
+
+    if (checkOthersIdInRotation) {
+      dispatch(updatePlayerBattingRotation(paramId, player.battingRotateWith, null));
+    }
+
     dispatch(updatePlayerAvailability(paramId, player._id));
     dispatch(updatePlayerBattingOrder(paramId, player._id, null));
   

@@ -38,6 +38,7 @@ const Lineup = () => {
     players = players.filter(player => {
       return (player.availability)
     });
+    
     battingPlayers = players.filter(player => {
       return (player.availability && (player.battingRotateWith !== "exclude"))
     })
@@ -49,6 +50,7 @@ const Lineup = () => {
       lastName: player.lastName,
       sex: player.sex,
       id: player._id,
+      battingRotateWith: player.battingRotateWith,
       battingOrder: player.battingOrder
     }
   }).sort((a,b) => { if (a.battingOrder === null) {return 1};
@@ -90,13 +92,21 @@ const Lineup = () => {
     }
   }
 
-  const handleRotateBattingClick = (playerId, playername) => {
+  const handleRotateBattingClick = (playerId, player) => {
 
     if (!rotateBattingToggle) {
       setRotateBattingToggle(playerId);
       document.getElementById(`${playerId}`).style.border="ridge cyan";
 
     } else {
+
+      let sexOfFirstClick = players.filter(plyr => {
+        return plyr._id === rotateBattingToggle;
+      })[0].sex;
+
+      let sexOfSecondClick = players.filter(plyr => {
+        return plyr._id === playerId;
+      })[0].sex;
 
       const revertBattingOrderStyling = () => {
         const batterCollection = document.getElementsByClassName(`batting-order-player`);
@@ -105,31 +115,25 @@ const Lineup = () => {
           }
         }
 
-      const battingRotatePrompt = (rotatedPlayer) => {
+      const battingRotatePrompt = () => {
         //eslint-disable-next-line
-        const isConfirmed = confirm(`Rotate ${playername} and ${rotatedPlayer.firstName} within a single batting order slot?`);
+        const isConfirmed = confirm(`Rotate players within a single batting order slot?`);
 
         if (isConfirmed) {
           dispatch(updatePlayerBattingRotation(paramId, playerId, rotateBattingToggle));
           dispatch(updatePlayerBattingRotation(paramId, rotateBattingToggle, 'exclude'));
 
-          //add CSS to rotate player
-
-
           revertBattingOrderStyling();
+          
         } else {
           revertBattingOrderStyling();
           }
         }
 
-      if (rotateBattingToggle !== playerId) {
+      if (rotateBattingToggle !== playerId && (sexOfFirstClick === sexOfSecondClick)) {
         document.getElementById(`${playerId}`).style.border="ridge cyan";
 
         setTimeout(() => {
-          let rotatedPlayer = players.filter(plyr => {
-            return plyr._id === rotateBattingToggle;
-          })
-
           let playersCurrentlyRotating = players.filter(plyr => {
             return (plyr.battingRotateWith)
           })
@@ -138,18 +142,20 @@ const Lineup = () => {
             return plyr._id;
           })
 
-          console.log(idsOfPlayersCurrentlyRotating);
-          console.log(playerId);
-          console.log(rotateBattingToggle);
-
           if (idsOfPlayersCurrentlyRotating.includes(playerId) || idsOfPlayersCurrentlyRotating.includes(rotateBattingToggle)) {
             alert("Players are already rotating within this batting order slot.")
             revertBattingOrderStyling();
           } else {
-            battingRotatePrompt(rotatedPlayer[0]);
+            battingRotatePrompt();
           }
       
         }, 1)
+      } else if (rotateBattingToggle !== playerId) {
+        
+        alert('Only players of the same sex can rotate within a batting order slot.');
+        revertBattingOrderStyling();
+        setRotateBattingToggle(null);
+        
       } else {
 
         let currentPlayer = players.filter(plyr => {
@@ -169,7 +175,17 @@ const Lineup = () => {
 
             dispatch(updatePlayerBattingRotation(paramId, playerId, null));
             dispatch(updatePlayerBattingRotation(paramId, otherPlayersId, null));
-            dispatch(updatePlayerBattingOrder(paramId, otherPlayersId, null));
+
+            if (currentPlayer[0].battingOrder !== null) {
+              players.forEach(plyr => {
+                if (plyr.battingOrder > currentPlayer[0].battingOrder && (plyr._id !== otherPlayersId)) {
+                  dispatch(updatePlayerBattingOrder(paramId, plyr._id, (plyr.battingOrder+1)));
+                }
+              });
+              dispatch(updatePlayerBattingOrder(paramId, otherPlayersId, (currentPlayer[0].battingOrder+1)));
+            } else {
+              dispatch(updatePlayerBattingOrder(paramId, otherPlayersId, null));
+            }
           }
         }
         revertBattingOrderStyling();
@@ -542,13 +558,44 @@ const Lineup = () => {
     } return (<div></div>)   
   }
 
-  const renderBattingOrder = () => {
+  const renderBattingRotateDiv = (player, playername) => {
+    let playersCurrentlyRotating = players.filter(plyr => {
+      return (plyr.battingRotateWith)
+    })
 
+    let idsOfPlayersCurrentlyRotating = playersCurrentlyRotating.map(plyr => {
+      return plyr._id;
+    })
+
+    let rotatingPlayer = players.filter(plyr => {
+      return plyr._id === player.battingRotateWith;
+    })
+
+    if (idsOfPlayersCurrentlyRotating.includes(player.id)) {
+      let rotatingPlayerFullName = rotatingPlayer[0].firstName;
+
+      if (players.filter(plyr => {
+          return plyr.firstName === rotatingPlayerFullName;
+        }).length > 1) {
+          rotatingPlayerFullName = `${rotatingPlayer[0].firstName} ${rotatingPlayer[0].lastName.substr(0,1)}.`
+        }
+
+      return <div className="batting-order-player-name rotating-batter">
+        <span className="rotating-batter-span-1">{playername}</span>
+        <span className="rotating-batter-span-slash"> / </span>
+        <span className="rotating-batter-span-2">{rotatingPlayerFullName}</span>
+      </div>
+    }
+
+    return <div className="batting-order-player-name">{playername}</div>
+  }
+
+  const renderBattingOrder = () => {
     return (
       battingOrderList.map((player,index) => {
 
         let playername = ""
-        if (battingOrderList.filter(plyr => {
+        if (players.filter(plyr => {
           return plyr.firstName === player.firstName;
         }).length > 1) {
           playername = `${player.firstName} ${player.lastName.substr(0,1)}.`
@@ -568,8 +615,8 @@ const Lineup = () => {
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <div>
 
-                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player.id} id={player.id} onClick={() => {handleRotateBattingClick(player.id, playername)}}>
-                            <div className="batting-order-player-name">{playername}<span className={`rotate-on-${player.id}`}></span></div>
+                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player.id} id={player.id} onClick={() => {handleRotateBattingClick(player.id, player)}}>
+                            <div>{renderBattingRotateDiv(player, playername)}</div>
                           </div>
                         
                       </div>
@@ -624,6 +671,11 @@ const Lineup = () => {
   }
 
   const printForm = () => {
+
+    const batterCollection = document.getElementsByClassName(`batting-order-player`);
+      for (let i = 0; i < batterCollection.length; i++) {
+        batterCollection[i].style.border="thin solid black";
+      }
 
     setSpinToggle("on");
 
