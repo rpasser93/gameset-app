@@ -298,15 +298,13 @@ td {
 }
 
 .rotating-batter {
+  font-size: smaller;
+  height: 100px;
 }
 
-.rotating-batter-span-1 {
-}
-
-.rotating-batter-span-2 {
-}
-
-.rotating-batter-span-slash {
+.rotating-batter-div-1 {
+  margin-bottom: -7px;
+  margin-top: -4px;
 }
 
 .lineup-row-male {

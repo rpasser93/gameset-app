@@ -143,7 +143,7 @@ const Lineup = () => {
           })
 
           if (idsOfPlayersCurrentlyRotating.includes(playerId) || idsOfPlayersCurrentlyRotating.includes(rotateBattingToggle)) {
-            alert("Players are already rotating within this batting order slot.")
+            alert("There are already players rotating within this batting order slot.")
             revertBattingOrderStyling();
           } else {
             battingRotatePrompt();
@@ -580,11 +580,12 @@ const Lineup = () => {
           rotatingPlayerFullName = `${rotatingPlayer[0].firstName} ${rotatingPlayer[0].lastName.substr(0,1)}.`
         }
 
-      return <div className="batting-order-player-name rotating-batter">
-        <span className="rotating-batter-span-1">{playername}</span>
-        <span className="rotating-batter-span-slash"> / </span>
-        <span className="rotating-batter-span-2">{rotatingPlayerFullName}</span>
+      return (
+      <div className="batting-order-player-name rotating-batter col">
+        <div className="rotating-batter-div-1 row ms-auto">{playername} /</div>
+        <div className="rotating-batter-div-2 row justify-content-center">{rotatingPlayerFullName}</div>
       </div>
+      )
     }
 
     return <div className="batting-order-player-name">{playername}</div>
