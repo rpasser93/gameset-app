@@ -580,12 +580,22 @@ const Lineup = () => {
           rotatingPlayerFullName = `${rotatingPlayer[0].firstName} ${rotatingPlayer[0].lastName.substr(0,1)}.`
         }
 
-      return (
-      <div className="batting-order-player-name rotating-batter col">
-        <div className="rotating-batter-div-1 row ms-auto">{playername} /</div>
-        <div className="rotating-batter-div-2 row justify-content-center">{rotatingPlayerFullName}</div>
-      </div>
-      )
+
+        console.log(playername.length + rotatingPlayerFullName.length);
+        if (playername.length + rotatingPlayerFullName.length > 13) {
+          return (
+          <div className="batting-order-player-name rotating-batter col">
+            <div className="rotating-batter-div-1 row ms-auto">{playername} /</div>
+            <div className="rotating-batter-div-2 row justify-content-center">{rotatingPlayerFullName}</div>
+          </div>
+          )
+        } else {
+          return (
+            <div className="batting-order-player-name rotating-batter-full">
+              <div className="rotating-batter-div-full">{playername} / {rotatingPlayerFullName}</div>
+            </div>
+          )
+        }
     }
 
     return <div className="batting-order-player-name">{playername}</div>

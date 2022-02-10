@@ -302,9 +302,18 @@ td {
   height: 100px;
 }
 
+.rotating-batter-full {
+  font-size: smaller;
+  height: 100px;
+}
+
 .rotating-batter-div-1 {
   margin-bottom: -7px;
   margin-top: -4px;
+}
+
+.rotating-batter-div-full {
+  margin-top: 2px;
 }
 
 .lineup-row-male {
