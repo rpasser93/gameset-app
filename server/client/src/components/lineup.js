@@ -131,7 +131,7 @@ const Lineup = () => {
         }
 
       if (rotateBattingToggle !== playerId && (sexOfFirstClick === sexOfSecondClick)) {
-
+  
         let playersCurrentlyRotating = players.filter(plyr => {
           return (plyr.battingRotateWith)
         })
@@ -147,13 +147,13 @@ const Lineup = () => {
           setTimeout(() => {
             alert("There are already players rotating within selected batting order slot.")
             revertBattingOrderStyling();
-          }, 1)
+          }, 50)
 
         } else {
           document.getElementById(`${playerId}`).style.border="ridge cyan";
           setTimeout(() => {
             battingRotatePrompt();
-          }, 1)
+          }, 50)
         }
 
       } else if (rotateBattingToggle !== playerId) {
@@ -164,7 +164,7 @@ const Lineup = () => {
           alert('Only players of the same sex can rotate within a batting order slot.');
           revertBattingOrderStyling();
           setRotateBattingToggle(null);
-        }, 1)
+        }, 50)
         
       } else {
 

@@ -44,11 +44,9 @@ const Login = () => {
       return alert('Your login information is invalid. Please try again.')
     } else {
 
-      console.log(lcUserLogin);
       dispatch(fetchTeamByLogin(login, password));
 
       setTimeout(() => {
-        console.log(team);
         team && history.push(`/roster/${team._id}`);
       }, 500)
     }
