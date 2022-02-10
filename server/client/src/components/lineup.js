@@ -92,7 +92,7 @@ const Lineup = () => {
     }
   }
 
-  const handleRotateBattingClick = (playerId) => {
+  const handleRotateBattingClick = (playerId, player) => {
 
     if (!rotateBattingToggle) {
       document.getElementById(`${playerId}`).style.border="ridge cyan";
@@ -131,7 +131,7 @@ const Lineup = () => {
         }
 
       if (rotateBattingToggle !== playerId && (sexOfFirstClick === sexOfSecondClick)) {
-     
+
         let playersCurrentlyRotating = players.filter(plyr => {
           return (plyr.battingRotateWith)
         })
@@ -147,15 +147,15 @@ const Lineup = () => {
           setTimeout(() => {
             alert("There are already players rotating within selected batting order slot.")
             revertBattingOrderStyling();
-          }, 5)
+          }, 1)
 
         } else {
           document.getElementById(`${playerId}`).style.border="ridge cyan";
           setTimeout(() => {
             battingRotatePrompt();
-          }, 5)
+          }, 1)
         }
-    
+
       } else if (rotateBattingToggle !== playerId) {
         
         document.getElementById(`${playerId}`).style.border="ridge red";
@@ -164,7 +164,7 @@ const Lineup = () => {
           alert('Only players of the same sex can rotate within a batting order slot.');
           revertBattingOrderStyling();
           setRotateBattingToggle(null);
-        }, 5)
+        }, 1)
         
       } else {
 
@@ -633,7 +633,7 @@ const Lineup = () => {
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <div>
 
-                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player.id} id={player.id} onClick={() => {handleRotateBattingClick(player.id)}}>
+                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player.id} id={player.id} onClick={() => {handleRotateBattingClick(player.id, player)}}>
                             <div>{renderBattingRotateDiv(player, playername)}</div>
                           </div>
                         

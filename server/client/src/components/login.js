@@ -20,18 +20,22 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(fetchTeams());
-    dispatch(fetchTeamByLogin(login,password));
+    dispatch(fetchTeamByLogin(login.toLowerCase(), password));
   }, [dispatch, login, password]);
 
   const handleSignInClick = () => {
     let alertLoginFailed = true;
+
+    let lcUserLogin = login.toLowerCase();
+
+    dispatch(fetchTeamByLogin(login, password));
 
     if (login === "" || password === "") {
       return alert('Please fill in all fields.')
     }
 
     teams.forEach(team => {
-      if (team.login === login && team.password === password) {
+      if (team.login.toLowerCase() === lcUserLogin && team.password === password) {
         return alertLoginFailed = false;
       }
     });
@@ -40,9 +44,13 @@ const Login = () => {
       return alert('Your login information is invalid. Please try again.')
     } else {
 
-    dispatch(fetchTeamByLogin(login, password));
+      console.log(lcUserLogin);
+      dispatch(fetchTeamByLogin(login, password));
 
-    team && history.push(`/roster/${team._id}`);
+      setTimeout(() => {
+        console.log(team);
+        team && history.push(`/roster/${team._id}`);
+      }, 500)
     }
   }
 
@@ -65,7 +73,7 @@ const Login = () => {
     });
 
     if (!cancelNewAccount) {
-      dispatch(addTeam(newAccountLogin, newAccountPassword));
+      dispatch(addTeam(newAccountLogin.toLowerCase(), newAccountPassword));
       setShow(false);
       setNewAccountLogin("");
       setNewAccountPassword("");
