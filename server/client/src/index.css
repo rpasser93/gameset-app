@@ -111,8 +111,17 @@ html {
   border: solid thin black;
 }
 
+.login-button:hover {
+  background-color: rgb(250, 230, 165) !important;
+}
+
 .new-account-button {
   color: white;
+}
+
+.new-account-button:hover {
+  color: white;
+  background-color: rgb(80, 80, 80);
 }
 
 /* ROSTER PAGE */

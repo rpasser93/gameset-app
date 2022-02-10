@@ -75,7 +75,7 @@ const Login = () => {
       setShow(false);
       setNewAccountLogin("");
       setNewAccountPassword("");
-      setTimeout(()=>{alert('Account created!')},1)
+      setTimeout(()=>{alert('Account created!')}, 1)
     }
   }
 
@@ -85,6 +85,14 @@ const Login = () => {
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+  }
+
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13 && login !== "" && password !== "") {
+      setTimeout(() => {
+        handleSignInClick();
+      }, 1)
+    }
   }
 
   const handleNewAccountLogin = (e) => {
@@ -144,9 +152,9 @@ const Login = () => {
         <div className="row login-input-row">
           <div className="col login-input-col">
             
-              <input type="text" className="form-control login-username-input" placeholder="Username" onChange={(e) => handleLogin(e)}/>
+              <input type="text" className="form-control login-username-input" placeholder="Username" onChange={(e) => handleLogin(e)} onKeyUp={(e) => handleKeyUp(e)}/>
           
-              <input type="password" className="form-control login-password-input" placeholder="Password" onChange={(e) => handlePassword(e)}/>
+              <input type="password" className="form-control login-password-input" placeholder="Password" onChange={(e) => handlePassword(e)} onKeyUp={(e) => handleKeyUp(e)}/>
 
               <button type="button" className="btn login-button" onClick={() => handleSignInClick()}><strong>Sign In</strong></button>
 
