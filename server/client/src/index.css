@@ -742,52 +742,52 @@ td {
 
   .playing-at-P {
     top: 325px;
-    left: 235px;
+    left: 280px;
   }
 
   .playing-at-C {
     top: 435px;
-    left: 233px;
+    left: 278px;
   }
 
   .playing-at-1B {
     top: 325px;
-    left: 342px;
+    left: 387px;
   }
 
   .playing-at-2B {
     top: 255px;
-    left: 307px;
+    left: 352px;
   }
 
   .playing-at-3B {
     top: 325px;
-    left: 117px;
+    left: 162px;
   }
 
   .playing-at-SS {
     top: 260px;
-    left: 157px;
+    left: 202px;
   }
 
   .playing-at-LF {
     top: 160px;
-    left: 42px;
+    left: 97px;
   }
 
   .playing-at-CF {
     top: 85px;
-    left: 167px;
+    left: 212px;
   }
 
   .playing-at-RCF {
     top: 95px;
-    left: 332px;
+    left: 377px;
   }
 
   .playing-at-RF {
     top: 160px;
-    left: 427px;
+    left: 472px;
   }
 
   .big-inning-display {

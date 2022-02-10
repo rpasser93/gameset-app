@@ -92,7 +92,7 @@ const Lineup = () => {
     }
   }
 
-  const handleRotateBattingClick = (playerId, player) => {
+  const handleRotateBattingClick = (playerId) => {
 
     if (!rotateBattingToggle) {
       document.getElementById(`${playerId}`).style.border="ridge cyan";
@@ -131,33 +131,31 @@ const Lineup = () => {
         }
 
       if (rotateBattingToggle !== playerId && (sexOfFirstClick === sexOfSecondClick)) {
-  
-        setTimeout(() => {
-          let playersCurrentlyRotating = players.filter(plyr => {
-            return (plyr.battingRotateWith)
-          })
+     
+        let playersCurrentlyRotating = players.filter(plyr => {
+          return (plyr.battingRotateWith)
+        })
 
-          let idsOfPlayersCurrentlyRotating = playersCurrentlyRotating.map(plyr => {
-            return plyr._id;
-          })
+        let idsOfPlayersCurrentlyRotating = playersCurrentlyRotating.map(plyr => {
+          return plyr._id;
+        })
 
-          if (idsOfPlayersCurrentlyRotating.includes(playerId) || idsOfPlayersCurrentlyRotating.includes(rotateBattingToggle)) {
+        if (idsOfPlayersCurrentlyRotating.includes(playerId) || idsOfPlayersCurrentlyRotating.includes(rotateBattingToggle)) {
 
-            document.getElementById(`${playerId}`).style.border="ridge red";
+          document.getElementById(`${playerId}`).style.border="ridge red";
 
-            setTimeout(() => {
-              alert("There are already players rotating within selected batting order slot.")
-              revertBattingOrderStyling();
-            }, 1)
+          setTimeout(() => {
+            alert("There are already players rotating within selected batting order slot.")
+            revertBattingOrderStyling();
+          }, 5)
 
-          } else {
-            document.getElementById(`${playerId}`).style.border="ridge cyan";
-            setTimeout(() => {
-              battingRotatePrompt();
-            }, 1)
-          }
-        }, 1)
-
+        } else {
+          document.getElementById(`${playerId}`).style.border="ridge cyan";
+          setTimeout(() => {
+            battingRotatePrompt();
+          }, 5)
+        }
+    
       } else if (rotateBattingToggle !== playerId) {
         
         document.getElementById(`${playerId}`).style.border="ridge red";
@@ -166,7 +164,7 @@ const Lineup = () => {
           alert('Only players of the same sex can rotate within a batting order slot.');
           revertBattingOrderStyling();
           setRotateBattingToggle(null);
-        }, 1)
+        }, 5)
         
       } else {
 
@@ -591,8 +589,6 @@ const Lineup = () => {
           rotatingPlayerFullName = `${rotatingPlayer[0].firstName} ${rotatingPlayer[0].lastName.substr(0,1)}.`
         }
 
-
-        console.log(playername.length + rotatingPlayerFullName.length);
         if (playername.length + rotatingPlayerFullName.length > 13) {
           return (
           <div className="batting-order-player-name rotating-batter col">
@@ -637,7 +633,7 @@ const Lineup = () => {
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <div>
 
-                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player.id} id={player.id} onClick={() => {handleRotateBattingClick(player.id, player)}}>
+                          <div className={`col print-toggle-${printToggle} batting-order-player batting-order-row-${player.sex}`} key={player.id} id={player.id} onClick={() => {handleRotateBattingClick(player.id)}}>
                             <div>{renderBattingRotateDiv(player, playername)}</div>
                           </div>
                         
