@@ -94,105 +94,116 @@ const Lineup = () => {
 
   const handleRotateBattingClick = (playerId, player) => {
 
-    if (!rotateBattingToggle) {
-      setRotateBattingToggle(playerId);
-      document.getElementById(`${playerId}`).style.border="ridge cyan";
+    document.getElementById(`${playerId}`).style.border="ridge cyan";
 
-    } else {
+    setTimeout(() => {
+      if (!rotateBattingToggle) {
+        setRotateBattingToggle(playerId);
 
-      let sexOfFirstClick = players.filter(plyr => {
-        return plyr._id === rotateBattingToggle;
-      })[0].sex;
-
-      let sexOfSecondClick = players.filter(plyr => {
-        return plyr._id === playerId;
-      })[0].sex;
-
-      const revertBattingOrderStyling = () => {
-        const batterCollection = document.getElementsByClassName(`batting-order-player`);
-          for (let i = 0; i < batterCollection.length; i++) {
-            batterCollection[i].style.border="thin solid black";
-          }
-        }
-
-      const battingRotatePrompt = () => {
-        //eslint-disable-next-line
-        const isConfirmed = confirm(`Rotate players within a single batting order slot?`);
-
-        if (isConfirmed) {
-          dispatch(updatePlayerBattingRotation(paramId, playerId, rotateBattingToggle));
-          dispatch(updatePlayerBattingRotation(paramId, rotateBattingToggle, 'exclude'));
-
-          revertBattingOrderStyling();
-          
-        } else {
-          revertBattingOrderStyling();
-          }
-        }
-
-      if (rotateBattingToggle !== playerId && (sexOfFirstClick === sexOfSecondClick)) {
-        document.getElementById(`${playerId}`).style.border="ridge cyan";
-
-        setTimeout(() => {
-          let playersCurrentlyRotating = players.filter(plyr => {
-            return (plyr.battingRotateWith)
-          })
-
-          let idsOfPlayersCurrentlyRotating = playersCurrentlyRotating.map(plyr => {
-            return plyr._id;
-          })
-
-          if (idsOfPlayersCurrentlyRotating.includes(playerId) || idsOfPlayersCurrentlyRotating.includes(rotateBattingToggle)) {
-            alert("There are already players rotating within this batting order slot.")
-            revertBattingOrderStyling();
-          } else {
-            battingRotatePrompt();
-          }
-      
-        }, 1)
-      } else if (rotateBattingToggle !== playerId) {
-        
-        alert('Only players of the same sex can rotate within a batting order slot.');
-        revertBattingOrderStyling();
-        setRotateBattingToggle(null);
-        
       } else {
 
-        let currentPlayer = players.filter(plyr => {
+        let sexOfFirstClick = players.filter(plyr => {
+          return plyr._id === rotateBattingToggle;
+        })[0].sex;
+
+        let sexOfSecondClick = players.filter(plyr => {
           return plyr._id === playerId;
-        })
+        })[0].sex;
 
-        if (currentPlayer[0].battingRotateWith) {
-        //eslint-disable-next-line
-          const isConfirmed = confirm(`Stop rotating players within this batting order slot?`);
-
-          if (isConfirmed) {
-            let rotatedPlayer = players.filter(plyr => {
-              return plyr._id === rotateBattingToggle;
-            })
-
-            let otherPlayersId = rotatedPlayer[0].battingRotateWith;
-
-            dispatch(updatePlayerBattingRotation(paramId, playerId, null));
-            dispatch(updatePlayerBattingRotation(paramId, otherPlayersId, null));
-
-            if (currentPlayer[0].battingOrder !== null) {
-              players.forEach(plyr => {
-                if (plyr.battingOrder > currentPlayer[0].battingOrder && (plyr._id !== otherPlayersId)) {
-                  dispatch(updatePlayerBattingOrder(paramId, plyr._id, (plyr.battingOrder+1)));
-                }
-              });
-              dispatch(updatePlayerBattingOrder(paramId, otherPlayersId, (currentPlayer[0].battingOrder+1)));
-            } else {
-              dispatch(updatePlayerBattingOrder(paramId, otherPlayersId, null));
+        const revertBattingOrderStyling = () => {
+          const batterCollection = document.getElementsByClassName(`batting-order-player`);
+            for (let i = 0; i < batterCollection.length; i++) {
+              batterCollection[i].style.border="thin solid black";
             }
           }
-        }
-        revertBattingOrderStyling();
-      }
 
-      setRotateBattingToggle(null);
-    }
+        const battingRotatePrompt = () => {
+          //eslint-disable-next-line
+          const isConfirmed = confirm(`Rotate players within a single batting order slot?`);
+
+          if (isConfirmed) {
+            dispatch(updatePlayerBattingRotation(paramId, playerId, rotateBattingToggle));
+            dispatch(updatePlayerBattingRotation(paramId, rotateBattingToggle, 'exclude'));
+
+            revertBattingOrderStyling();
+            
+          } else {
+            revertBattingOrderStyling();
+            }
+          }
+
+        if (rotateBattingToggle !== playerId && (sexOfFirstClick === sexOfSecondClick)) {
+
+          setTimeout(() => {
+            let playersCurrentlyRotating = players.filter(plyr => {
+              return (plyr.battingRotateWith)
+            })
+
+            let idsOfPlayersCurrentlyRotating = playersCurrentlyRotating.map(plyr => {
+              return plyr._id;
+            })
+
+            if (idsOfPlayersCurrentlyRotating.includes(playerId) || idsOfPlayersCurrentlyRotating.includes(rotateBattingToggle)) {
+              
+              document.getElementById(`${playerId}`).style.border="ridge red";
+
+              setTimeout(() => {
+                alert("There are already players rotating within selected batting order slot.")
+                revertBattingOrderStyling();
+              }, 1)
+
+            } else {
+              battingRotatePrompt();
+            }
+        
+          }, 1)
+        } else if (rotateBattingToggle !== playerId) {
+          
+          document.getElementById(`${playerId}`).style.border="ridge red";
+
+          setTimeout(()=>{
+            alert('Only players of the same sex can rotate within a batting order slot.');
+            revertBattingOrderStyling();
+            setRotateBattingToggle(null);
+          }, 1)
+          
+        } else {
+
+          let currentPlayer = players.filter(plyr => {
+            return plyr._id === playerId;
+          })
+
+          if (currentPlayer[0].battingRotateWith) {
+          //eslint-disable-next-line
+            const isConfirmed = confirm(`Stop rotating players within this batting order slot?`);
+
+            if (isConfirmed) {
+              let rotatedPlayer = players.filter(plyr => {
+                return plyr._id === rotateBattingToggle;
+              })
+
+              let otherPlayersId = rotatedPlayer[0].battingRotateWith;
+
+              dispatch(updatePlayerBattingRotation(paramId, playerId, null));
+              dispatch(updatePlayerBattingRotation(paramId, otherPlayersId, null));
+
+              if (currentPlayer[0].battingOrder !== null) {
+                players.forEach(plyr => {
+                  if (plyr.battingOrder > currentPlayer[0].battingOrder && (plyr._id !== otherPlayersId)) {
+                    dispatch(updatePlayerBattingOrder(paramId, plyr._id, (plyr.battingOrder+1)));
+                  }
+                });
+                dispatch(updatePlayerBattingOrder(paramId, otherPlayersId, (currentPlayer[0].battingOrder+1)));
+              } else {
+                dispatch(updatePlayerBattingOrder(paramId, otherPlayersId, null));
+              }
+            }
+          }
+          revertBattingOrderStyling();
+        }
+        setRotateBattingToggle(null);
+      }
+    }, 1)
   }
 
   const handleFieldView = () => {
