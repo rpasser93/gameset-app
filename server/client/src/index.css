@@ -120,8 +120,7 @@ html {
 }
 
 .new-account-button:hover {
-  color: white;
-  background-color: rgb(80, 80, 80);
+  color: rgb(250, 230, 165);
 }
 
 /* ROSTER PAGE */
@@ -654,6 +653,15 @@ td {
 
 /* MEDIA QUERIES */
 @media screen and (min-width: 1024px) {
+  /* LOGIN PAGE */
+  .login-content-field {
+    margin-top: 150px;
+  }
+
+  .diamond-logo {
+    margin-top: 150px;
+  }
+
   /* NAVIGATION */
   .nav-bracket {
     display: initial;
@@ -890,4 +898,12 @@ td {
 }
 
 @media screen and (orientation: portrait) {
+  /* LOGIN PAGE */
+  .login-content-field {
+    margin-top: 100px;
+  }
+
+  .diamond-logo {
+    margin-top: 100px;
+  }
 }
