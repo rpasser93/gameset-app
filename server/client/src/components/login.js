@@ -44,11 +44,15 @@ const Login = () => {
       return alert('Your login information is invalid. Please try again.')
     } else {
 
-      dispatch(fetchTeamByLogin(login, password));
-
-      setTimeout(() => {
-        team && history.push(`/roster/${team._id}`);
-      }, 500)
+      const fetchTeamByLoginPromise = new Promise((res) => {
+        res(dispatch(fetchTeamByLogin(login, password)))
+      });
+      
+      fetchTeamByLoginPromise.then((resTeam) => {
+        setTimeout(() => {
+          resTeam && history.push(`/roster/${resTeam.payload.data._id}`);
+        }, 500)
+      })
     }
   }
 
