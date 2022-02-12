@@ -113,7 +113,9 @@ const Roster = () => {
         dispatch(updatePlayerBattingRotation(paramId, player.battingRotateWith, null));
       }
 
-      dispatch(deletePlayer(paramId, player._id));
+      setTimeout(() => {
+        dispatch(deletePlayer(paramId, player._id));
+      }, 50)
     }
     setShowPlayerEdit(false);
   }

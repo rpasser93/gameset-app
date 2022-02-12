@@ -75,7 +75,15 @@ const Login = () => {
       setShow(false);
       setNewAccountLogin("");
       setNewAccountPassword("");
-      setTimeout(()=>{alert('Account created!')}, 1)
+      setTimeout(() => {
+        alert('Account created!');
+
+        setLogin(newAccountLogin);
+        setPassword(newAccountPassword);
+
+        document.getElementsByClassName('login-username-input')[0].value = newAccountLogin;
+        document.getElementsByClassName('login-password-input')[0].value = newAccountPassword;
+      }, 1);
     }
   }
 
@@ -162,7 +170,7 @@ const Login = () => {
           
           </div>
         </div>
-        
+
       </div>
     </div>
   )
