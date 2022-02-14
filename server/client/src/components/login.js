@@ -38,35 +38,35 @@ const Login = () => {
       })
     }
 
-    dispatch(fetchTeamByLogin(login, password));
+    const fetchTeamByLoginPromise = new Promise((res) => {
+      res(dispatch(fetchTeamByLogin(login, password)))
+    })
 
-    if (login === "" || password === "") {
-      return alert('Please fill in all fields.')
-    }
-
-    teams.forEach(team => {
-      if (team.login.toLowerCase() === lcUserLogin && team.password === password) {
-        return alertLoginFailed = false;
+    fetchTeamByLoginPromise.then(() => {
+      if (login === "" || password === "") {
+        return alert('Please fill in all fields.')
       }
-    });
-
-    if (alertLoginFailed) {
-      return alert('Your login information is invalid. Please try again.')
-    } else {
-
-      const fetchTeamByLoginPromise = new Promise((res) => {
-        res(dispatch(fetchTeamByLogin(login, password)))
+  
+      teams.forEach(team => {
+        if (team.login.toLowerCase() === lcUserLogin && team.password === password) {
+          return alertLoginFailed = false;
+        }
       });
+  
+      if (alertLoginFailed) {
+        return alert('Your login information is invalid. Please try again.')
+      } else {
 
-      setLoginSpinner(true);
-      
-      fetchTeamByLoginPromise.then((resTeam) => {
-        setTimeout(() => {
-          console.log(resTeam.payload.data);
-          resTeam.payload.data && history.push(`/roster/${resTeam.payload.data._id}`);
-        }, 500)
-      })
-    }
+        setLoginSpinner(true);
+        
+        return fetchTeamByLoginPromise.then((resTeam) => {
+          setTimeout(() => {
+            console.log(resTeam.payload.data);
+            resTeam.payload.data && history.push(`/roster/${resTeam.payload.data._id}`);
+          }, 500)
+        })
+      }
+    })
   }
 
   const handleClose = () => setShow(false);
