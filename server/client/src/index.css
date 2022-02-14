@@ -613,6 +613,10 @@ td {
   width: 51%;
 }
 
+.change-pass-btn {
+  width: 51%;
+}
+
 .delete-team-btn {
   width: 51%;
   margin-bottom: 15px;

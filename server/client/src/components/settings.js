@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Modal, Button } from "react-bootstrap";
 import { fetchTeamById } from "../actions/actions"
 import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions"
 
@@ -27,6 +28,11 @@ const Settings = () => {
   const [saveTextInfieldReq, setSaveTextInfieldReq] = useState("Save");
   const [saveTextOutfieldReq, setSaveTextOutfieldReq] = useState("Save");
   const [saveTextBattingReq, setSaveTextBattingReq] = useState("Save");
+
+  const [show, setShow] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [NewPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
@@ -89,6 +95,9 @@ const Settings = () => {
       oppositeSexBatting = "male"
     }
   }
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleTeamNameEditChange = (e) => {
     setTeamNameEdit(e.target.value);
@@ -271,6 +280,24 @@ const Settings = () => {
     }
   }
 
+  const handleCurrentPassword = (e) => {
+    setCurrentPassword(e.target.value);
+  }
+
+  const handleNewPassword = (e) => {
+    setNewPassword(e.target.value);
+  }
+
+  const handleConfirmNewPassword = (e) => {
+    setConfirmNewPassword(e.target.value);
+  }
+
+  const handleDispatchPasswordChange = () => {
+    console.log('current: ', currentPassword);
+    console.log('new: ', NewPassword);
+    console.log('confirm: ', confirmNewPassword);
+  }
+
   const handleDeleteTeam = () => {
      //eslint-disable-next-line
      const isConfirmed1 = confirm('Permenantly delete your account and all team information?');
@@ -282,6 +309,43 @@ const Settings = () => {
          history.push(`/login`);
        }
      }
+  }
+
+  const renderModalPassButton = () => {
+    return (
+      <div>
+        <div>
+          <button type="button" className="btn btn-secondary change-pass-btn" onClick={() =>{handleShow()}}>Change Password</button>   
+        </div>
+
+        <Modal show={show} onHide={() => handleClose()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change Your Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+        <div>
+          <form>
+            <input type="text" className="form-control login-username-input" placeholder="Current Password" onChange={(e) => handleCurrentPassword(e)}/>
+
+            <input type="password" className="form-control login-password-input" placeholder="New Password" onChange={(e) => handleNewPassword(e)}/>
+
+            <input type="password" className="form-control login-password-input" placeholder="Confirm New Password" onChange={(e) => handleConfirmNewPassword(e)}/>
+          </form>
+        </div>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => handleClose()}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={() => handleDispatchPasswordChange()}>
+            Change Password
+          </Button>
+        </Modal.Footer>
+        </Modal>
+      </div>
+    )
   }
 
   if (team) {
@@ -455,7 +519,13 @@ const Settings = () => {
               <hr/>
               <div className="row">
                 <div className="col">
-                  <button type="button" className="btn btn-secondary defaults-btn" onClick={()=>{restoreDefaultSettings()}}>Restore Defaults</button>                
+                  <button type="button" className="btn btn-primary defaults-btn" onClick={()=>{restoreDefaultSettings()}}>Restore Defaults</button>                
+                </div>
+              </div>
+              <br/>
+              <div className="row">
+                <div className="col">
+                  {renderModalPassButton()}             
                 </div>
               </div>
               <br/>
