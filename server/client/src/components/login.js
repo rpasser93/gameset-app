@@ -33,10 +33,8 @@ const Login = () => {
       });
       
       return fetchNewTeamByLoginPromise.then((resTeam) => {
-        setTimeout(() => {
-          alert('Account created!');
-          resTeam && history.push(`/roster/${resTeam.payload.data._id}`);
-        }, 500)
+        alert('Account created!');
+        resTeam && history.push(`/roster/${resTeam.payload.data._id}`);
       })
     }
 
@@ -64,7 +62,8 @@ const Login = () => {
       
       fetchTeamByLoginPromise.then((resTeam) => {
         setTimeout(() => {
-          resTeam && history.push(`/roster/${resTeam.payload.data._id}`);
+          console.log(resTeam.payload.data);
+          resTeam.payload.data && history.push(`/roster/${resTeam.payload.data._id}`);
         }, 500)
       })
     }
@@ -94,7 +93,6 @@ const Login = () => {
       });
 
       addNewTeamPromise.then((response) => {
-        console.log(response);
         setShow(false);
 
         handleSignInClick(response.payload.data.login.toLowerCase(), response.payload.data.password);

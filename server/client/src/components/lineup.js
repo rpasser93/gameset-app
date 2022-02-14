@@ -160,7 +160,7 @@ const Lineup = () => {
         
         document.getElementById(`${playerId}`).style.border="ridge red";
 
-        setTimeout(()=>{
+        setTimeout(() => {
           alert('Only players of the same sex can rotate within a batting order slot.');
           revertBattingOrderStyling();
           setRotateBattingToggle(null);
