@@ -96,26 +96,27 @@ const Roster = () => {
     //eslint-disable-next-line
     const isConfirmed = confirm('Are you sure you want to delete this player from the team?');
     if (isConfirmed) {
-
-      dispatch(updatePlayerBattingRotation(paramId, player._id, null));
-
-      let checkOwnIdInRotation = players.filter(plyr => {
-        return plyr.battingRotateWith === player._id;
-      })
-
-      let checkOthersIdInRotation = (player.battingRotateWith && player.battingRotateWith !== "exclude");
-
-      if (checkOwnIdInRotation[0]) {
-        dispatch(updatePlayerBattingRotation(paramId, checkOwnIdInRotation[0]._id, null));
-      }
-
-      if (checkOthersIdInRotation) {
-        dispatch(updatePlayerBattingRotation(paramId, player.battingRotateWith, null));
-      }
-
-      setTimeout(() => {
+      const updatePlayerBatRotationPromise = new Promise ((res) => {
+        res(dispatch(updatePlayerBattingRotation(paramId, player._id, null)))
+      });
+      
+      updatePlayerBatRotationPromise.then(() => {
+        let checkOwnIdInRotation = players.filter(plyr => {
+          return plyr.battingRotateWith === player._id;
+        })
+  
+        let checkOthersIdInRotation = (player.battingRotateWith && player.battingRotateWith !== "exclude");
+  
+        if (checkOwnIdInRotation[0]) {
+          dispatch(updatePlayerBattingRotation(paramId, checkOwnIdInRotation[0]._id, null));
+        }
+  
+        if (checkOthersIdInRotation) {
+          dispatch(updatePlayerBattingRotation(paramId, player.battingRotateWith, null));
+        }
+      }).then(() => {
         dispatch(deletePlayer(paramId, player._id));
-      }, 50)
+      })
     }
     setShowPlayerEdit(false);
   }

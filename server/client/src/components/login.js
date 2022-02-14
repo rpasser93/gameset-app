@@ -11,8 +11,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [newAccountLogin, setNewAccountLogin] = useState("");
   const [newAccountPassword, setNewAccountPassword] = useState("");
-
-  const team = useSelector(state => state.team[0]);
+  const [loginSpinner, setLoginSpinner] = useState(false);
+  
   const teams = useSelector(state => state.teams);
 
   const dispatch = useDispatch();
@@ -23,10 +23,22 @@ const Login = () => {
     dispatch(fetchTeamByLogin(login.toLowerCase(), password));
   }, [dispatch, login, password]);
 
-  const handleSignInClick = () => {
+  const handleSignInClick = (newLog, newPass) => {
     let alertLoginFailed = true;
-
     let lcUserLogin = login.toLowerCase();
+
+    if (newLog && newPass) {
+      const fetchNewTeamByLoginPromise = new Promise((res) => {
+        res(dispatch(fetchTeamByLogin(newLog, newPass)))
+      });
+      
+      return fetchNewTeamByLoginPromise.then((resTeam) => {
+        setTimeout(() => {
+          alert('Account created!');
+          resTeam && history.push(`/roster/${resTeam.payload.data._id}`);
+        }, 500)
+      })
+    }
 
     dispatch(fetchTeamByLogin(login, password));
 
@@ -47,6 +59,8 @@ const Login = () => {
       const fetchTeamByLoginPromise = new Promise((res) => {
         res(dispatch(fetchTeamByLogin(login, password)))
       });
+
+      setLoginSpinner(true);
       
       fetchTeamByLoginPromise.then((resTeam) => {
         setTimeout(() => {
@@ -75,19 +89,16 @@ const Login = () => {
     });
 
     if (!cancelNewAccount) {
-      dispatch(addTeam(newAccountLogin.toLowerCase(), newAccountPassword));
-      setShow(false);
-      setNewAccountLogin("");
-      setNewAccountPassword("");
-      setTimeout(() => {
-        alert('Account created!');
+      const addNewTeamPromise = new Promise((res) => {
+        res(dispatch(addTeam(newAccountLogin.toLowerCase(), newAccountPassword)))
+      });
 
-        setLogin(newAccountLogin);
-        setPassword(newAccountPassword);
+      addNewTeamPromise.then((response) => {
+        console.log(response);
+        setShow(false);
 
-        document.getElementsByClassName('login-username-input')[0].value = newAccountLogin;
-        document.getElementsByClassName('login-password-input')[0].value = newAccountPassword;
-      }, 1);
+        handleSignInClick(response.payload.data.login.toLowerCase(), response.payload.data.password);
+      })
     }
   }
 
@@ -113,6 +124,20 @@ const Login = () => {
 
   const handleNewAccountPassword = (e) => {
     setNewAccountPassword(e.target.value);
+  }
+
+  const renderSpinner = () => {
+    if (loginSpinner) {
+      return (
+        <div className="spinner-border spinner-border-sm login-spinner text-light" role="status"></div>
+      )
+    }
+
+    return (
+      <div>
+        <br></br>
+      </div>
+    )
   }
 
   const renderModalButton = () => {
@@ -157,7 +182,9 @@ const Login = () => {
           <div className="col">
             <div className="login-title"><strong><em>GameSet</em></strong>App</div>
             <h5 className="login-subtitle"><em>Manage Easy, Play Hard</em></h5>
-            <br></br>
+            <div>
+              {renderSpinner()}
+            </div>
           </div>
         </div>
 
