@@ -105,17 +105,16 @@ router.delete("/api/teams/:team", (req, res, next) => {
   res.end();
 });
 
-//PUT edit a team's login info, requires team Id param and 'login' and 'password' in req body
+//PUT edit a user's password, requires team Id param and 'password' in req body
 router.put("/api/teams/:team/login", (req, res, next) => {
   const {team} = req.params;
 
   Team.find({_id: team}).exec((err, teamRes) => {
     if (err) return next(err);
-    teamRes[0].login = req.body.login;
     teamRes[0].password = req.body.password;
     teamRes[0].save((err) => {
       if (err) return next(err);
-      console.log('Team login info successfully changed.');
+      console.log('Login info successfully changed.');
     });
   });
   res.end();

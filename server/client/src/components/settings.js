@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { Modal, Button } from "react-bootstrap";
 import { fetchTeamById } from "../actions/actions";
 import { CheckmarkCircle } from "react-ionicons"
-import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions";
+import { updateTeamName, updateTeamPassword, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions";
 
 const Settings = () => {
   const [teamNameEdit, setTeamNameEdit] = useState("");
@@ -35,6 +35,8 @@ const Settings = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(false);
+  const [currentPassError, setCurrentPassError] = useState(false);
+  const [newPassError, setNewPassError] = useState(false);
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
@@ -105,10 +107,15 @@ const Settings = () => {
 
   const handleClose = () => {
     setShow(false);
+
     setCurrentPassword("");
     setNewPassword("");
     setConfirmNewPassword("");
+
+    setCurrentPassError(false);
+    setNewPassError(false);
   }
+
   const handleShow = () => setShow(true);
 
   const handleTeamNameEditChange = (e) => {
@@ -294,10 +301,16 @@ const Settings = () => {
 
   const handleCurrentPassword = (e) => {
     setCurrentPassword(e.target.value);
+
+    setCurrentPassError(false);
+    setNewPassError(false);
   }
 
   const handleNewPassword = (e) => {
     setNewPassword(e.target.value);
+
+    setCurrentPassError(false);
+    setNewPassError(false);
 
     if (newPassword === confirmNewPassword && newPassword !== "") {
       setPasswordsMatch(true);
@@ -308,6 +321,9 @@ const Settings = () => {
 
   const handleConfirmNewPassword = (e) => {
     setConfirmNewPassword(e.target.value);
+
+    setCurrentPassError(false);
+    setNewPassError(false);
     
     if (newPassword === confirmNewPassword && confirmNewPassword !== "") {
       setPasswordsMatch(true);
@@ -317,26 +333,37 @@ const Settings = () => {
   }
 
   const handleDispatchPasswordChange = () => {
-    console.log('current: ', currentPassword);
-    console.log('new: ', newPassword);
-    console.log('confirm: ', confirmNewPassword);
-
     if (currentPassword === "" || newPassword === "" || confirmNewPassword === "") {
       return alert('Please fill in all fields.');
     }
 
-    if (team && currentPassword !== team.password) {
-      return alert('The entered value for "Current Password" is incorrect.');
+    else if (team && currentPassword !== team.password) {
+      setCurrentPassError(true);
+      setTimeout(() => {
+        return alert('The entered value for "Current Password" is incorrect.');
+      }, 100)
     }
 
-    if (newPassword !== confirmNewPassword) {
-      return alert('The "New Password" fields do not match.');
+    else if (newPassword !== confirmNewPassword) {
+      setNewPassError(true);
+      setTimeout(() => {
+        return alert('The "New Password" fields do not match.');
+      }, 100)
     }
 
-    if (team && (newPassword === team.password || confirmNewPassword === team.password)) {
-      return alert('That password is currently in use.');
+    else if (team && (newPassword === team.password || confirmNewPassword === team.password)) {
+      setNewPassError(true);
+      setTimeout(() => {
+        return alert('The entered value for "New Password" is currently in use.');
+      }, 100)
     }
 
+    else {
+      //eslint-disable-next-line
+      dispatch(updateTeamPassword(paramId, newPassword));
+      alert('Password changed!');
+      handleClose();
+    }
   }
   
 
@@ -383,11 +410,11 @@ const Settings = () => {
 
         <div>
           <form>
-            <input type="text" className="form-control login-username-input" placeholder="Current Password" onChange={(e) => handleCurrentPassword(e)}/>
+            <input type="password" className={`form-control login-password-input login-password-input-current-${currentPassError}`} placeholder="Current Password" onChange={(e) => handleCurrentPassword(e)}/>
 
-            <input type="password" className={`form-control login-password-input`} placeholder="New Password" onChange={(e) => handleNewPassword(e)}/>
+            <input type="password" className={`form-control login-password-input login-password-input-new-${newPassError}`} placeholder="New Password" onChange={(e) => handleNewPassword(e)}/>
 
-            <input type="password" className={`form-control login-password-input`} placeholder="Confirm New Password" onChange={(e) => handleConfirmNewPassword(e)}/>
+            <input type="password" className={`form-control login-password-input login-password-input-new-${newPassError}`} placeholder="Confirm New Password" onChange={(e) => handleConfirmNewPassword(e)}/>
           </form>
         </div>
 

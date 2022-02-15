@@ -103,6 +103,14 @@ html {
   margin-top: 5px;
 }
 
+.login-password-input-current-true {
+  border: solid thin red;
+}
+
+.login-password-input-new-true {
+  border: solid thin red;
+}
+
 .login-button {
   margin-top: 5px;
   width: 100%;
