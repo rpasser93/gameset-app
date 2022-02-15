@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Modal, Button } from "react-bootstrap";
-import { fetchTeamById } from "../actions/actions"
-import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions"
+import { fetchTeamById } from "../actions/actions";
+import { CheckmarkCircle } from "react-ionicons"
+import { updateTeamName, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions";
 
 const Settings = () => {
   const [teamNameEdit, setTeamNameEdit] = useState("");
@@ -31,8 +32,9 @@ const Settings = () => {
 
   const [show, setShow] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
-  const [NewPassword, setNewPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
@@ -41,7 +43,12 @@ const Settings = () => {
 
   useEffect(() => {
     dispatch(fetchTeamById(paramId));
-  }, [dispatch, paramId]);
+    if (newPassword === confirmNewPassword && confirmNewPassword !== "") {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
+  }, [dispatch, paramId, newPassword, confirmNewPassword]);
 
   let team = useSelector(state => state.team[0]);
   
@@ -96,7 +103,12 @@ const Settings = () => {
     }
   }
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmNewPassword("");
+  }
   const handleShow = () => setShow(true);
 
   const handleTeamNameEditChange = (e) => {
@@ -286,17 +298,47 @@ const Settings = () => {
 
   const handleNewPassword = (e) => {
     setNewPassword(e.target.value);
+
+    if (newPassword === confirmNewPassword && newPassword !== "") {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
   }
 
   const handleConfirmNewPassword = (e) => {
     setConfirmNewPassword(e.target.value);
+    
+    if (newPassword === confirmNewPassword && confirmNewPassword !== "") {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
   }
 
   const handleDispatchPasswordChange = () => {
     console.log('current: ', currentPassword);
-    console.log('new: ', NewPassword);
+    console.log('new: ', newPassword);
     console.log('confirm: ', confirmNewPassword);
+
+    if (currentPassword === "" || newPassword === "" || confirmNewPassword === "") {
+      return alert('Please fill in all fields.');
+    }
+
+    if (team && currentPassword !== team.password) {
+      return alert('The entered value for "Current Password" is incorrect.');
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return alert('The "New Password" fields do not match.');
+    }
+
+    if (team && (newPassword === team.password || confirmNewPassword === team.password)) {
+      return alert('That password is currently in use.');
+    }
+
   }
+  
 
   const handleDeleteTeam = () => {
      //eslint-disable-next-line
@@ -311,7 +353,22 @@ const Settings = () => {
      }
   }
 
+  const renderPasswordMatchCheckmark = () => {
+    if (passwordsMatch) {
+      return (
+        <div>
+          <CheckmarkCircle className="password-match-checkmark" color={'#007800'} height='35px' width='35px' />
+        </div>
+      )
+    }
+
+    return (
+      <div></div>
+    )
+  }
+
   const renderModalPassButton = () => {
+
     return (
       <div>
         <div>
@@ -328,14 +385,17 @@ const Settings = () => {
           <form>
             <input type="text" className="form-control login-username-input" placeholder="Current Password" onChange={(e) => handleCurrentPassword(e)}/>
 
-            <input type="password" className="form-control login-password-input" placeholder="New Password" onChange={(e) => handleNewPassword(e)}/>
+            <input type="password" className={`form-control login-password-input`} placeholder="New Password" onChange={(e) => handleNewPassword(e)}/>
 
-            <input type="password" className="form-control login-password-input" placeholder="Confirm New Password" onChange={(e) => handleConfirmNewPassword(e)}/>
+            <input type="password" className={`form-control login-password-input`} placeholder="Confirm New Password" onChange={(e) => handleConfirmNewPassword(e)}/>
           </form>
         </div>
 
         </Modal.Body>
         <Modal.Footer>
+          <div>
+            {renderPasswordMatchCheckmark()}
+          </div>
           <Button variant="secondary" onClick={() => handleClose()}>
             Cancel
           </Button>

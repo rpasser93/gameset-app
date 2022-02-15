@@ -655,6 +655,10 @@ td {
   margin-bottom: -15px;
 }
 
+.password-match-checkmark {
+  margin-right: 150px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 1024px) {
   /* LOGIN PAGE */
