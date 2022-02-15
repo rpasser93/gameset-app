@@ -13,6 +13,7 @@ const Login = () => {
   const [newAccountPassword, setNewAccountPassword] = useState("");
   const [loginSpinner, setLoginSpinner] = useState(false);
   
+  const team = useSelector(state => state.team[0]);
   const teams = useSelector(state => state.teams);
 
   const dispatch = useDispatch();
@@ -59,12 +60,21 @@ const Login = () => {
 
         setLoginSpinner(true);
         
-        return fetchTeamByLoginPromise.then((resTeam) => {
+        fetchTeamByLoginPromise.then((resTeam) => {
           setTimeout(() => {
-            console.log(resTeam.payload.data);
-            resTeam.payload.data && history.push(`/roster/${resTeam.payload.data._id}`);
+            if (resTeam.payload.data) {
+              return history.push(`/roster/${resTeam.payload.data._id}`);
+            } else {
+
+              dispatch(fetchTeamByLogin(login, password));
+              
+              setTimeout(() => {
+                team && history.push(`/roster/${team._id}`);
+                setLoginSpinner(false);
+              }, 500)
+            }
           }, 500)
-        })
+        });
       }
     })
   }
