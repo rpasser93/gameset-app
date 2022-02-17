@@ -372,10 +372,13 @@ const Settings = () => {
      const isConfirmed1 = confirm('Permenantly delete your account and all team information?');
      if (isConfirmed1) {
        //eslint-disable-next-line
-       const isConfirmed2 = confirm('This is irreversible. Are you sure you want to proceed?')
-       if (isConfirmed2) { 
+       const isConfirmed2 = prompt('Please note that deleting your account is irreversible.\nType "delete" to confirm.')
+       if (isConfirmed2 && isConfirmed2.toLowerCase() === 'delete') { 
          dispatch(deleteTeam(paramId));
+         alert('Account deleted.');
          history.push(`/login`);
+       } else {
+         alert('Cancelled account deletion.');
        }
      }
   }
