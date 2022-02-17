@@ -922,4 +922,83 @@ td {
   .diamond-logo {
     margin-top: 100px;
   }
+
+  /* ROSTER PAGE */
+  .vert-roster-first-col {
+    height: 450px;
+    width: 100%;
+    font-size: small;
+  }
+
+  .roster-sorting-col {
+    text-align: start;
+    padding: 0px;
+  }
+
+  .sort-title {
+    margin-left: 6px;
+  }
+
+  .vert-player-row {
+    width: 55%;
+  }
+
+  .touchable-row {
+    margin-top: 3px;
+  }
+
+  .roster-col {
+    overflow-x: hidden;
+    max-height: 375px;
+  }
+
+  .roster-side-col {
+    font-size: small;
+    width: 100%;
+  }
+
+  .vert-roster-side-col-row {
+    margin-top: 20px;
+  }
+
+  .avail-track-col {
+    margin-left: -75px;
+  }
+
+  .add-new-player-btn {
+    width: 80px;
+    height: 50px;
+    margin-top: 10px;
+  }
+
+  .edit-avail-btn {
+    width: 80px;
+    height: 50px;
+  }
+
+  .new-player-modal-div {
+    width: 1px;
+  }
+
+  .vert-add-new-roster-sex-col {
+    width: 50%;
+  }
+
+  .vert-edit-roster-sex-col {
+    width: 300px;
+  }
+
+  .vert-male-btn {
+    margin-left: 0px;
+  }
+
+  .delete-player-button {
+    margin-right: 40px;
+  }
+
+  /* LINEUP PAGE */
+
+  /* LINEUP FIELD PAGE */
+
+  /* SETTINGS PAGE */
 }

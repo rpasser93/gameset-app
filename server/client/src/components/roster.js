@@ -150,7 +150,7 @@ const Roster = () => {
 
   const newPlayerModal = () => {
     return (
-      <div>
+      <div className="new-player-modal-div">
         <Modal show={showNewPlayer} onHide={() => handleNewPlayerClose()}>
             <Modal.Header closeButton>
               <Modal.Title>Add Player To Roster</Modal.Title>
@@ -167,7 +167,7 @@ const Roster = () => {
                   <div className="col-1">
                     Sex:
                   </div>
-                  <div className="col-5">
+                  <div className="col-5 vert-add-new-roster-sex-col">
                     <button className="btn btn-sm btn-outline-primary male-btn"onClick={()=>{handleNewSexClick('male')}}>Male</button>
                     <button className="btn btn-sm btn-outline-primary"onClick={()=>{handleNewSexClick('female')}}>Female</button>
                   </div>
@@ -223,8 +223,8 @@ const Roster = () => {
               <h6>Listed Sex:</h6>
             </div> 
             <div className="col-9 sex-select-input">   
-              <div>
-                <button className="btn btn-sm btn-outline-primary male-btn" onClick={()=>{handleEditedSexClick('male')}}>Male</button>
+              <div className="vert-edit-roster-sex-col">
+                <button className="btn btn-sm btn-outline-primary male-btn vert-male-btn" onClick={()=>{handleEditedSexClick('male')}}>Male</button>
                 <button className="btn btn-sm btn-outline-primary" onClick={()=>{handleEditedSexClick('female')}}>Female</button>
               </div>
             </div> 
@@ -318,7 +318,7 @@ const Roster = () => {
       return (
         <div key={player._id}>
           <div className={`row player-row row-${player.sex}`}>
-            <div className="col-10"> 
+            <div className="col-10 vert-player-row"> 
               <div className="row touchable-row" onClick={()=>{handleTouchRow(player)}}>
                 <div className="col-6">
                   <p className="player-name-on-roster"><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
@@ -364,7 +364,7 @@ const Roster = () => {
               <div className="col-6">
                   <p>{`Total: ${players.length} players (${filterFemalesFromTeam.length || 0}F, ${players.length - filterFemalesFromTeam.length || 0}M)`}</p>
               </div>
-              <div className="col-6">
+              <div className="col-6 roster-sorting-col">
                 <p>Sort:<u className={`sort-title namesort-${sortBy}`} onClick={() => nameSortHandler()}>Name</u> <u className={`sort-title sexsort-${sortBy}`} onClick={() => sexSortHandler()}>Sex</u> <u className={`sort-title availsort-${sortBy}`} onClick={() => availSortHandler()}>Availability</u></p>
               </div>
             </div>
@@ -411,7 +411,7 @@ const renderToggleButtonText = () => {
       </div>
 
       <div className="row">
-        <div className="col-10">
+        <div className="col-10 vert-roster-first-col">
           {renderTeamDesc()}
           <div className="row">
             <div className="col roster-col">
@@ -420,7 +420,7 @@ const renderToggleButtonText = () => {
           </div>
         </div>
         <div className="col-2 roster-side-col">
-          <div className="row">
+          <div className="row vert-roster-side-col-row">
             {renderAvailableStats()}
 
             <button type="button" className="btn btn-sm add-new-player-btn" onClick={() => handleNewPlayerShow()}>Add New Player</button>
