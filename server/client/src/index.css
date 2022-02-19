@@ -1028,7 +1028,7 @@ td {
   }
 
   .vert-table-row {
-    margin-left: -25px;
+    margin-left: -30px;
   }
 
   .vert-table {
@@ -1165,8 +1165,9 @@ td {
 
   .inning-left-button {
     position: absolute;
+    transform: scale(0.8);
     z-index: 2;
-    right: 2px;
+    right: 30px;
     top: 310px;
   }
 
@@ -1176,8 +1177,9 @@ td {
 
   .inning-right-button {
     position: absolute;
+    transform: scale(0.8);
     z-index: 2;
-    left: 2px;
+    left: 30px;
     top: 310px;
   }
 
