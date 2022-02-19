@@ -1165,9 +1165,9 @@ td {
 
   .inning-left-button {
     position: absolute;
-    transform: scale(0.8);
-    z-index: 2;
-    right: 30px;
+    transform: scale(0.75);
+    z-index: 3;
+    right: 45px;
     top: 310px;
   }
 
@@ -1177,9 +1177,9 @@ td {
 
   .inning-right-button {
     position: absolute;
-    transform: scale(0.8);
-    z-index: 2;
-    left: 30px;
+    transform: scale(0.75);
+    z-index: 3;
+    left: 45px;
     top: 310px;
   }
 
@@ -1190,7 +1190,7 @@ td {
   .on-bench-col {
     font-size: smaller;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     top: 475px;
     right: 25px;
     width: 75px;
