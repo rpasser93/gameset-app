@@ -1028,7 +1028,7 @@ td {
   }
 
   .vert-table-row {
-    margin-left: -20px;
+    margin-left: -25px;
   }
 
   .vert-table {
@@ -1060,6 +1060,144 @@ td {
   }
 
   /* LINEUP FIELD PAGE */
+  .field-img {
+    position: absolute;
+    margin-top: 30px;
+    transform: scale(0.45);
+    mix-blend-mode: multiply;
+    z-index: 2;
+  }
+
+  .vert-inning-pagination-row {
+    margin-top: 40px;
+  }
+
+  .pos-filled-col {
+    font-size: smaller;
+  }
+
+  .pos-filled-num {
+    font-size: large;
+  }
+
+  .pos-filled-text {
+    width: 50px;
+    overflow: visible;
+  }
+
+  .field-player-col {
+    font-size: smaller;
+  }
+
+  .playing-at-P {
+    position: absolute;
+    z-index: 3;
+    top: 170px;
+    left: 87px;
+  }
+
+  .playing-at-C {
+    position: absolute;
+    z-index: 3;
+    top: 230px;
+    left: 80px;
+  }
+
+  .playing-at-1B {
+    position: absolute;
+    z-index: 3;
+    top: 170px;
+    left: 155px;
+  }
+
+  .playing-at-2B {
+    position: absolute;
+    z-index: 3;
+    top: 120px;
+    left: 130px;
+  }
+
+  .playing-at-3B {
+    position: absolute;
+    z-index: 3;
+    top: 170px;
+    left: 5px;
+  }
+
+  .playing-at-SS {
+    position: absolute;
+    z-index: 3;
+    top: 120px;
+    left: 35px;
+  }
+
+  .playing-at-LF {
+    position: absolute;
+    z-index: 3;
+    top: 90px;
+    left: -20px;
+  }
+
+  .playing-at-CF {
+    position: absolute;
+    z-index: 3;
+    top: 45px;
+    left: 35px;
+  }
+
+  .playing-at-RCF {
+    position: absolute;
+    z-index: 3;
+    top: 50px;
+    left: 130px;
+  }
+
+  .playing-at-RF {
+    position: absolute;
+    z-index: 3;
+    top: 90px;
+    left: 185px;
+  }
+
+  .big-inning-display {
+    margin-top: 220px;
+  }
+
+  .inning-left-button {
+    position: absolute;
+    z-index: 2;
+    right: 2px;
+    top: 310px;
+  }
+
+  .inning-left-button:hover {
+    background-color: transparent;
+  }
+
+  .inning-right-button {
+    position: absolute;
+    z-index: 2;
+    left: 2px;
+    top: 310px;
+  }
+
+  .inning-right-button:hover {
+    background-color: transparent;
+  }
+
+  .on-bench-col {
+    font-size: smaller;
+    position: absolute;
+    z-index: 2;
+    top: 475px;
+    right: 25px;
+    width: 75px;
+    overflow: hidden;
+  }
+
+  .vert-bench-title {
+    font-size: small;
+  }
 
   /* SETTINGS PAGE */
 }

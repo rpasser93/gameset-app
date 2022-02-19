@@ -115,7 +115,7 @@ const LineupField = () => {
         <div className="col"></div>
       </div>
 
-      <div className="row text-center">
+      <div className="row text-center vert-inning-pagination-row">
         <div className="col"></div>
         <div className="col d-flex justify-content-center">
 
@@ -183,7 +183,7 @@ const LineupField = () => {
         
         <div className="col-2 bench-display-column">
           <div className="col on-bench-col">
-            <h6 className="text-center"><u>Bench</u></h6>
+            <h6 className="text-center vert-bench-title"><u>Bench</u></h6>
             {benchPlayers.map(player => {
 
             let playername = ""
