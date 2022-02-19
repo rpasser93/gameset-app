@@ -298,6 +298,10 @@ td {
   font-size: smaller;
 }
 
+.number-for-batting-order {
+  margin-top: 3px;
+}
+
 .batting-order-player {
   border: thin solid black;
   margin-top: 2px;
@@ -1055,8 +1059,13 @@ td {
     font-size: small;
   }
 
+  .batting-order-player {
+    height: 25px;
+  }
+
   .batting-order-player-name {
     max-width: 100px;
+    margin-top: 1px;
   }
 
   /* LINEUP FIELD PAGE */

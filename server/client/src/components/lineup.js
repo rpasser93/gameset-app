@@ -621,7 +621,7 @@ const Lineup = () => {
 
         return (
           <div className="row" key={player._id}>
-            <div className="col-1">
+            <div className="col-1 number-for-batting-order">
               <strong>{battingOrderList.indexOf(player)+1}.</strong>
             </div>
             <div className="col">
