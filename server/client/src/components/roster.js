@@ -320,7 +320,7 @@ const Roster = () => {
           <div className={`row player-row row-${player.sex}`}>
             <div className="col-10 vert-player-row"> 
               <div className="row touchable-row" onClick={()=>{handleTouchRow(player)}}>
-                <div className="col-6">
+                <div className="col-6 vert-player-name-roster-col">
                   <p className="player-name-on-roster"><strong>{`${player.firstName} ${player.lastName}`}</strong></p>
                 </div>
                 <div className="col-3 text-start">
@@ -361,7 +361,7 @@ const Roster = () => {
               <h4><strong>{team.teamName}</strong></h4>
             </div>
             <div className="row">
-              <div className="col-6">
+              <div className="col-6 vert-ttl-player-col">
                   <p>{`Total: ${players.length} players (${filterFemalesFromTeam.length || 0}F, ${players.length - filterFemalesFromTeam.length || 0}M)`}</p>
               </div>
               <div className="col-6 roster-sorting-col">

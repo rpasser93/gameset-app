@@ -925,7 +925,7 @@ td {
 
   /* ROSTER PAGE */
   .vert-roster-first-col {
-    height: 450px;
+    height: 400px;
     width: 100%;
     font-size: small;
   }
@@ -935,21 +935,34 @@ td {
     padding: 0px;
   }
 
+  .vert-ttl-player-col {
+    padding: 0px;
+  }
+
   .sort-title {
-    margin-left: 6px;
+    margin-left: 3px;
+  }
+
+  .roster-col {
+    overflow-x: hidden;
+    max-height: 350px;
   }
 
   .vert-player-row {
     width: 55%;
+    padding-left: 5px;
   }
 
   .touchable-row {
     margin-top: 3px;
   }
 
-  .roster-col {
-    overflow-x: hidden;
-    max-height: 375px;
+  .vert-player-name-roster-col {
+    padding-right: 0px;
+  }
+
+  .player-name-on-roster {
+    max-height: 20px;
   }
 
   .roster-side-col {
@@ -958,7 +971,7 @@ td {
   }
 
   .vert-roster-side-col-row {
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
   .avail-track-col {
