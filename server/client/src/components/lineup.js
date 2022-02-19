@@ -739,9 +739,9 @@ const Lineup = () => {
           <div className="col print-col text-end">
 
             <div className="row">
-             <div className="col-9">{renderSpinningWheel()}</div>
+             <div className="col-9 vert-spin-col">{renderSpinningWheel()}</div>
 
-             <div className="col-3">
+             <div className="col-3 vert-print-col">
                <Print className="print-button" height="30px" width="30px" onClick={()=>{printForm()}} />
               </div>
             </div>
@@ -753,9 +753,9 @@ const Lineup = () => {
           <div className="col text-center">{renderAlerts()}</div>
         </div>
 
-        <div className="row" id="print-this">
-          <div className="col-9">
-            <table className="text-center">
+        <div className="row vert-table-row" id="print-this">
+          <div className="col-9 vert-table-col">
+            <table className="text-center vert-table">
               <tbody>
                 <tr className="inning-row">
                   <td className={`empty-cell print-toggle-${printToggle}`}>

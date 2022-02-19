@@ -358,7 +358,7 @@ const Roster = () => {
         <div className="team-desc-section">
           <div className="col">
             <div className="row">
-              <h4><strong>{team.teamName}</strong></h4>
+              <h4 className="vert-roster-team-name"><strong>{team.teamName}</strong></h4>
             </div>
             <div className="row">
               <div className="col-6 vert-ttl-player-col">

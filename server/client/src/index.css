@@ -930,6 +930,10 @@ td {
     font-size: small;
   }
 
+  .vert-roster-team-name {
+    margin-left: -12px;
+  }
+
   .roster-sorting-col {
     text-align: start;
     padding: 0px;
@@ -1010,6 +1014,50 @@ td {
   }
 
   /* LINEUP PAGE */
+  .vert-spin-col {
+    width: 55%;
+  }
+
+  .violation-dropdown {
+    font-size: smaller;
+  }
+
+  .vert-table-col {
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  .vert-table-row {
+    margin-left: -20px;
+  }
+
+  .vert-table {
+    font-size: small;
+  }
+
+  .player-row-header-wrapper {
+    max-width: 60px;
+    overflow: hidden;
+  }
+
+  .pos-dd-btn {
+    font-size: small;
+  }
+
+  .batting-order-col {
+    width: 50%;
+    margin-left: 85px;
+    margin-bottom: 20px;
+    font-size: smaller;
+  }
+
+  .batting-order-title {
+    font-size: small;
+  }
+
+  .batting-order-player-name {
+    max-width: 100px;
+  }
 
   /* LINEUP FIELD PAGE */
 
