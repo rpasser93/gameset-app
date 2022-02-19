@@ -1202,4 +1202,11 @@ td {
   }
 
   /* SETTINGS PAGE */
+  .settings-col {
+    width: 100%;
+  }
+
+  .at-least {
+    padding-left: 4px;
+  }
 }
