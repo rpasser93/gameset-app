@@ -209,7 +209,7 @@ const Lineup = () => {
   }
 
   const renderPlayerLineupRows = () => {
-    let positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RCF','RF', '>>'];
+    let positionArray = ['-','P','C','1B','2B','3B','SS','LF','LCF','RCF','RF', '>>'];
 
     const renderPositions = (playerId, num) => {
 
@@ -272,7 +272,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[0]}`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[0]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -282,7 +282,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[1]}`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[1]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -292,7 +292,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[2]}`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[2]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -302,7 +302,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[3]}`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[3]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -312,7 +312,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[4]}`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[4]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -322,7 +322,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[5]}`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[5]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -332,7 +332,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn`} data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[6]}`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[6]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -413,7 +413,7 @@ const Lineup = () => {
 
       femalesOutfieldArray.forEach(arrayOuter => {
         arrayOuter.forEach((arrayInner, index) => {
-          if (arrayInner === "LF" || arrayInner === "CF" || arrayInner === "RCF" || arrayInner === "RF") {
+          if (arrayInner === "LF" || arrayInner === "LCF" || arrayInner === "RCF" || arrayInner === "RF") {
             femalesOutfieldTotals[index]++;
           }
         })
@@ -457,7 +457,7 @@ const Lineup = () => {
 
       malesOutfieldArray.forEach(arrayOuter => {
         arrayOuter.forEach((arrayInner, index) => {
-          if (arrayInner === "LF" || arrayInner === "CF" || arrayInner === "RCF" || arrayInner === "RF") {
+          if (arrayInner === "LF" || arrayInner === "LCF" || arrayInner === "RCF" || arrayInner === "RF") {
             malesOutfieldTotals[index]++;
           }
         })

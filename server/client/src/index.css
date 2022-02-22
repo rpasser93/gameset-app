@@ -292,6 +292,10 @@ td {
   border: none;
 }
 
+.pos-dd-btn-- {
+  color: transparent !important;
+}
+
 .batting-order-title {
   margin-bottom: 1px;
   margin-left: 28px;
@@ -405,6 +409,10 @@ td {
 .print-toggle-on {
   color: black !important;
   background-color: white !important;
+}
+
+.print-toggle-on .pos-dd-btn-- {
+  color: white !important;
 }
 
 .position-selection {
@@ -561,7 +569,7 @@ td {
   left: 30px;
 }
 
-.playing-at-CF {
+.playing-at-LCF {
   position: absolute;
   z-index: 3;
   top: 0px;
@@ -812,7 +820,7 @@ td {
     left: 97px;
   }
 
-  .playing-at-CF {
+  .playing-at-LCF {
     top: 85px;
     left: 212px;
   }
@@ -896,7 +904,7 @@ td {
     left: 112px;
   }
 
-  .playing-at-CF {
+  .playing-at-LCF {
     top: 75px;
     left: 257px;
   }
@@ -1147,7 +1155,7 @@ td {
     left: -20px;
   }
 
-  .playing-at-CF {
+  .playing-at-LCF {
     position: absolute;
     z-index: 3;
     top: 45px;
