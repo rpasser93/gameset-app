@@ -361,21 +361,6 @@ router.put("/api/teams/:team/settings/numInnings", (req, res, next) => {
   res.end();
 });
 
-//PUT change position settings of a team, requires team ID param and 'positions' object key with array value in req body
-router.put("/api/teams/:team/settings/positions", (req, res, next) => {
-  const {team} = req.params;
-
-  Team.find({_id: team}).exec((err, teamRes) => {
-    if (err) return next(err);
-    teamRes[0].settings[0].positions = req.body.positions;
-    teamRes[0].save((err) => {
-      if (err) return next(err);
-      console.log('Position settings successfully changed.');
-    });
-  });
-  res.end();
-});
-
 //PUT change player minimum settings of a team, requires team ID param and 'minPlayers' in req body
 router.put("/api/teams/:team/settings/minPlayers", (req, res, next) => {
   const {team} = req.params;

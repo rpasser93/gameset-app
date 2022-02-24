@@ -209,7 +209,13 @@ const Lineup = () => {
   }
 
   const renderPlayerLineupRows = () => {
-    let positionArray = ['-','P','C','1B','2B','3B','SS','LF','LCF','RCF','RF', '>>'];
+    let positionArray = [];
+    
+    if (team && team.settings[0].numInCenter === 1) {
+      positionArray = ['-','P','C','1B','2B','3B','SS','LF','CF','RF', '>>'];
+    } else {
+      positionArray = ['-','P','C','1B','2B','3B','SS','LF','LCF','RCF','RF', '>>'];
+    }
 
     const renderPositions = (playerId, num) => {
 
