@@ -295,7 +295,7 @@ const Settings = () => {
       setMinSexBatting(true);
       setMinSexNumberBatting(0);
 
-      setTimeout(()=>{window.location.reload()},1);
+      setTimeout(()=>{window.location.reload()},50);
     }
   }
 

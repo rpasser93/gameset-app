@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const SettingsSchema = new Schema({
   numInnings: Number,
-  positions: Array,
   minPlayers: Number,
+  numInCenter: Number,
   sexMin: {
     sex: String,
     min: Number
