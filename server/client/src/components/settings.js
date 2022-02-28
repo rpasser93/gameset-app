@@ -131,6 +131,14 @@ const Settings = () => {
     setTimeout(()=>{setSaveTextTeamName("Save")}, 1000);
   }
 
+  const handleCenterComp = () => {
+    console.log('toggling Center Comp')
+  }
+
+  const saveCenterComp = () => {
+    console.log('saving Center Comp')
+  }
+
   const handleMinPlayerChange = (e) => {
     setMinPlayers(e.target.value)
   }
@@ -402,7 +410,6 @@ const Settings = () => {
   }
 
   const renderModalPassButton = () => {
-
     return (
       <div>
         <div>
@@ -442,6 +449,36 @@ const Settings = () => {
     )
   }
 
+  const renderCenterFieldComp = () => {
+    if (team && team.settings[0].numInCenter === 2) {
+      return (
+        <div className="row">
+          <div className="col-3">
+            <p><strong><em>1 player</em></strong></p>
+            <p>(CF only)</p>
+          </div>
+          <div className="col-2">
+            <div className="form-check form-switch">
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{handleCenterComp()}} checked/>
+              <label className="form-check-label" htmlFor="flexSwitchCheckDefault"></label>
+            </div>
+          </div>
+          <div className="col-4">
+            <p><strong><em>2 players</em></strong></p>
+            <p>{`(LCF & RCF)`}</p>
+          </div>
+          <div className="col-3 text-end">
+            <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>Save</button>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <div></div>
+      )
+    }
+  }
+
   if (team) {
     return (
       <div className="container-md settings-container">
@@ -473,27 +510,7 @@ const Settings = () => {
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-5 text-start">
-                    <div className="form-check">
-                      <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="2"/>
-                      <label className="form-check-label" for="exampleRadios1">
-                        2 players (LCF/RCF)
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-4 text-start">
-                    <div className="form-check">
-                      <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="1" />
-                      <label className="form-check-label" for="exampleRadios2">
-                        1 player (CF)
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-3 text-end">
-                  <button className="btn btn-outline-primary" type="button">Save</button>
-                  </div>
-                </div>
+                {renderCenterFieldComp()}
               
                 <hr/>
 
