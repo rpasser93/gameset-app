@@ -276,26 +276,30 @@ const Settings = () => {
     //eslint-disable-next-line
     const isConfirmed = confirm('Restore all requirement settings to default?');
     if (isConfirmed) {
-      dispatch(updatePlayerMinSettings(paramId, 0));
-      setMinPlayers(0);
 
-      dispatch(updateSexMinSettings(paramId,'female', 0));
-      setMinSpecificSex(true);
-      setMinSexNumber(0);
+      const defaultDispatchesPromise = new Promise(() => {
+        dispatch(updatePlayerMinSettings(paramId, 0));
+        setMinPlayers(0);
 
-      dispatch(updateInfieldMinSettings(paramId, 'female', 0));
-      setMinSexInfield(true);
-      setMinSexNumberInfield(0);
+        dispatch(updateSexMinSettings(paramId,'female', 0));
+        setMinSpecificSex(true);
+        setMinSexNumber(0);
 
-      dispatch(updateOutfieldMinSettings(paramId, 'female', 0));
-      setMinSexOutfield(true);
-      setMinSexNumberOutfield(0);
+        dispatch(updateInfieldMinSettings(paramId, 'female', 0));
+        setMinSexInfield(true);
+        setMinSexNumberInfield(0);
 
-      dispatch(updateBattingReqSettings(paramId, 'female', 0));
-      setMinSexBatting(true);
-      setMinSexNumberBatting(0);
+        dispatch(updateOutfieldMinSettings(paramId, 'female', 0));
+        setMinSexOutfield(true);
+        setMinSexNumberOutfield(0);
 
-      setTimeout(()=>{window.location.reload()},50);
+        dispatch(updateBattingReqSettings(paramId, 'female', 0));
+        setMinSexBatting(true);
+        setMinSexNumberBatting(0);
+      });
+
+      defaultDispatchesPromise.then(setTimeout(()=>{window.location.reload()},50));
+
     }
   }
 
@@ -462,6 +466,34 @@ const Settings = () => {
                   </div>
                   </div>
                 </div>
+
+                <div className="row center-field-comp-row">
+                  <div className="col">
+                    <p className="text-start">Center Field composition:</p>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-5 text-start">
+                    <div className="form-check">
+                      <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="2"/>
+                      <label className="form-check-label" for="exampleRadios1">
+                        2 players (LCF/RCF)
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-4 text-start">
+                    <div className="form-check">
+                      <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="1" />
+                      <label className="form-check-label" for="exampleRadios2">
+                        1 player (CF)
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-3 text-end">
+                  <button className="btn btn-outline-primary" type="button">Save</button>
+                  </div>
+                </div>
               
                 <hr/>
 
@@ -470,10 +502,10 @@ const Settings = () => {
                     <h5><strong><em>Requirements</em></strong></h5>
                   </div>
                 </div>
-                <div className="row">
 
+                <div className="row">
                   <div className="col">
-                    <p className="text-start">Minimum players needed:</p>
+                    <p className="text-start">Minimum available players needed:</p>
                   </div>
 
                   <div className="col">

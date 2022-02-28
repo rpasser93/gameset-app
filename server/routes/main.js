@@ -21,24 +21,24 @@ router.post("/api/teams", (req, res) => {
   newTeam.teamName = 'Your Team';
   newTeam.settings.push({
     numInnings: 7,
-      minPlayers: 0,
-      numInCenter: 2,
-      sexMin: {
-        sex: "female",
-        min: 0
-      },
-      infieldReq: {
-        sex: "female",
-        min: 0
-      },
-      outfieldReq: {
-        sex: "female",
-        min: 0
-      },
-      battingReq: {
-        sex: "female",
-        min: 0
-      }
+    minPlayers: 0,
+    numInCenter: 2,
+    sexMin: {
+      sex: "female",
+      min: 0
+    },
+    infieldReq: {
+      sex: "female",
+      min: 0
+    },
+    outfieldReq: {
+      sex: "female",
+      min: 0
+    },
+    battingReq: {
+      sex: "female",
+      min: 0
+    }
   })
 
   async function compareTeams() {
