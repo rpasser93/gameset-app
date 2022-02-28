@@ -1,4 +1,4 @@
-import { FETCH_TEAM_BY_LOGIN, FETCH_TEAM_BY_ID, UPDATE_TEAM_NAME, UPDATE_TEAM_PASSWORD, UPDATE_PLAYER_MIN_SETTINGS, UPDATE_SEX_MIN_SETTINGS, UPDATE_INFIELD_MIN_SETTINGS, UPDATE_OUTFIELD_MIN_SETTINGS, UPDATE_BATTING_REQ_SETTINGS } from "../actions/actions"
+import { FETCH_TEAM_BY_LOGIN, FETCH_TEAM_BY_ID, UPDATE_TEAM_NAME, UPDATE_TEAM_PASSWORD, UPDATE_PLAYER_MIN_SETTINGS, UPDATE_CENTER_FIELD_NUM_SETTINGS, UPDATE_SEX_MIN_SETTINGS, UPDATE_INFIELD_MIN_SETTINGS, UPDATE_OUTFIELD_MIN_SETTINGS, UPDATE_BATTING_REQ_SETTINGS } from "../actions/actions"
 
 const teamReducer = (state = [], action) => {
   if( action && action.payload && action.payload.data) {
@@ -35,6 +35,16 @@ const teamReducer = (state = [], action) => {
       return state.map((team) => {
         if (team._id === action.payload.data.id) {
           team.minPlayers = action.payload.data.minPlayers;
+          return team;
+        } else {
+          return team;
+        }
+      });
+
+    case UPDATE_CENTER_FIELD_NUM_SETTINGS:
+      return state.map((team) => {
+        if (team._id === action.payload.data.id) {
+          team.numInCenter = action.payload.data.numInCenter;
           return team;
         } else {
           return team;

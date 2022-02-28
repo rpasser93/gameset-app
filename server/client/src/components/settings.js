@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { Modal, Button } from "react-bootstrap";
 import { fetchTeamById } from "../actions/actions";
 import { CheckmarkCircle } from "react-ionicons"
-import { updateTeamName, updateTeamPassword, updatePlayerMinSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions";
+import { updateTeamName, updateTeamPassword, updatePlayerMinSettings, updateCenterFieldNumSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions";
 
 const Settings = () => {
   const [teamNameEdit, setTeamNameEdit] = useState("");
@@ -139,18 +139,21 @@ const Settings = () => {
     setTimeout(()=>{setSaveTextTeamName("Save")}, 1000);
   }
 
-  const handleCenterComp = () => {//////////////////
+  const handleCenterComp = () => {
     if (numInCenter === 1) {
       setNumInCenter(2);
-      console.log('toggling Center Comp: 2');
     } else {
       setNumInCenter(1);
-      console.log('toggling Center Comp: 1');
     }
   }
 
   const saveCenterComp = () => {//////////////////
-    console.log('saving Center Comp: ', numInCenter)
+    if (numInCenter !== team.settings[0].numInCenter) {
+      console.log('saving Center Comp: ', numInCenter)
+      dispatch(updateCenterFieldNumSettings(paramId, numInCenter));
+
+      ///CF conversion here
+    }
   }
 
   const handleMinPlayerChange = (e) => {

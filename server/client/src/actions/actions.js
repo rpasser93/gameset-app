@@ -8,6 +8,7 @@ export const FETCH_TEAM_BY_LOGIN = "FETCH_TEAM_BY_LOGIN";
 export const FETCH_TEAM_BY_ID = "FETCH_TEAM_BY_ID";
 export const UPDATE_TEAM_NAME = "UPDATE_TEAM_NAME";
 export const UPDATE_TEAM_PASSWORD = "UPDATE_TEAM_PASSWORD";
+export const UPDATE_CENTER_FIELD_NUM_SETTINGS = "UPDATE_CENTER_FIELD_NUM_SETTINGS";
 export const UPDATE_PLAYER_MIN_SETTINGS = "UPDATE_PLAYER_MIN_SETTINGS";
 export const UPDATE_SEX_MIN_SETTINGS = "UPDATE_SEX_MIN_SETTINGS";
 export const UPDATE_INFIELD_MIN_SETTINGS = "UPDATE_INFIELD_MIN_SETTINGS";
@@ -245,6 +246,19 @@ export const updatePlayerMinSettings = (teamId, minPlayers) => {
 
   return {
     type: UPDATE_PLAYER_MIN_SETTINGS,
+    payload: request
+  };
+}
+
+export const updateCenterFieldNumSettings = (teamId, numInCenter) => {
+  const data = {
+    numInCenter: numInCenter
+  }
+
+  const request = axios.put(`${baseUrl}/${teamId}/settings/numInCenter`, data);
+
+  return {
+    type: UPDATE_CENTER_FIELD_NUM_SETTINGS,
     payload: request
   };
 }
