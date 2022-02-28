@@ -38,7 +38,7 @@ const Settings = () => {
   const [currentPassError, setCurrentPassError] = useState(false);
   const [newPassError, setNewPassError] = useState(false);
 
-  const [centerCompChecked, setCenterCompChecked] = useState(2);
+  const [centerCompChecked, setCenterCompChecked] = useState(null);
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
@@ -55,6 +55,12 @@ const Settings = () => {
   }, [dispatch, paramId, newPassword, confirmNewPassword]);
 
   let team = useSelector(state => state.team[0]);
+
+  useEffect(() => {
+    if (team && team.settings[0]) {
+      setCenterCompChecked(team.settings[0].numInCenter)
+    }
+  }, [team])
   
   let currentSex = ""
   let oppositeSex = ""
@@ -457,12 +463,12 @@ const Settings = () => {
   }
 
   const renderCenterFieldComp = () => {
-    if (team && centerCompChecked === 1) {
+    if (team && centerCompChecked === 2) {
       return (
         <div className="row">
-          <div className="col-3">
-            <p><strong><em>1 player</em></strong></p>
-            <p>(CF only)</p>
+          <div className="col-4">
+            <p><strong><em>{'LCF & RCF'}</em></strong></p>
+            <p className="num-outfielders">(4 outfielders)</p>
           </div>
           <div className="col-2">
             <div className="form-check form-switch">
@@ -470,21 +476,21 @@ const Settings = () => {
               <label className="form-check-label" htmlFor="flexSwitchCheckChecked"></label>
             </div>
           </div>
-          <div className="col-4">
-            <p><strong><em>2 players</em></strong></p>
-            <p>{`(LCF & RCF)`}</p>
+          <div className="col-3">
+            <p><strong><em>CF only</em></strong></p>
+            <p className="num-outfielders">(3 outfielders)</p>
           </div>
           <div className="col-3 text-end">
             <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>Save</button>
           </div>
         </div>
       )
-    } else if (team && centerCompChecked === 2) {
+    } else if (team && centerCompChecked === 1) {
       return (
         <div className="row">
-          <div className="col-3">
-            <p><strong><em>1 player</em></strong></p>
-            <p>(CF only)</p>
+          <div className="col-4">
+            <p><strong><em>{'LCF & RCF'}</em></strong></p>
+            <p className="num-outfielders">(4 outfielders)</p>
           </div>
           <div className="col-2">
             <div className="form-check form-switch">
@@ -492,9 +498,9 @@ const Settings = () => {
               <label className="form-check-label" htmlFor="flexSwitchCheckChecked"></label>
             </div>
           </div>
-          <div className="col-4">
-            <p><strong><em>2 players</em></strong></p>
-            <p>{`(LCF & RCF)`}</p>
+          <div className="col-3">
+            <p><strong><em>CF only</em></strong></p>
+            <p className="num-outfielders">(3 outfielders)</p>
           </div>
           <div className="col-3 text-end">
             <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>Save</button>
