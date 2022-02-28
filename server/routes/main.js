@@ -376,6 +376,21 @@ router.put("/api/teams/:team/settings/minPlayers", (req, res, next) => {
   });
 });
 
+//PUT change center field number settings of a team, requires team ID param and 'numInCenter' in req body
+router.put("/api/teams/:team/settings/numInCenter", (req, res, next) => {
+  const {team} = req.params;
+
+  Team.find({_id: team}).exec((err, teamRes) => {
+    if (err) return next(err);
+    teamRes[0].settings[0].numInCenter = req.body.numInCenter;
+    teamRes[0].save((err) => {
+      if (err) return next(err);
+      console.log('Center field number settings successfully changed.');
+      res.send(JSON.stringify({id: team, numInCenter: req.body.numInCenter}));
+    });
+  });
+});
+
 //PUT change sex minimum settings of a team, requires team ID param and 'sex' and 'min' in req body
 router.put("/api/teams/:team/settings/sexMin", (req, res, next) => {
   const {team} = req.params;

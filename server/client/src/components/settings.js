@@ -38,7 +38,7 @@ const Settings = () => {
   const [currentPassError, setCurrentPassError] = useState(false);
   const [newPassError, setNewPassError] = useState(false);
 
-  const [centerCompChecked, setCenterCompChecked] = useState(null);
+  const [numInCenter, setNumInCenter] = useState(null);
 
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
@@ -58,7 +58,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (team && team.settings[0]) {
-      setCenterCompChecked(team.settings[0].numInCenter)
+      setNumInCenter(team.settings[0].numInCenter)
     }
   }, [team])
   
@@ -140,16 +140,17 @@ const Settings = () => {
   }
 
   const handleCenterComp = () => {//////////////////
-    if (centerCompChecked === 1) {
-      setCenterCompChecked(2);
+    if (numInCenter === 1) {
+      setNumInCenter(2);
+      console.log('toggling Center Comp: 2');
     } else {
-      setCenterCompChecked(1);
+      setNumInCenter(1);
+      console.log('toggling Center Comp: 1');
     }
-    console.log('toggling Center Comp')
   }
 
   const saveCenterComp = () => {//////////////////
-    console.log('saving Center Comp')
+    console.log('saving Center Comp: ', numInCenter)
   }
 
   const handleMinPlayerChange = (e) => {
@@ -463,7 +464,7 @@ const Settings = () => {
   }
 
   const renderCenterFieldComp = () => {
-    if (team && centerCompChecked === 2) {
+    if (team && numInCenter === 2) {
       return (
         <div className="row">
           <div className="col-4">
@@ -485,7 +486,7 @@ const Settings = () => {
           </div>
         </div>
       )
-    } else if (team && centerCompChecked === 1) {
+    } else if (team && numInCenter === 1) {
       return (
         <div className="row">
           <div className="col-4">
