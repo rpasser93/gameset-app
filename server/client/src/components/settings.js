@@ -38,6 +38,8 @@ const Settings = () => {
   const [currentPassError, setCurrentPassError] = useState(false);
   const [newPassError, setNewPassError] = useState(false);
 
+  const [centerCompChecked, setCenterCompChecked] = useState(2);
+
   const paramId = window.location.pathname.substr(window.location.pathname.length - 24);
 
   const dispatch = useDispatch();
@@ -131,11 +133,16 @@ const Settings = () => {
     setTimeout(()=>{setSaveTextTeamName("Save")}, 1000);
   }
 
-  const handleCenterComp = () => {
+  const handleCenterComp = () => {//////////////////
+    if (centerCompChecked === 1) {
+      setCenterCompChecked(2);
+    } else {
+      setCenterCompChecked(1);
+    }
     console.log('toggling Center Comp')
   }
 
-  const saveCenterComp = () => {
+  const saveCenterComp = () => {//////////////////
     console.log('saving Center Comp')
   }
 
@@ -450,7 +457,7 @@ const Settings = () => {
   }
 
   const renderCenterFieldComp = () => {
-    if (team && team.settings[0].numInCenter === 2) {
+    if (team && centerCompChecked === 1) {
       return (
         <div className="row">
           <div className="col-3">
@@ -459,8 +466,30 @@ const Settings = () => {
           </div>
           <div className="col-2">
             <div className="form-check form-switch">
-              <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{handleCenterComp()}} checked/>
-              <label className="form-check-label" htmlFor="flexSwitchCheckDefault"></label>
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onClick={()=>{handleCenterComp()}} />
+              <label className="form-check-label" htmlFor="flexSwitchCheckChecked"></label>
+            </div>
+          </div>
+          <div className="col-4">
+            <p><strong><em>2 players</em></strong></p>
+            <p>{`(LCF & RCF)`}</p>
+          </div>
+          <div className="col-3 text-end">
+            <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>Save</button>
+          </div>
+        </div>
+      )
+    } else if (team && centerCompChecked === 2) {
+      return (
+        <div className="row">
+          <div className="col-3">
+            <p><strong><em>1 player</em></strong></p>
+            <p>(CF only)</p>
+          </div>
+          <div className="col-2">
+            <div className="form-check form-switch">
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onClick={()=>{handleCenterComp()}} checked/>
+              <label className="form-check-label" htmlFor="flexSwitchCheckChecked"></label>
             </div>
           </div>
           <div className="col-4">
