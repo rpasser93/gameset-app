@@ -569,6 +569,13 @@ td {
   left: 30px;
 }
 
+.playing-at-CF {
+  position: absolute;
+  z-index: 3;
+  top: 0px;
+  left: 150px;
+}
+
 .playing-at-LCF {
   position: absolute;
   z-index: 3;
@@ -829,6 +836,11 @@ td {
     left: 97px;
   }
 
+  .playing-at-CF {
+    top: 85px;
+    left: 275px;
+  }
+
   .playing-at-LCF {
     top: 85px;
     left: 212px;
@@ -911,6 +923,11 @@ td {
   .playing-at-LF {
     top: 150px;
     left: 112px;
+  }
+
+  .playing-at-CF {
+    top: 75px;
+    left: 315px;
   }
 
   .playing-at-LCF {
@@ -1162,6 +1179,13 @@ td {
     z-index: 3;
     top: 90px;
     left: -20px;
+  }
+
+  .playing-at-CF {
+    position: absolute;
+    z-index: 3;
+    top: 45px;
+    left: 80px;
   }
 
   .playing-at-LCF {
