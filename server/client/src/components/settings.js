@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { Modal, Button } from "react-bootstrap";
 import { fetchTeamById } from "../actions/actions";
 import { CheckmarkCircle } from "react-ionicons"
-import { updateTeamName, updateTeamPassword, updatePlayerMinSettings, updateCenterFieldNumSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions";
+import { updateTeamName, updateTeamPassword, updatePlayerMinSettings, updatePlayerLineup, updateCenterFieldNumSettings, updateSexMinSettings, updateInfieldMinSettings, updateOutfieldMinSettings, updateBattingReqSettings, deleteTeam } from "../actions/actions";
 
 const Settings = () => {
   const [teamNameEdit, setTeamNameEdit] = useState("");
@@ -149,10 +149,25 @@ const Settings = () => {
 
   const saveCenterComp = () => {//////////////////
     if (numInCenter !== team.settings[0].numInCenter) {
-      console.log('saving Center Comp: ', numInCenter)
       dispatch(updateCenterFieldNumSettings(paramId, numInCenter));
 
-      ///CF conversion here
+      if (numInCenter === 1) {
+        team.players.forEach(plyr => {
+          plyr.lineup.forEach((inningPos, i) => {
+            if (inningPos === 'LCF' || inningPos === 'RCF') {
+              dispatch(updatePlayerLineup(paramId,plyr._id,'-',i));
+            }
+          })
+        })
+      } else {
+        team.players.forEach(plyr => {
+          plyr.lineup.forEach((inningPos, i) => {
+            if (inningPos === 'CF') {
+              dispatch(updatePlayerLineup(paramId,plyr._id,'-',i));
+            }
+          })
+        })
+      }
     }
   }
 
