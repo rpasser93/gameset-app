@@ -24,6 +24,7 @@ const Settings = () => {
   const [minSexNumberBatting, setMinSexNumberBatting] = useState(0);
 
   const [saveTextTeamName, setSaveTextTeamName] = useState("Save");
+  const [saveTextCenterFieldComp, setSaveTextCenterFieldComp] = useState("Save");
   const [saveTextMinPlayers, setSaveTextMinPlayers] = useState("Save");
   const [saveTextMinSex, setSaveTextMinSex] = useState("Save");
   const [saveTextInfieldReq, setSaveTextInfieldReq] = useState("Save");
@@ -147,9 +148,11 @@ const Settings = () => {
     }
   }
 
-  const saveCenterComp = () => {//////////////////
+  const saveCenterComp = () => {
     if (numInCenter !== team.settings[0].numInCenter) {
       dispatch(updateCenterFieldNumSettings(paramId, numInCenter));
+      setSaveTextCenterFieldComp("Saved!");
+      setTimeout(()=>{setSaveTextCenterFieldComp("Save")}, 1000);
 
       if (numInCenter === 1) {
         team.players.forEach(plyr => {
@@ -500,7 +503,7 @@ const Settings = () => {
             <p className="num-outfielders">(3 outfielders)</p>
           </div>
           <div className="col-3 text-end">
-            <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>Save</button>
+            <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>{saveTextCenterFieldComp}</button>
           </div>
         </div>
       )
@@ -522,7 +525,7 @@ const Settings = () => {
             <p className="num-outfielders">(3 outfielders)</p>
           </div>
           <div className="col-3 text-end">
-            <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>Save</button>
+            <button type="button" className="btn btn-outline-primary" onClick={()=>{saveCenterComp()}}>{saveTextCenterFieldComp}</button>
           </div>
         </div>
       )
