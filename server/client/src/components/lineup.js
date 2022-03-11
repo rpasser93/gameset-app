@@ -361,6 +361,10 @@ const Lineup = () => {
 
       let violations = [];
 
+      let playersInGameTotals = [0,0,0,0,0,0,0];
+      let femalesInGameTotals = [0,0,0,0,0,0,0];
+      let malesInGameTotals = [0,0,0,0,0,0,0];
+
       let femalesInfieldTotals = [0,0,0,0,0,0,0];
       let femalesOutfieldTotals = [0,0,0,0,0,0,0];
       let malesInfieldTotals = [0,0,0,0,0,0,0];
@@ -369,19 +373,16 @@ const Lineup = () => {
       let totalAvailable = players.filter(player => {
         return (player.availability);
       });
-      let totalAvailableNumber = totalAvailable.length;
 
       let femalesAvailable = totalAvailable.filter(player => {
         return (player.sex === "female");
       });
-      let femalesAvailableNumber = femalesAvailable.length;
 
       let malesAvailable = totalAvailable.filter(player => {
         return (player.sex === "male");
       });
-      let malesAvailableNumber = malesAvailable.length;
 
-      let femalesInfieldArray = femalesAvailable.map(female => {
+      let femalesTotalArray = femalesAvailable.map(female => {
         return (
           [
             female.lineup[0],
@@ -395,37 +396,27 @@ const Lineup = () => {
         )
       })
 
-      femalesInfieldArray.forEach(arrayOuter => {
+      femalesTotalArray.forEach(arrayOuter => {
         arrayOuter.forEach((arrayInner, index) => {
           if (arrayInner === "P" || arrayInner === "C" || arrayInner === "1B" || arrayInner === "2B" || arrayInner === "3B" || arrayInner === "SS") {
             femalesInfieldTotals[index]++;
+            femalesInGameTotals[index]++;
+            playersInGameTotals[index]++;
           }
         })
       })
 
-      let femalesOutfieldArray = femalesAvailable.map(female => {
-        return (
-          [
-            female.lineup[0],
-            female.lineup[1],
-            female.lineup[2],
-            female.lineup[3],
-            female.lineup[4],
-            female.lineup[5],
-            female.lineup[6]
-          ]
-        )
-      })
-
-      femalesOutfieldArray.forEach(arrayOuter => {
+      femalesTotalArray.forEach(arrayOuter => {
         arrayOuter.forEach((arrayInner, index) => {
           if (arrayInner === "LF" || arrayInner === "LCF" || arrayInner === "RCF" || arrayInner === "RF") {
             femalesOutfieldTotals[index]++;
+            femalesInGameTotals[index]++;
+            playersInGameTotals[index]++;
           }
         })
       })
 
-      let malesInfieldArray = malesAvailable.map(male => {
+      let malesTotalArray = malesAvailable.map(male => {
         return (
           [
             male.lineup[0],
@@ -439,32 +430,22 @@ const Lineup = () => {
         )
       })
 
-      malesInfieldArray.forEach(arrayOuter => {
+      malesTotalArray.forEach(arrayOuter => {
         arrayOuter.forEach((arrayInner, index) => {
           if (arrayInner === "P" || arrayInner === "C" || arrayInner === "1B" || arrayInner === "2B" || arrayInner === "3B" || arrayInner === "SS") {
             malesInfieldTotals[index]++;
+            malesInGameTotals[index]++;
+            playersInGameTotals[index]++;
           }
         })
       })
 
-      let malesOutfieldArray = malesAvailable.map(male => {
-        return (
-          [
-            male.lineup[0],
-            male.lineup[1],
-            male.lineup[2],
-            male.lineup[3],
-            male.lineup[4],
-            male.lineup[5],
-            male.lineup[6]
-          ]
-        )
-      })
-
-      malesOutfieldArray.forEach(arrayOuter => {
+      malesTotalArray.forEach(arrayOuter => {
         arrayOuter.forEach((arrayInner, index) => {
           if (arrayInner === "LF" || arrayInner === "LCF" || arrayInner === "RCF" || arrayInner === "RF") {
             malesOutfieldTotals[index]++;
+            malesInGameTotals[index]++;
+            playersInGameTotals[index]++;
           }
         })
       })
@@ -487,16 +468,34 @@ const Lineup = () => {
 
       //ALERTS
     
-      if (totalAvailableNumber < currentPlayerMin) {
-        violations.push(`Total available players (${totalAvailableNumber}) below the minimum required (${currentPlayerMin}).`)
+      if (currentPlayerMin > 0) {
+        let violatedInnings = [];
+        playersInGameTotals.forEach((quantity, index) => {
+          if (quantity < currentPlayerMin) {
+            violatedInnings.push(` ${index+1}`);
+          }
+        });
+        if (violatedInnings.length > 0) {violations.push(`Not enough players (min: ${currentPlayerMin}) for innings: [${violatedInnings} ].`)}
       }
 
-      if (currentSexMin.sex === "female" && femalesAvailableNumber < currentSexMin.min) {
-        violations.push(`Available females (${femalesAvailableNumber}) below the minimum required (${currentSexMin.min}).`)
+      if (currentSexMin.sex === "female" && currentSexMin.min > 0) {
+        let violatedInnings = [];
+        femalesInGameTotals.forEach((quantity, index) => {
+          if (quantity < currentSexMin.min) {
+            violatedInnings.push(` ${index+1}`);
+          }
+        });
+        if (violatedInnings.length > 0) {violations.push(`Not enough females playing (min: ${currentSexMin.min}) for innings: [${violatedInnings} ].`)}
       }
 
-      if (currentSexMin.sex === "male" && malesAvailableNumber < currentSexMin.min) {
-        violations.push(`Available males (${malesAvailableNumber}) below the minimum required (${currentSexMin.min}).`)
+      if (currentSexMin.sex === "male" && currentSexMin.min > 0) {
+        let violatedInnings = [];
+        malesInGameTotals.forEach((quantity, index) => {
+          if (quantity < currentSexMin.min) {
+            violatedInnings.push(` ${index+1}`);
+          }
+        });
+        if (violatedInnings.length > 0) {violations.push(`Not enough males playing (min: ${currentSexMin.min}) for innings: [${violatedInnings} ].`)}
       }
 
       if (currentInfieldReq.sex === "female") {
