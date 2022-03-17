@@ -17,6 +17,7 @@ const LineupField = () => {
   }, [dispatch, paramId]);
 
   let players = useSelector(state => state.players);
+  let team = useSelector(state => state.team[0]);
 
   const handleTableView = () => {
     history.push(`/lineup/${paramId}`);
@@ -66,21 +67,31 @@ const LineupField = () => {
 
   const renderPosFilled = () => {
 
-    if (fieldPlayers.length < 10) {
+    console.log(team);
+
+    if (team && fieldPlayers.length < team.settings[0].numInCenter + 8) {
       return (
         <div className="col pos-filled-col">
-          <p className="pos-filled-num text-center"><strong><span className={`pos-num-below`}>{fieldPlayers.length}</span>/10</strong></p>
+          <p className="pos-filled-num text-center"><strong><span className={`pos-num-below`}>{fieldPlayers.length}</span>/{team.settings[0].numInCenter + 8}</strong></p>
           <p className="pos-filled-text text-center">Pos. filled</p>
         </div>
       )
     }
 
-    return (
-      <div className="col pos-filled-col">
-        <p className="pos-filled-num text-center"><strong><span className={`pos-num-meets`}>{fieldPlayers.length}</span>/10</strong></p>
-        <p className="pos-filled-text text-center">Pos. filled</p>
-      </div>
-    )
+    else if (team) {
+      return (
+        <div className="col pos-filled-col">
+          <p className="pos-filled-num text-center"><strong><span className={`pos-num-meets`}>{fieldPlayers.length}</span>/{team.settings[0].numInCenter + 8}</strong></p>
+          <p className="pos-filled-text text-center">Pos. filled</p>
+        </div>
+      )
+    } 
+    
+    else {
+        return (
+          <div className="col pos-filled-col"></div>
+        )
+      }
   }
 
   const renderInningLeftButton = () => {
