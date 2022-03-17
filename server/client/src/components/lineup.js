@@ -65,6 +65,20 @@ const Lineup = () => {
   }, [dispatch, paramId]);
 
   const handlePositionSelect = (playerId, pos, num) => {
+
+    let selectedPlayer = players.filter(plyr => plyr._id === playerId);
+
+    if (selectedPlayer[0].lineup[num] === pos) {
+      if (pos === "-") {
+        if (document.getElementById(`blank-toggle-${playerId}-${num}`).style.color !== 'inherit') {
+          document.getElementById(`blank-toggle-${playerId}-${num}`).style.setProperty('color', 'inherit', 'important');
+        }
+        else {
+          document.getElementById(`blank-toggle-${playerId}-${num}`).style.setProperty('color', 'transparent', 'important');
+        }
+      } else return;
+    }
+
     players.forEach(plyr => {
       if (plyr.lineup[num] === pos && pos !== '-') {
         dispatch(updatePlayerLineup(paramId, plyr._id, '-', num));
@@ -278,7 +292,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[0]}`} data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[0]} blank-toggle`} id={`blank-toggle-${player._id}-0`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[0]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -288,7 +302,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[1]}`} data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[1]} blank-toggle`} id={`blank-toggle-${player._id}-1`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[1]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -298,7 +312,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[2]}`} data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[2]} blank-toggle`} id={`blank-toggle-${player._id}-2`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[2]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -308,7 +322,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[3]}`} data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[3]} blank-toggle`} id={`blank-toggle-${player._id}-3`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[3]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -318,7 +332,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[4]}`} data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[4]} blank-toggle`} id={`blank-toggle-${player._id}-4`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[4]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -328,7 +342,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[5]}`} data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[5]} blank-toggle`} id={`blank-toggle-${player._id}-5`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[5]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -338,7 +352,7 @@ const Lineup = () => {
             </td>
             <td>
               <div className="btn-group dropend">
-              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[6]}`} data-bs-toggle="dropdown" aria-expanded="false">
+              <button type="button" className={`btn-sm print-toggle-${printToggle} pos-dd-btn pos-dd-btn-${player.lineup[6]} blank-toggle`} id={`blank-toggle-${player._id}-6`} data-bs-toggle="dropdown" aria-expanded="false">
                 {player.lineup[6]}
                 </button>
                 <ul className="dropdown-menu pos-dd-ul text-center">
@@ -696,9 +710,18 @@ const Lineup = () => {
   const printForm = () => {
 
     const batterCollection = document.getElementsByClassName(`batting-order-player`);
-      for (let i = 0; i < batterCollection.length; i++) {
-        batterCollection[i].style.border="thin solid black";
+
+    for (let i = 0; i < batterCollection.length; i++) {
+      batterCollection[i].style.border="thin solid black";
+    }
+
+    let blankCells = document.querySelectorAll('[id*="blank-toggle"]');
+
+    blankCells.forEach(ele => {
+      if (ele.textContent === "-") {
+        ele.style.setProperty('color', 'transparent', 'important');
       }
+    })
 
     setSpinToggle("on");
 
