@@ -579,7 +579,7 @@ const Settings = () => {
 
                 <div className="row">
                   <div className="col">
-                    <p className="text-start">Minimum available players needed:</p>
+                    <p className="text-start">Minimum total players required:</p>
                   </div>
 
                   <div className="col">
@@ -592,7 +592,7 @@ const Settings = () => {
 
                 <div className="row requirements-row-second">
                   <div className="col">
-                    <p className="text-start">Minimum of specific Sex needed:</p>
+                    <p className="text-start">Minimum of specific Sex required:</p>
                   </div>
                 </div>
 

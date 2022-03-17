@@ -524,7 +524,7 @@ td {
   position: absolute;
   z-index: 3;
   top: 145px;
-  left: 157px;
+  left: 148px;
 }
 
 .playing-at-C {
@@ -803,7 +803,7 @@ td {
 
   .playing-at-P {
     top: 325px;
-    left: 280px;
+    left: 275px;
   }
 
   .playing-at-C {
@@ -892,7 +892,7 @@ td {
 
   .playing-at-P {
     top: 345px;
-    left: 325px;
+    left: 320px;
   }
 
   .playing-at-C {
@@ -1136,7 +1136,7 @@ td {
     position: absolute;
     z-index: 3;
     top: 170px;
-    left: 87px;
+    left: 78px;
   }
 
   .playing-at-C {
@@ -1257,7 +1257,7 @@ td {
   }
 
   .num-outfielders {
-    font-size: x-small;
+    font-size: xx-small;
   }
 
   .at-least {
